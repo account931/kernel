@@ -1,4 +1,5 @@
 <?php
+//layout with NO navbar menu
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -28,6 +29,7 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
+	/*
     NavBar::begin([
         'brandLabel' => Yii::$app->name, //Html::img('@web/images/kernel.jpg', ['alt'=>Yii::$app->name]), 
         'brandUrl' => Yii::$app->homeUrl,
@@ -41,8 +43,7 @@ AppAsset::register($this);
             //['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             //['label' => 'Contact', 'url' => ['/site/contact']],
-			['label' => 'My account', 'url' => ['personal-account/index'] ,'visible' => (!Yii::$app->user->isGuest)],
-			['label' => 'Sign up', 'url' => ['/site/signup'] ,'visible' => (Yii::$app->user->isGuest)],
+			['label' => 'Personal cabin', 'url' => [''] ,'visible' => (!Yii::$app->user->isGuest)],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -58,6 +59,7 @@ AppAsset::register($this);
         ],
     ]);
     NavBar::end();
+	*/
     ?>
 
     <div class="container">

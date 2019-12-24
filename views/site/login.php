@@ -12,6 +12,31 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>
+	
+	
+   <!-- Image --> <!-- Login -->
+  
+	    <div class="col-sm-12 col-xs-12">
+			<?php
+			 $image = '<i class="fa fa-address-card-o" style="font-size:56px"></i>';	
+		    // echo "<div class='subfolder border'>" .
+			        Html::a( $image ."<p>Sign in</p><br>" , ["/site/login"], $options = ["title" => "Sign in",]) . 
+				    "</div>";
+			 ?>
+	    </div>
+   
+  
+   
+   
+   <!------ FLASH Message to show if the account not yet activated by the admin ----->
+   <?php if( Yii::$app->session->hasFlash('failX') ): ?>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <?php echo Yii::$app->session->getFlash('failX'); ?>
+    </div>
+    <?php endif;?>
+   <!------ END FLASH  ----->
+   
 
     <p>Please fill out the following fields to login:</p>
 
@@ -24,8 +49,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
+        <?php // echo $form->field($model, 'username')->textInput(['autofocus' => true]); ?>
+        <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
         <?= $form->field($model, 'password')->passwordInput() ?>
 
         <?= $form->field($model, 'rememberMe')->checkbox([
@@ -40,8 +65,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php ActiveForm::end(); ?>
 
-    <div class="col-lg-offset-1" style="color:#999;">
-        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-        To modify the username/password, please check out the code <code>app\models\User::$users</code>.
-    </div>
+    
 </div>

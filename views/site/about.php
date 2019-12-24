@@ -10,9 +10,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        This is the About page. You may modify the following file to customize its content:
-    </p>
-
-    <code><?= __FILE__ ?></code>
+	<div class="col-sm-8 col-xs-12">
+      <p>
+        Кернел – провідний у світі та найбільший в Україні виробник та експортер соняшникової олії, ключовий постачальник сільськогосподарської продукції з регіону Чорноморського басейну на світові ринки. Свою продукцію Кернел експортує більш ніж у 80 країн світу. З листопада 2007 року акції компанії торгуються на Варшавській фондовій біржі (WSE).
+      </p>
+    </div>
+    
 </div>

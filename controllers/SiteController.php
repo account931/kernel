@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\User;
+use app\models\SignupForm;
 
 class SiteController extends Controller
 {
@@ -61,6 +63,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+		if(!Yii::$app->user->isGuest){ 
+		    return $this->redirect(['personal-account/index']);
+		}
+		$this->layout = 'mainHome'; //layout with NO navbar menu
         return $this->render('index');
     }
 
@@ -125,4 +131,33 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+	
+	
+     /**
+     * Displays registration page
+     *
+     * 
+     */
+	public function actionSignup()
+    {
+        $model = new SignupForm();
+ 
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+				
+                /*if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }*/
+				Yii::$app->getSession()->setFlash('warnX1', "Successfully registered. Please wait for admin approval. You will recieve an email notification, check the email box you specified. After that you'll be able to sign in.");
+                return $this->goHome();				
+            } else {
+				Yii::$app->getSession()->setFlash('warnX', "Registration failed!!! Check your input for errors."); 
+			}
+        }
+ 
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
+    }
+
 }
