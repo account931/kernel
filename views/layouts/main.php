@@ -43,6 +43,7 @@ AppAsset::register($this);
             //['label' => 'Contact', 'url' => ['/site/contact']],
 			['label' => 'My account', 'url' => ['personal-account/index'] ,'visible' => (!Yii::$app->user->isGuest)],
 			['label' => 'Sign up', 'url' => ['/site/signup'] ,'visible' => (Yii::$app->user->isGuest)],
+			['label' => 'AdminPanel (delete)', 'url' => ['/admin/default/index'] ],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

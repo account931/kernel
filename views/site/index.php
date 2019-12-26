@@ -19,8 +19,8 @@ $this->title = 'Welcome to Kernel';
    <!------ END FLASH  ----->
    
 	
-    <div class="jumbotron shadowX">
-        <h1 class="text-shadowX">Welcome to Kernel</h1>
+    <div class="jumbotron shadowX lavender">
+        <h1 class="text-shadowX ">Welcome to Kernel</h1>
 		<?//Html::img(Yii::$app->getUrlManager()->getBaseUrl().'/images/kernel.jpg' , $options = ["id"=>"","margin-left"=>"3%","class"=>"","width"=>"5%","title"=>"Kernel"] ); ?>
     </div>
  
@@ -36,7 +36,7 @@ $this->title = 'Welcome to Kernel';
 		    <div class="col-sm-2 col-xs-6">
 			<?php
 			    $image = '<i class="fa fa-address-card-o" style="font-size:96px"></i>';	
-				 echo "<div class='subfolder border shadowX'>" .
+				 echo "<div class='subfolder border shadowX lavender'>" .
 			             Html::a( $image ."<p>Sign in</p><br>" , ["/site/login"], $options = ["title" => "Sign in",]) . 
 				      "</div>";
 			?>

@@ -21,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
    
 	
     <p>Please fill out the following fields to signup:</p>
+	<p>add to DB, model and this form => phone, name, surename, company</p>
     <div class="row">
         <div class="col-lg-5">
  

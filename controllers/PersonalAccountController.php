@@ -7,7 +7,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-//use app\models\User;
+use app\models\Balance;
 
 class PersonalAccountController extends Controller
 {
@@ -52,7 +52,8 @@ class PersonalAccountController extends Controller
             ],
         ];
     }
-
+	
+    //====================================================
     /**
      * Displays personal account homepage.
      *
@@ -60,8 +61,12 @@ class PersonalAccountController extends Controller
      */
     public function actionIndex()
     {
-
-        return $this->render('index');
+        $balance = Balance::find()->orderBy ('balance_id DESC') -> where(['balance_user_id' => Yii::$app->user->identity->id ])->all();
+		
+        
+		return $this->render('index', [
+		      'balance' => $balance, 
+	    ]);
     }
 
 	

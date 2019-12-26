@@ -12,12 +12,25 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
 	'name'=>'Kernel',
+	
+	//admin module
+	'modules' => [
+            'admin' => [
+                'class' => 'app\modules\admin',
+           ],
+     ],
 	 
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '36538745357457364384367dff676',
         ],
+		
+		//Set my RBAC-----------------
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+		
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -54,6 +67,9 @@ $config = [
             ],
         ],
         */
+		
+	
+	
     ],
     'params' => $params,
 ];

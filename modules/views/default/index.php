@@ -1,3 +1,4 @@
+
 <?php
 
 /* @var $this yii\web\View */
@@ -7,10 +8,13 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
+$this->title = 'Admin Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
+
+
+<div class="admin-default-index">
+    <h1><?php //echo $this->context->action->uniqueId; ?></h1>
     <h1><?= Html::encode($this->title) ?></h1>
 	
 	
@@ -39,6 +43,22 @@ $this->params['breadcrumbs'][] = $this->title;
    
 
     <p>Please fill out the following fields to login:</p>
+	
+	<!-- Image -->
+	<center>
+	<div class="row">
+	   <div class="col-sm-2 col-xs-6">
+                <?php		
+                $image = '<i class="fa fa-address-card-o" style="font-size:96px"></i>';	
+                echo "<div class='subfolder border shadowX'>" .
+			        Html::a( $image ."<p>Admin access</p><br>" , ["#"] , $options = ["title" => "more  info",]) . 
+		            "</div><br>"; 
+				?>
+       </div>
+	 </div>
+	 </center>
+	 <!-- Image -->
+		   
 
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
@@ -50,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
         <?php // echo $form->field($model, 'username')->textInput(['autofocus' => true]); ?>
-        <?= $form->field($model, 'email')->textInput(['autofocus' => true, 'placeholder' => 'Your email']) ?>
+        <?= $form->field($model, 'email')->textInput(['autofocus' => true, 'placeholder' => '']) ?>
         <?= $form->field($model, 'password')->passwordInput() ?>
 
         <?= $form->field($model, 'rememberMe')->checkbox([
@@ -66,4 +86,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php ActiveForm::end(); ?>
 
     
+</div>
+
 </div>
