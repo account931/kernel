@@ -22,9 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
 		        
 		        foreach ($balance as $k){
 					echo "<div class='row'>";
-				    echo "<div class='col-lg-1 col-sm-3'><i class='fa fa-shopping-basket' style='font-size:16px'></i>" . 
+				    echo "<div class='col-sm-1 col-xs-4'><i class='fa fa-shopping-basket' style='font-size:16px'></i> " . 
 					                                            $k->productname->pr_name_name . ":</div>" . //hasOne relation
-						 "<div class='col-lg-1 col-sm-3'><b>" . $k->balance_amount_kg . "</b>" .        //weight
+						 "<div class='col-sm-1 col-xs-2'><b>" . $k->balance_amount_kg . "</b>" .        //weight
 						                                        $k->productname->pr_name_measure  . "</div>";  //hasOne relation
 				    echo "</div>";
 			    }
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php		
                 $image = '<i class="fa fa-address-card-o" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Request freight</p><br>" , ["/site/login", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
+			        Html::a( $image ."<p>Вiдвантажити</p><br>" , ["/site/login", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
 		            "</div>"; 
 				?>
            </div>
@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php		
                 $image = '<i class="fa fa-balance-scale" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Request4</p><br>" , ["/site/login", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
+			        Html::a( $image ."<p>Bot помiчник</p><br>" , ["", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
 		            "</div>";
                  ?>
             </div>

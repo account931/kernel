@@ -65,7 +65,8 @@
 	margin-left:0.6em;
 }
 
-
+/* fix in admin approve register requests */
+.fixx{position:absolute; top:0px;}
 
 
 

@@ -8,27 +8,40 @@
 use yii\helpers\Html;
 use yii\bootstrap\Collapse;  //  Collapse (hide/show)
 
+ use app\assets\AdminFrontPageAsset;   // use your custom asset
+ AdminFrontPageAsset::register($this); 
+
 $this->title = 'Admin Panel';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
+<?php
+$urlZ = Yii::$app->request->baseUrl; // . "/bot/ajax-reply"; 
+use yii\helpers\Json; 
+		 $this->registerJs(
+            "var url = '" . $urlZ . "';",  
+             yii\web\View::POS_HEAD, 
+            'admin-events-script'
+     );
+?>
 
-<div class="admin-default-index">
+<div id="all" class="admin-default-index animate-bottom">
     <h1><?= Html::encode($this->title) ?></h1>
-	<p> Hello, <?=Yii::$app->user->identity->username;?> </p>
+	<p><i class="fa fa-drivers-license-o" style="font-size:14px"></i> Hello, <?=Yii::$app->user->identity->username;?> </p>
 	<?php 
 	    if(Yii::$app->user->can('adminX')){ echo "<b>You have admin rights.</b>";}
 	 ?>
 	
 	
-   <!-- Admin Image --> 
-  
+   <!-- Admin Image ???????--> 
 	    <div class="col-sm-12 col-xs-12">
 			<?php
-			 $image = '<i class="fa fa-address-card-o" style="font-size:56px"></i>';	
-		    // echo "<div class='subfolder border'>" .
-			        Html::a( $image ."<p>Sign in</p><br>" , ["/site/login"], $options = ["title" => "Sign in",]) . 
+			/*
+			 $image = '<i class="fa fa-address-card-o" style="font-size:16px"></i>';	
+		     echo "<div class='subfolder border'>" .
+			        Html::a( $image ."<p>Sign in</p><br>" , ["#"], $options = ["title" => "Sign in",]) . 
 				    "</div>";
+					*/
 			 ?>
 	    </div>
    
@@ -51,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<div class="row">
 	   <div class="col-sm-2 col-xs-6">
                 <?php		
-                $image = '<i class="fa fa-address-card-o" style="font-size:96px"></i>';	
+                $image = '<i class="fa fa-address-card-o" style="font-size:26px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
 			        Html::a( $image ."<p>Admin access</p><br>" , ["#"] , $options = ["title" => "more  info",]) . 
 		            "</div><br>"; 
@@ -94,20 +107,20 @@ $this->params['breadcrumbs'][] = $this->title;
    <div class="row"> 
        <center>
 	   
-	       <div class="col-sm-2 col-xs-6 badge1 " data-badge="6"> <!-- badge -->
+	       <div class="col-sm-2 col-xs-6 badge1 bb " data-badge=""> <!-- badge -->
                 <?php		
                 $image = '<i class="fa fa-address-card-o" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Register requests</p><br>" , ["/site/login", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
+			        Html::a( $image ."<p>Запит на реєстрацію</p><br>" , ["/admin/admin-x/users-registration-requests"   ], $options = ["title" => "Sign up requests",]) . 
 		            "</div>"; 
 				?>
            </div>
 	   
-	         <div class="col-sm-2 col-xs-6 badge1 " data-badge="2">
+	         <div class="col-sm-2 col-xs-6 badge1 bb" data-badge="4">
                 <?php		
-                $image = '<i class="fa fa-area-chart" style="font-size:96px"></i>';	
+                $image = '<i class="fa fa-balance-scale " style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX lavender'>" .
-			        Html::a( $image ."<p>Load up requests</p><br>" , ["/site/login", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
+			        Html::a( $image ."<p>Запит вiдвантаження</p><br>" , ["/site/login" ] , $options = ["title" => "Freight requests",]) . 
 		            "</div>";
                  ?>
             </div>
@@ -124,7 +137,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			
 			<div class="col-sm-2 col-xs-6">
                 <?php		
-                $image = '<i class="fa fa-balance-scale" style="font-size:96px"></i>';	
+                $image = '<i class="fa fa-area-chart" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
 			        Html::a( $image ."<p>Request4</p><br>" , ["/site/login", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
 		            "</div>";

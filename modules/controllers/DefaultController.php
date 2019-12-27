@@ -73,12 +73,13 @@ class DefaultController extends Controller
     public function actionIndex()
     {
 		if (!Yii::$app->user->isGuest) {
-            return $this->redirect(['/admin/default/admin-panel']);
+            return $this->redirect(['/admin/admin-x/admin-panel']);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            //return $this->goBack();
+			return $this->redirect(['/admin/admin-x/admin-panel']);
         }
 
         $model->password = '';
@@ -89,24 +90,7 @@ class DefaultController extends Controller
     }
 	
 	
-	
-	 //===================================
-	 /**
-     * Renders the admin personal account
-     * @return string
-     */
-    public function actionAdminPanel()
-    {
 
-		 /*if(Yii::$app->user->isGuest){
-		   return $this->redirect(['/admin/default/index']);
-		 }*/
-		
-		 if(!Yii::$app->user->can('adminX')){
-			 throw new \yii\web\NotFoundHttpException("You have no admin rights");
-		 }
-        return $this->render('admin-panel');
-    }
 	
 	
 }
