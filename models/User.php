@@ -18,6 +18,11 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $auth_key
  * @property integer $status
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $company_name
+ * @property string $phone_number
+ * @property string $address
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
@@ -62,6 +67,10 @@ class User extends ActiveRecord implements IdentityInterface
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
+			[['first_name', 'last_name'], 'string', 'max' => 22],
+            [['company_name'], 'string', 'max' => 33],
+            [['phone_number'], 'string', 'max' => 14],
+            [['address'], 'string', 'max' => 77],
         ];
     }
 	

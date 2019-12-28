@@ -1,5 +1,5 @@
 <?php
-
+//model for hidden input in admin views/user-registration-requests.php
 namespace app\modules\models;
 
 use Yii;
