@@ -40,11 +40,11 @@ $this->params['breadcrumbs'][] = $this->title;
 		
 		      //username
 		      echo '<div class="col-sm-2 col-xs-2">' .
-		          $b->username.
+		          $b->last_name . //$b->username.
 		     '</div>';
 		
 		      //email
-		      echo '<div class="col-sm-2 col-xs-4">'.
+		      echo '<div class="col-sm-2 col-xs-4 word-breakX">'.
 		         $b->email.
 		      '</div>';
 			 
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			
 			  //button to view User
 	          echo '<div class="col-sm-2 col-xs-2">'.
-                 '<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal' . $i . '">View</button>' .
+                 '<button type="button" class="btn btn-info btnX" data-toggle="modal" data-target="#myModal' . $i . '">View</button>' .
 	          '</div>';
 	?>
 			

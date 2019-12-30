@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php		
                 $image = '<i class="fa fa-automobile" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>View history</p><br>" , ["/site/login", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
+			        Html::a( $image ."<p>Історія</p><br>" , ["/site/login", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
 		            "</div>";
                  ?>
             </div>
@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php		
                 $image = '<i class="fa fa-balance-scale" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Bot помiчник</p><br>" , ["", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
+			        Html::a( $image ."<p>Бот помiчник</p><br>" , ["", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
 		            "</div>";
                  ?>
             </div>

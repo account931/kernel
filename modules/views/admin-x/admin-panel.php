@@ -130,7 +130,7 @@ use yii\helpers\Json;
                 <?php		
                 $image = '<i class="fa fa-automobile" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>View all users</p><br>" , ["/site/login", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
+			        Html::a( $image ."<p>Користувачі</p><br>" , ["/site/login"] , $options = ["title" => "View all users",]) . 
 		            "</div>";
                  ?>
             </div>
@@ -139,10 +139,20 @@ use yii\helpers\Json;
                 <?php		
                 $image = '<i class="fa fa-area-chart" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Request4</p><br>" , ["/site/login", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
+			        Html::a( $image ."<p>Нова накладна</p><br>" , ["/admin/invoice-load-in/index",] , $options = ["title" => "New invoice",]) . 
 		            "</div>";
                  ?>
             </div>
+			
+			<div class="col-sm-2 col-xs-6">
+                <?php		
+                $image = '<i class="fa fa-book" style="font-size:96px"></i>';	
+                echo "<div class='subfolder border shadowX'>" .
+			        Html::a( $image ."<p>Новий товар</p><br>" , ["/site/login",] , $options = ["title" => "Add new product",]) . 
+		            "</div>";
+                 ?>
+            </div>
+			
 			
    </div><!-- class='row' -->
    <!-- End Personal account menu items -->

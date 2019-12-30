@@ -1,0 +1,18 @@
+
+/* fix in admin approve register requests */
+.fixx{
+	position:absolute; top:0px;
+}
+
+.word-breakX {
+	
+	word-wrap: break-word;
+	color:red;
+	
+}
+
+/* class to highlight clicked row in admin approve register requests  */
+.clicked-x{
+	background: yellow;
+	
+}

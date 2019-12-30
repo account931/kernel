@@ -28,7 +28,7 @@ class SignupForm extends Model
     {
         return [
             [['username','first_name'], 'trim'],
-            [['username', 'first_name', 'phone_number'], 'required'],
+            [['username', 'first_name', 'phone_number', 'address'], 'required'],
             ['username', 'unique', 'targetClass' => '\app\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'trim'],
@@ -76,7 +76,8 @@ class SignupForm extends Model
 	
 	 //my validation
 	 public function validateDatesX(){
-		  $RegExp_Phone = '/^[+]380\([\d]{1,4}\)[0-9]+$/';
+		  //$RegExp_Phone = '/^[+]380\([\d]{1,4}\)[0-9]+$/';
+		  $RegExp_Phone = '/^[+]380[\d]{1,4}[0-9]+$/';
 		  if (!preg_match($RegExp_Phone, $this->phone_number)){
 			  $this->addError('phone_number','Phone number must be in format +380********* ');
 		  }
