@@ -13,7 +13,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="invoice-load-in-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?>
+	<i class="fa fa-folder-open-o" style="font-size:34px"></i></h1>
+	
 	
 	
 	<?php
@@ -29,7 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
 	 
 
     <?= $this->render('_form', [
-        'model' => $model
+        'model' => $model,
+		'products' => $products,
     ]) ?>
 
 </div>

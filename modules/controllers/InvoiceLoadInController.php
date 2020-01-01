@@ -9,6 +9,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\User;
+use app\models\ProductName;
+use app\models\Balance;
+
 
 /**
  * InvoiceLoadInController implements the CRUD actions for InvoiceLoadIn model.
@@ -87,14 +90,29 @@ class InvoiceLoadInController extends Controller
         $model = new InvoiceLoadIn();
 		
 		$allUsers = User::find()->orderBy ('id DESC')->all(); 
+		$products = ProductName::find()->all(); 
+		
+		$model->invoice_id = Yii::$app->security->generateRandomString(18); //invoiceID
+		$model->unix = time();
 		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			//BALANCE ++ !!!!!!!
+			$res = $model->checkBalance();
+			
+			if($res){
+				//var_dump($res);
+			  $model->balanceAdd($res);
+		  } else {
+			  //$model->balance++();
+		  }
+			  
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
 			'allUsers' => $allUsers,
+			'products' => $products,
         ]);
     }
 

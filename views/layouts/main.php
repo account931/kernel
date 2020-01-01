@@ -24,7 +24,8 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 	<!-- Favicon -->
-	<?php $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/ico', 'href' => Url::to(['images/favicon.ico'])]);?>
+	<?php $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::to(['images/favicon.ico'])]);?>
+	
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -44,7 +45,7 @@ AppAsset::register($this);
             //['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             //['label' => 'Contact', 'url' => ['/site/contact']],
-			['label' => 'My account', 'url' => ['personal-account/index'] ,'visible' => (!Yii::$app->user->isGuest)],
+			['label' => 'My account', 'url' => ['/personal-account/index'] ,'visible' => (!Yii::$app->user->isGuest)],
 			['label' => 'Sign up', 'url' => ['/site/signup'] ,'visible' => (Yii::$app->user->isGuest)],
 			['label' => 'AdminPanel (delete)', 'url' => ['/admin/default/index'] ],
             Yii::$app->user->isGuest ? (

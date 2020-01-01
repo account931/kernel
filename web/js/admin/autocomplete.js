@@ -15,23 +15,33 @@ $(document).ready(function(){
 	
 	//Loop through passed php object, object is echoed in JSON in Controller Product/action Shop
 	for (var key in usersX) {
-		arrayAutocomplete.push(  { label: usersX[key]['email'], value: usersX[key]['email'] }  ); //gets name of every user and form in this format to get and lable and value(Name & ID)
+		arrayAutocomplete.push(  { label: usersX[key]['email'], value: usersX[key]['id'] }  ); //gets name of every user and form in this format to get and lable and value(Name & ID)
 
 	}
 	
 
 	
     //Autocomplete itself
-    $( function() {
-
+    $( function() {	
+	
+	     //fix function for autocomplete (u type email in <input id="userName">, get autocomplete hints and onSelect puts email value (i.e user ID to) to hidden <input id="userID">)
+	     function displaySelectedCategoryLabel(event, ui) {
+            $("#userName").val(ui.item.label);
+            $("#userID").val(ui.item.value); //hidden <input id="userID"> to contain user (get from autocomplete array)
+            event.preventDefault();
+        };
 		
 		
-
-	//connect autocomplete array to input
-        $( "#userID" ).autocomplete({
-            source: arrayAutocomplete   //source autocom array
+	
+		//Autocomplete 
+		$("#userName").autocomplete({
+           minLength: 1,
+           source: arrayAutocomplete, //array for autocomplete
+		   
+		   select: function (event, ui) {
+                displaySelectedCategoryLabel(event, ui);
+            },
         });
-		
 	
 		
    } );

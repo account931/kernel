@@ -1,7 +1,7 @@
 <?php
-
+//User ++ operations
 namespace app\modules\models;
-
+use app\models\Balance;
 use Yii;
 
 /**
@@ -25,6 +25,7 @@ use Yii;
  */
 class InvoiceLoadIn extends \yii\db\ActiveRecord
 {
+	public $user_name; //not involved in form saving, just to get value (Id of user) from autocmplete and set it to {user_kontagent_id}
     /**
      * @inheritdoc
      */
@@ -52,21 +53,46 @@ class InvoiceLoadIn extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+		    'user_name' => Yii::t('app', 'Контрагент'), //not involved in form saving, just to get value (Id of user) from autocmplete and set it to {user_kontagent_id}
             'id' => Yii::t('app', 'ID'),
-            'user_kontagent_id' => Yii::t('app', 'Kontragent ID'),
-            'product_nomenklatura_id' => Yii::t('app', 'Nomenklatura ID'),
+            'user_kontagent_id' => Yii::t('app', 'Contragent User ID (hidden input)'),
+            'product_nomenklatura_id' => Yii::t('app', 'Номенклатура'),
             'date' => Yii::t('app', 'Date'),
-            'unix' => Yii::t('app', 'Unix'),
+            'unix' => Yii::t('app', 'Unix time_'),
             'invoice_id' => Yii::t('app', 'Invoice ID'),
             'elevator_id' => Yii::t('app', 'Elevator ID'),
-            'carrier' => Yii::t('app', 'Carrier'),
+            'carrier' => Yii::t('app', 'Carrier___'),
             'driver' => Yii::t('app', 'Driver'),
             'truck' => Yii::t('app', 'Truck'),
-            'truck_weight_netto' => Yii::t('app', 'Truck Weight Netto'),
-            'truck_weight_bruto' => Yii::t('app', 'Truck Weight Bruto'),
+            'truck_weight_netto' => Yii::t('app', 'TruckNetto'),
+            'truck_weight_bruto' => Yii::t('app', 'TruckBruto'),
             'product_wight' => Yii::t('app', 'Product Wight'),
-            'trash_content' => Yii::t('app', 'Trash Content'),
+            'trash_content' => Yii::t('app', 'Trash %__'),
             'humidity' => Yii::t('app', 'Humidity'),
         ];
     }
+	
+	  //hasOne relation
+	  public function getUsers(){
+          return $this->hasOne(User::className(), ['id' => 'user_kontagent_id']); 
+      }
+	  
+	  //Check User balance ++
+	  public function checkBalance(){
+		  $userBalance = Balance::find()->where(['balance_user_id' => $this->user_kontagent_id])->andWhere(['balance_productName_id' => $this->product_nomenklatura_id])->one();
+		  return $userBalance;
+			  
+	  }
+	 
+    //saves new weigth	 
+	public function balanceAdd($res){
+		$prev = $res->balance_amount_kg;
+		$new = $prev + $this->product_wight;
+		$res->balance_amount_kg = $new;
+		$res->save();
+		
+	}		
+
+	  
+	  
 }
