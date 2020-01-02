@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php		
                 $image = '<i class="fa fa-address-card-o" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Вiдвантажити</p><br>" , ["/site/login", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
+			        Html::a( $image ."<p>Вiдвантажити</p><br>", ["/invoice-load-out/load-out" ] , $options = ["title" => "Load out",]) . 
 		            "</div>"; 
 				?>
            </div>
@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php		
                 $image = '<i class="fa fa-envelope-o" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX lavender'>" .
-			        Html::a( $image ."<p>Повiдомлення</p><br>" , ["/site/login" ], $options = ["title" => "messages",]) . 
+			        Html::a( $image ."<p>Повiдомлення</p><br>" , ["/messages/show-messages" ], $options = ["title" => "messages",]) . 
 		            "</div>";
                  ?>
             </div>

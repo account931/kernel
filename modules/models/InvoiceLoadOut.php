@@ -1,5 +1,5 @@
 <?php
-//User -- operations
+
 namespace app\modules\models;
 
 use Yii;
@@ -15,6 +15,7 @@ use Yii;
  * @property int $user_date_unix
  * @property string $confirmed_by_admin
  * @property int $confirmed_date_unix
+ * @property int $elevator_id
  * @property string $completed
  * @property int $completed_date_unix
  */
@@ -34,8 +35,8 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'invoice_unique_id', 'product_id', 'product_wieght', 'user_date_unix', 'confirmed_date_unix', 'completed_date_unix'], 'required'],
-            [['user_id', 'invoice_unique_id', 'product_id', 'product_wieght', 'user_date_unix', 'confirmed_date_unix', 'completed_date_unix'], 'integer'],
+            [['user_id', 'invoice_unique_id', 'product_id', 'product_wieght', 'user_date_unix'], 'required'], // 'confirmed_date_unix', 'elevator_id', 'completed_date_unix'
+            [['user_id', 'invoice_unique_id', 'product_id', 'product_wieght', 'user_date_unix', 'confirmed_date_unix', 'elevator_id', 'completed_date_unix'], 'integer'],
             [['confirmed_by_admin', 'completed'], 'string'],
         ];
     }
@@ -54,8 +55,12 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
             'user_date_unix' => Yii::t('app', 'User Date Unix'),
             'confirmed_by_admin' => Yii::t('app', 'Confirmed By Admin'),
             'confirmed_date_unix' => Yii::t('app', 'Confirmed Date Unix'),
+            'elevator_id' => Yii::t('app', 'Elevator ID'),
             'completed' => Yii::t('app', 'Completed'),
             'completed_date_unix' => Yii::t('app', 'Completed Date Unix'),
         ];
     }
+	
+	
+	
 }

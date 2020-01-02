@@ -46,7 +46,7 @@ use yii\helpers\ArrayHelper;
     </div>
 	
 	<div class="col-sm-4 col-xs-12">
-    <?= $form->field($model, 'elevator_id')->textInput(['value'=> 5]) ?>
+	<?= $form->field($model, 'elevator_id')->dropDownList(ArrayHelper::map($elevators, 'e_id', 'e_elevator'), ['prompt' => 'Select elevator']); ?>
     </div>
 	<div class="col-sm-4 col-xs-12">
     <?= $form->field($model, 'carrier')->textInput(['value'=> 'Carrier1', 'maxlength' => true]) ?>

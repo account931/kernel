@@ -23,8 +23,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'user_kontagent_id',
-            'product_nomenklatura_id',
+            //'user_kontagent_id',
+			['attribute' =>'user_kontagent_id', 'label'=>'User', 'value' => 'users.email'],
+            //'product_nomenklatura_id',
+			['attribute' =>'product_nomenklatura_id', 'label'=>'Product', 'value' => 'products.pr_name_name'], 
             'date',
             'unix',
             //'invoice_id',

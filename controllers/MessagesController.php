@@ -7,9 +7,9 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\Balance;
+use app\modules\models\Messages;
 
-class TransactionsController extends Controller
+class MessagesController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -19,10 +19,10 @@ class TransactionsController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['mytransations'],
+                'only' => ['show-messages'],
                 'rules' => [
                     [
-                        'actions' => ['mytransations'],
+                        'actions' => ['show-messages'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -53,29 +53,26 @@ class TransactionsController extends Controller
         ];
     }
 	
-	/**
-     * any action in this controller is available with users with adminX RBAC
-     */
-	public function beforeAction($action){
-	    if(Yii::$app->user->isGuest){
-		    throw new \yii\web\NotFoundHttpException("Log in first");
-	    }
-        return parent::beforeAction($action); 
-	  }
+	
+	
 	
     //====================================================
     /**
-     * Displays personal account homepage.
+     * Displays user's messages.
      *
-     * @return string
+     * 
      */
-    public function actionMytransations()
+    public function actionShowMessages()
     {
+		$messages = Messages::find()->where(['m_receiver_id' => Yii::$app->user->identity->id])->all();
 		
-        
-		return $this->render('transactions-index'/*, [
-		      'balance' => $balance, 
-	    ]*/);
+		$messModel = new Messages();
+
+		return $this->render('messages-index', [
+		      'messages' => $messages , 
+			  'messModel'  => $messModel
+			  
+	    ]);
     }
 
 	

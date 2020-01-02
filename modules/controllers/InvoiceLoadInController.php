@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\User;
 use app\models\ProductName;
+use app\modules\models\Elevators;
 use app\models\Balance;
 
 
@@ -89,23 +90,26 @@ class InvoiceLoadInController extends Controller
     {
         $model = new InvoiceLoadIn();
 		
-		$allUsers = User::find()->orderBy ('id DESC')->all(); 
+		$allUsers = User::find()->orderBy ('id DESC')->all(); //users list for rofm autocomplete
 		$products = ProductName::find()->all(); 
+		$elevators = Elevators::find()->all(); //elevators for form dropdown
 		
-		$model->invoice_id = Yii::$app->security->generateRandomString(18); //invoiceID
+		$model->invoice_id = Yii::$app->security->generateRandomString(18); //invoiceID to form 
 		$model->unix = time();
 		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			//BALANCE ++ !!!!!!!
 			$res = $model->checkBalance();
 			
 			if($res){
-				//var_dump($res);
+			  //adds and updates with new weigth		
 			  $model->balanceAdd($res);
-		  } else {
-			  //$model->balance++();
-		  }
-			  
+		    } else {
+			  //saves new row with product and weigth	
+			  $model->addNewProduct();
+		    }
+			
+		    $model->sendMessage(); //notify the user
+			
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -113,6 +117,7 @@ class InvoiceLoadInController extends Controller
             'model' => $model,
 			'allUsers' => $allUsers,
 			'products' => $products,
+			'elevators' => $elevators
         ]);
     }
 

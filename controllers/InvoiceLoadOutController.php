@@ -7,9 +7,11 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
+use app\modules\models\InvoiceLoadOut;
 use app\models\Balance;
 
-class TransactionsController extends Controller
+
+class InvoiceLoadOutController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -19,10 +21,10 @@ class TransactionsController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['mytransations'],
+                'only' => ['load-out'],
                 'rules' => [
                     [
-                        'actions' => ['mytransations'],
+                        'actions' => ['load-out'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -43,7 +45,7 @@ class TransactionsController extends Controller
     public function actions()
     {
         return [
-            'error' => [//
+            'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
             'captcha' => [
@@ -52,33 +54,31 @@ class TransactionsController extends Controller
             ],
         ];
     }
-	
-	/**
-     * any action in this controller is available with users with adminX RBAC
-     */
-	public function beforeAction($action){
-	    if(Yii::$app->user->isGuest){
-		    throw new \yii\web\NotFoundHttpException("Log in first");
-	    }
-        return parent::beforeAction($action); 
-	  }
-	
-    //====================================================
+
     /**
-     * Displays personal account homepage.
+     * Displays Load out request form
      *
      * @return string
      */
-    public function actionMytransations()
+    public function actionLoadOut()
     {
+        $model = new InvoiceLoadOut();
 		
-        
-		return $this->render('transactions-index'/*, [
-		      'balance' => $balance, 
-	    ]*/);
+		//form fields
+		$model->invoice_unique_id = Yii::$app->security->generateRandomString(18); //invoiceID to form 
+		$model->user_date_unix = time();
+		
+		//products for dropdown form
+		$products = Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])-> all();
+		$b = new Balance();
+		
+        return $this->render('load-out-index', [
+		      'model' => $model, 
+			  'products' => $products,
+			  'b' => $b
+	     ]);
     }
 
-	
-
+    
 
 }

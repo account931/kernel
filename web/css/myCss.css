@@ -65,6 +65,15 @@
 	margin-left:0.6em;
 }
 
+/* Cursor for messages */
+.cursorX{
+	cursor: pointer;	
+}
+
+.cursorX:hover {
+	background: #f2f2f2;	
+}
+
 
 
 

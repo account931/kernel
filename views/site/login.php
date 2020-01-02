@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
    <!------ END FLASH  ----->
    
 
+    <i class="fa fa-cubes" style="font-size:68px;color:navy"></i>
     <p>Please fill out the following fields to login:</p>
 
     <?php $form = ActiveForm::begin([
