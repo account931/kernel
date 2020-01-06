@@ -1,6 +1,10 @@
 <?php
 
 namespace app\modules\models;
+use app\models\Balance;
+use app\models\User;
+use app\models\ProductName;
+use app\modules\models\Messages;
 
 use Yii;
 
@@ -36,8 +40,10 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'invoice_unique_id', 'product_id', 'product_wieght', 'user_date_unix'], 'required'], // 'confirmed_date_unix', 'elevator_id', 'completed_date_unix'
-            [['user_id', 'invoice_unique_id', 'product_id', 'product_wieght', 'user_date_unix', 'confirmed_date_unix', 'elevator_id', 'completed_date_unix'], 'integer'],
-            [['confirmed_by_admin', 'completed'], 'string'],
+            [['user_id', 'product_id', 'product_wieght', 'user_date_unix', 'confirmed_date_unix', 'elevator_id', 'completed_date_unix'], 'integer'], //'invoice_unique_id',
+            [['confirmed_by_admin', 'completed', 'invoice_unique_id'], 'string'],
+			['invoice_unique_id', 'unique', 'targetClass' => '\app\modules\models\InvoiceLoadOut', 'message' => 'This Invoice ID has already been taken.'],
+			['product_wieght','validateWeight'], //my validation function validateWeight
         ];
     }
 
@@ -49,9 +55,9 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User ID'),
-            'invoice_unique_id' => Yii::t('app', 'Invoice Unique ID'),
+            '' => Yii::t('app', 'Invoice Unique ID'),
             'product_id' => Yii::t('app', 'Product ID'),
-            'product_wieght' => Yii::t('app', 'Product Wieght'),
+            'product_wieghinvoice_unique_idt' => Yii::t('app', 'Product Wieght'),
             'user_date_unix' => Yii::t('app', 'User Date Unix'),
             'confirmed_by_admin' => Yii::t('app', 'Confirmed By Admin'),
             'confirmed_date_unix' => Yii::t('app', 'Confirmed Date Unix'),
@@ -62,5 +68,62 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
     }
 	
 	
+	  //hasOne relation
+	  public function getUsers(){
+          return $this->hasOne(User::className(), ['id' => 'user_id']); 
+      }
+	  
+	  //hasOne relation
+	  public function getProducts(){
+          return $this->hasOne(ProductName::className(), ['pr_name_id' => 'product_id']); 
+      }
+	  
+	  
 	
+	 //my validation, checks if user is not taking more than he has
+	 public function validateWeight(){
+		  $b = Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])->andWhere(['balance_productName_id' => $this->product_id]) -> one();
+		  if ($b->balance_amount_kg < $this->product_wieght){
+			  $this->addError('product_wieght','Недостатньо на Вашому балансi. Доступно лише ' . $b->balance_amount_kg . ' кг.');
+		  }
+     }
+	 
+	 
+	 // to minus -- product from user's balance 
+	 public function deductProduct(){
+		 $b = Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])->andWhere(['balance_productName_id' => $this->product_id]) -> one();
+		 
+		 if($b->balance_amount_kg == $this->product_wieght){
+			 $b->delete();
+		 } else {
+			 $newAmount = $b->balance_amount_kg - $this->product_wieght;
+			 $b->balance_amount_kg = $newAmount ;
+             $b->save();			 
+		 }
+	 }
+	 
+	 
+	 
+	 
+	 //notify the user-> send the message
+	public function  sendMessage(){
+		$model = new Messages();
+		$model->m_sender_id = 1; //admin
+		$model->m_receiver_id = Yii::$app->user->identity->id; 
+		$model->m_text = "<p>Dear user <b>". $this->users->first_name . "</b></p>" .//hasOne relation (gets username by ID)
+		                "<p>Ви надiслали запит на вiдвантаження " . $this->products->pr_name_name . //hasOne relation(gets product name by ID)
+						" у кількості  " .$this->product_wieght . "кг.</p>" .   //weight
+						"<p> Номер накладної  " . $this->invoice_unique_id . ".</p>" .
+						"<p> Очікуйте на повідомлення з підтвердженням адміністратора та датою і часом</p>" .
+						"<p>Best regards, Admin team. </p>";  
+		$model->m_unix = time();
+		$model->save();
+	}
+	
+	
+	
+	
+	 
+	 
+	 
 }

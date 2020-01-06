@@ -64,7 +64,7 @@ class MessagesController extends Controller
      */
     public function actionShowMessages()
     {
-		$messages = Messages::find()->where(['m_receiver_id' => Yii::$app->user->identity->id])->all();
+		$messages = Messages::find() ->orderBy ('m_id DESC')->where(['m_receiver_id' => Yii::$app->user->identity->id])->all();
 		
 		$messModel = new Messages();
 

@@ -4,7 +4,7 @@
 
 use yii\helpers\Html;
 
-$this->title = 'My Messages';
+$this->title = 'Запити на відвантаження';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-about">
@@ -13,34 +13,34 @@ $this->params['breadcrumbs'][] = $this->title;
 	<div class="col-sm-8 col-xs-12">
 	
       <p>
-	     <i class="fa fa-envelope-o" style="font-size:110px; color: navy;"></i>
+	     <i class="fa fa-download" style="font-size:110px; color: navy;"></i>
       </p>
     </div>
     
 	
 	<?php
-	if(empty($messages)){
-		echo '<div class="col-sm-8 col-xs-12 text-danger"> No messages yet</div>';
+	if(empty($requestsLoadOut)){
+		echo '<div class="col-sm-8 col-xs-12 text-danger"> Запитів немає.</div>';
 		
 	} else {
 		
-		echo '<div class="col-sm-8 col-xs-12 text-success"> You have <b class="text-danger">'  . count($messages) . ' </b>messages </div></hr>';
+		echo '<div class="col-sm-8 col-xs-12 text-success"> You have <b class="text-danger">'  . count($requestsLoadOut) . ' </b>запитів </div></hr>';
 		
 		//table headers
 		echo '<div class="col-sm-12 col-xs-12 border list-group-item">' .
 		       '<div class="col-sm-2 col-xs-2"> <b> From </b></div>' .
 		       '<div class="col-sm-2 col-xs-4"> <b> Date </b></div>' .
-			   '<div class="col-sm-8 col-xs-6"> <b> Text </b></div>' .
+			   //'<div class="col-sm-8 col-xs-6"> <b> Text </b></div>' .
 			 '</div>';
 
 		$i = 0;
-		foreach($messages as $m){
+		foreach($requestsLoadOut as $m){
 		    $i++;
 			
 			echo '<div class="col-sm-12 col-xs-12 border list-group-item bg-success cursorX" data-toggle="modal" data-target="#myModal' . $i . '">' .  //data-toggle="modal" data-target="#myModal' . $i .   for modal
-			       '<div class="col-sm-2 col-xs-3 word-breakX">' . $m->users->email . '</div>' . //hasOne relation
-				   '<div class="col-sm-2 col-xs-4">' . $m->m_time .      '</div>' .
-				   '<div class="col-sm-8 col-xs-5">' . crop($m->m_text, 27) .   '</div>' .
+			       '<div class="col-sm-2 col-xs-2">' . $m->users->email . '</div>' . //hasOne relation
+				   '<div class="col-sm-2 col-xs-4">' . $m->user_date_unix .      '</div>' .
+				   //'<div class="col-sm-8 col-xs-6">' . crop($m->m_text, 27) .   '</div>' .
 				 '</div>';
 		?>
 
@@ -65,13 +65,13 @@ $this->params['breadcrumbs'][] = $this->title;
 						  
 						  <div class="row list-group-item">
 						      <div class="col-sm-1 col-xs-3">Date</div>
-						      <div class="col-sm-4 col-xs-9"><?=$m->m_time;?></div> <!-- has one -->
+						      <div class="col-sm-4 col-xs-9"><?=$m->user_date_unix;?></div> <!-- has one -->
 						  </div>
 						  
-						  <div class="row list-group-item">
+						  <!--<div class="row list-group-item">
 						      <div class="col-sm-1 col-xs-3">Email</div>
-						      <div class="col-sm-8 col-xs-9"><?=$m->m_text;?></div>
-						  </div>  
+						      <div class="col-sm-8 col-xs-9"><?//=$m->m_text;?></div>
+						  </div>  -->
 					 
                      </div>
 					  

@@ -14,14 +14,31 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
 	<p class="text-danger">Add Model validation is weight is no more than in DB + if weight to take == weight in DB {delete from Balance} </p>
-
+	
+	
+	
+	<!------ FLASH Message ----->
+   <?php if( Yii::$app->session->hasFlash('statusOK') ): ?>
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <?php echo Yii::$app->session->getFlash('statusOK'); ?>
+    </div>
+    <?php endif;?>
+   <!------ END FLASH  ----->
+   
+   
+   
+   
+    <!--- Image -->
 	<div class="col-sm-8 col-xs-12">
       <p>
 	     <i class="fa fa-balance-scale" style="font-size:96px; color:navy;"></i>
       </p>
     </div>
 	
-		<div class="col-sm-12 col-xs-12"></div>
+	
+		
+	<div class="col-sm-12 col-xs-12"></div>
 	
 	
 	<?php $form = ActiveForm::begin( 
@@ -46,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 	
 	<div class="col-sm-4 col-xs-12">
-    <?= $form->field($model, 'product_wieght')->textInput(['placeholder' => 'weight in kg to load out']) ?>
+    <?= $form->field($model, 'product_wieght')->textInput(['placeholder' => 'вага в кг']) ?>
     </div>
 	
 	<div class="col-sm-4 col-xs-12">

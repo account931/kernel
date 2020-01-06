@@ -65,12 +65,45 @@ class InvoiceLoadOutController extends Controller
         $model = new InvoiceLoadOut();
 		
 		//form fields
-		$model->invoice_unique_id = Yii::$app->security->generateRandomString(18); //invoiceID to form 
+		$model->invoice_unique_id = Yii::$app->security->generateRandomString(5). "-" . time(); //invoiceID to form 
 		$model->user_date_unix = time();
 		
 		//products for dropdown form
 		$products = Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])-> all();
 		$b = new Balance();
+		
+		
+		
+	    if ($model->load(Yii::$app->request->post())) {
+			if ( $model->save()){
+			    /*$res = $model->checkBalance();
+			
+			    if($res){
+			    //adds and updates with new weigth		
+			     $model->balanceAdd($res);
+		       } else {
+			      //saves new row with product and weigth	
+			      $model->addNewProduct();
+		       }
+			
+		       $model->sendMessage(); //notify the user
+			   */
+			
+               //return $this->redirect(['view', 'id' => $model->id]);
+			
+			    $model->deductProduct();
+			    $model->sendMessage();
+				$model->attributes = '';
+			    Yii::$app->getSession()->setFlash('statusOK', "Ваш запит на вiдвантаження вiдправлено адмiстратору. Очiкуйте пiдтвердження у повiдомаленнях"); 
+			    return $this->refresh();
+           } else {
+			    //var_dump($model->getErrors());
+			    Yii::$app->getSession()->setFlash('statusOK', "Error"); 
+		   }
+		}
+		
+		
+		
 		
         return $this->render('load-out-index', [
 		      'model' => $model, 

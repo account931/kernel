@@ -120,7 +120,7 @@ use yii\helpers\Json;
                 <?php		
                 $image = '<i class="fa fa-balance-scale " style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX lavender'>" .
-			        Html::a( $image ."<p>Запит вiдвантаження</p><br>" , ["/site/login" ] , $options = ["title" => "Freight requests",]) . 
+			        Html::a( $image ."<p>Запит вiдвантаження</p><br>" , ["/admin/invoice-load-out/index" ] , $options = ["title" => "Freight requests",]) . 
 		            "</div>";
                  ?>
             </div>
