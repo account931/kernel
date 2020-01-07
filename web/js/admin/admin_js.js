@@ -6,6 +6,8 @@ $(document).ready(function(){
        $(this).parent().parent().siblings().removeClass("clicked-x");
        $(this).parent().parent().addClass("clicked-x");
    });
+   
+   
 	   
 	   
 	   

@@ -71,13 +71,28 @@
 }
 
 .cursorX:hover {
-	background: #f2f2f2;	
+	background: #ddd; /*#f2f2f2;*/
+    opacity:0.9;	
 }
 
+/* break words */
 .word-breakX {
 	word-wrap: break-word;
 	color:red;
 }
+
+/* Colors Css for messages, requests, etc */
+.header-color {
+ background-color: #4CAF50;
+  color: white;
+}
+.evenX {
+ background-color:#f2f2f2; /* #e6e6e6 #f2f2f2;*/
+}
+
+
+
+
 
 
 /* PURE CSS LOADER, no code in index.php, just in loader.js -----------------------------------------------*/

@@ -122,8 +122,16 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 	
 	
 	
-	
-	 
+	//for json
+	 public function fields()
+     {
+    return [
+        'user_id' => function ($model) {
+            return $model->users->email; // Return related model property, correct according to your structure
+        },
+		'invoice_unique_id'
+      ];
+     }
 	 
 	 
 }

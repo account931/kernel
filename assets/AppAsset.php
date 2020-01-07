@@ -23,12 +23,10 @@ class AppAsset extends AssetBundle
         'css/site.css',
 		'css/myCss.css',
 		'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', //awesome fonts
-		'css/admin/admin-css.css', //move to admin asset
 		'//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css', //autocomplete CSS
     ];
     public $js = [
 	    'js/loader.js',
-		'js/admin/admin_js.js',
 		 'https://code.jquery.com/ui/1.12.1/jquery-ui.js', //autocomplete JS
 		'js/admin/autocomplete.js', //autocomplete JS
 		

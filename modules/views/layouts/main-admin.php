@@ -9,9 +9,11 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\assets\AdminOnlyMainModuleAsset; //main Admin js/css asset
 use yii\helpers\Url;
 
 AppAsset::register($this);
+AdminOnlyMainModuleAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -21,7 +23,7 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode("Admin Panel"/*$this->title*/) ?></title>
     <?php $this->head() ?>
 	<!-- Favicon -->
 	<?php $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::to(['images/favicon.ico'])]);?>
@@ -42,17 +44,11 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            //['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            //['label' => 'Contact', 'url' => ['/site/contact']],
-			['label' => 'My account', 'url' => ['/personal-account/index'] ,'visible' => (!Yii::$app->user->isGuest)],
+			['label' => 'User My account', 'url' => ['/personal-account/index'] ,'visible' => (!Yii::$app->user->isGuest)],
 			['label' => 'Sign up', 'url' => ['/site/signup'] ,'visible' => (Yii::$app->user->isGuest)],
-			['label' => 'AdminPanel (delete)', 'url' => ['/admin/default/index']],
-			['label' => 'Вiдвантажити', 'url' => ['/invoice-load-out/load-out']],
-			['label' => 'Переоформити', 'url' => ['#']],
-			['label' => 'Повiдомлення', 'url' => ['/messages/show-messages']],  
-			['label' => 'Транзакції (істроія)', 'url' => ['/transactions/mytransations']],
-			
+			['label' => 'AdminPanel', 'url' => ['/admin/default/index'] ],
+			['label' => 'Запити на реєстрацію', 'url' => ['/admin/admin-x/users-registration-requests']],
+			['label' => 'Запит на вiдвантаження', 'url' => ['/admin/invoice-load-out/index'] ],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

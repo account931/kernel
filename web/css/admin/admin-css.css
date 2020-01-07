@@ -13,6 +13,6 @@
 
 /* class to highlight clicked row in admin approve register requests  */
 .clicked-x{
-	background: yellow;
+	background: #ffffcc;  /* yellow */
 	
 }

@@ -18,6 +18,8 @@ class admin extends \yii\base\Module
     public function init()
     {
         parent::init();
+        //layout for admin
+        $this->layout = 'main-admin';
 
         // custom initialization code goes here
     }

@@ -1,5 +1,5 @@
 <?php
-
+//User's page to make a request to load out some amount of product (in kg)
 namespace app\controllers;
 
 use Yii;

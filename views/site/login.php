@@ -14,16 +14,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 	
 	
-   <!-- Image --> <!-- Login -->
+	
+	 <!---- Image ----> 
+	 <div class="row"> 
+       <center>
+	   <div class="col-sm-2 col-xs-6"> 
+        <?php		
+        $image = '<i class="fa fa-cubes" style="font-size:56px"></i>';	
+        echo "<div class='subfolder border shadowX'>" .
+		     Html::a( $image ."<p></p><br>" , ["#"], $options = ["title" => "Sign in",]) . 
+		     "</div>"; 
+	    ?>
+       </div>
+	   </center>
+	</div></br>
+	
+	
+	
   
-	    <div class="col-sm-12 col-xs-12">
-			<?php
-			 $image = '<i class="fa fa-address-card-o" style="font-size:56px"></i>';	
-		    // echo "<div class='subfolder border'>" .
-			        Html::a( $image ."<p>Sign in</p><br>" , ["/site/login"], $options = ["title" => "Sign in",]) . 
-				    "</div>";
-			 ?>
-	    </div>
    
   
    
@@ -38,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
    <!------ END FLASH  ----->
    
 
-    <i class="fa fa-cubes" style="font-size:68px;color:navy"></i>
+    <!--<i class="fa fa-cubes" style="font-size:68px;color:navy"></i>-->
     <p>Please fill out the following fields to login:</p>
 
     <?php $form = ActiveForm::begin([

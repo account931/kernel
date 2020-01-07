@@ -18,19 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 	
 	
-   <!-- Image --> <!-- Login -->
-  
-	    <div class="col-sm-12 col-xs-12">
-			<?php
-			 $image = '<i class="fa fa-address-card-o" style="font-size:56px"></i>';	
-		    // echo "<div class='subfolder border'>" .
-			        Html::a( $image ."<p>Sign in</p><br>" , ["/site/login"], $options = ["title" => "Sign in",]) . 
-				    "</div>";
-			 ?>
-	    </div>
-   
-  
-   
+    
    
    <!------ FLASH Message to show if the account not yet activated by the admin ----->
    <?php if( Yii::$app->session->hasFlash('failX') ): ?>
@@ -49,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<div class="row">
 	   <div class="col-sm-2 col-xs-6">
                 <?php		
-                $image = '<i class="fa fa-address-card-o" style="font-size:96px"></i>';	
+                $image = '<i class="fa fa-address-card-o" style="font-size:56px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
 			        Html::a( $image ."<p>Admin access</p><br>" , ["#"] , $options = ["title" => "more  info",]) . 
 		            "</div><br>"; 

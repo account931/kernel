@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\modules\models\Messages;
+use yii\data\Pagination;
 
 class MessagesController extends Controller
 {
@@ -64,12 +65,19 @@ class MessagesController extends Controller
      */
     public function actionShowMessages()
     {
-		$messages = Messages::find() ->orderBy ('m_id DESC')->where(['m_receiver_id' => Yii::$app->user->identity->id])->all();
+		$messagesCount = Messages::find() ->orderBy ('m_id DESC')->where(['m_receiver_id' => Yii::$app->user->identity->id])->all();
+		
+		//LinkPager
+		$messages = Messages::find() ->orderBy ('m_id DESC')->where(['m_receiver_id' => Yii::$app->user->identity->id]);//->all();
+		$pages= new Pagination(['totalCount' => $messages->count(), 'pageSize' => 9]);
+        $modelPageLinker = $messages->offset($pages->offset)->limit($pages->limit)->all();
 		
 		$messModel = new Messages();
 
 		return $this->render('messages-index', [
-		      'messages' => $messages , 
+		      'messagesCount' => $messagesCount , 
+			  'modelPageLinker' => $modelPageLinker, //pageLinker
+              'pages' => $pages,      //pageLinker
 			  'messModel'  => $messModel
 			  
 	    ]);

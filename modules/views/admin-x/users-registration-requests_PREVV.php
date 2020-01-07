@@ -1,17 +1,22 @@
+
 <?php
+
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\LoginForm */
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-$this->title = 'Registration requests';
+
+
+$this->title = 'Запити на реєстрацію';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 
 
 <div id="all" class="admin-default-index animate-bottom">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1> 
 	
 	
 	<!-- Image -->
@@ -27,9 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
        </div>
 	   </center>
 	</div></br>
-	
-	
-	
+
+		   
+		   
 	
    <!------ FLASH Message to show if the account not yet activated by the admin ----->
    <?php if( Yii::$app->session->hasFlash('approveOK') ): ?>
@@ -48,10 +53,11 @@ $this->params['breadcrumbs'][] = $this->title;
 		echo "No new users to approve.";
 	} else {
 		
+	  	
 		
       foreach ($requests as $b){
 	      $i++;
-		  echo '<div class="row list-group-item  ' .($i%2 ? 'evenX':''). '">';
+		  echo '<div class="row list-group-item cursorX ' .($i%2 ? 'evenX':''). '">';
 		
 		      //username
 		      echo '<div class="col-sm-2 col-xs-2">' .
@@ -86,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                    <div class="modal-content">
                        <div class="modal-header">
                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                           <h4 class="modal-title"><b><i class="fa fa-address-card-o" style="font-size:56px"></i> </b></h4>
+                           <h4 class="modal-title"><b>User's info.</b></h4>
                        </div>
 					   
                       <div class="modal-body">

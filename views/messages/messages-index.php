@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use yii\widgets\LinkPager;
 
 $this->title = 'My Messages';
 $this->params['breadcrumbs'][] = $this->title;
@@ -10,24 +11,38 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
 
-	<div class="col-sm-8 col-xs-12">
 	
-      <p>
-	     <i class="fa fa-envelope-o" style="font-size:110px; color: navy;"></i>
-      </p>
-    </div>
+	<!---- Image ----> 
+	 <div class="row"> 
+       <center>
+	   <div class="col-sm-2 col-xs-6"> 
+        <?php		
+        $image = '<i class="fa fa-envelope-o" style="font-size:46px"></i>';	
+        echo "<div class='subfolder border shadowX'>" .
+		     Html::a( $image ."<p></p><br>" , ["#"], $options = ["title" => "Sign up requests",]) . 
+		     "</div>"; 
+	    ?>
+       </div>
+	   </center>
+	</div></br>
+	
+	
+	
+	
     
 	
 	<?php
+	$messages = $modelPageLinker;
+	
 	if(empty($messages)){
 		echo '<div class="col-sm-8 col-xs-12 text-danger"> No messages yet</div>';
 		
 	} else {
 		
-		echo '<div class="col-sm-8 col-xs-12 text-success"> You have <b class="text-danger">'  . count($messages) . ' </b>messages </div></hr>';
+		echo '<div class="col-sm-8 col-xs-12 text-success"> You have <b class="text-danger">'  . count($messagesCount) . ' </b>messages </div></hr>';
 		
 		//table headers
-		echo '<div class="col-sm-12 col-xs-12 border list-group-item">' .
+		echo '<div class="col-sm-12 col-xs-12 list-group-item header-color">' .
 		       '<div class="col-sm-2 col-xs-2"> <b> From </b></div>' .
 		       '<div class="col-sm-2 col-xs-4"> <b> Date </b></div>' .
 			   '<div class="col-sm-8 col-xs-6"> <b> Text </b></div>' .
@@ -37,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		foreach($messages as $m){
 		    $i++;
 			
-			echo '<div class="col-sm-12 col-xs-12 border list-group-item bg-success cursorX" data-toggle="modal" data-target="#myModal' . $i . '">' .  //data-toggle="modal" data-target="#myModal' . $i .   for modal
+			echo '<div class="col-sm-12 col-xs-12  list-group-item bg-success cursorX ' .($i%2 ? 'evenX':''). '" data-toggle="modal" data-target="#myModal' . $i . '">' .  //data-toggle="modal" data-target="#myModal' . $i .   for modal
 			       '<div class="col-sm-2 col-xs-3 word-breakX">' . $m->users->email . '</div>' . //hasOne relation
 				   '<div class="col-sm-2 col-xs-4">' . $m->m_time .      '</div>' .
 				   '<div class="col-sm-8 col-xs-5">' . crop($m->m_text, 27) .   '</div>' .
@@ -93,6 +108,12 @@ $this->params['breadcrumbs'][] = $this->title;
 		
 	
 	}
+	
+	
+	// display LinkPager
+    echo LinkPager::widget([
+       'pagination' => $pages,
+    ]); 
 	
 	
 	function crop($text, $tLenght=33){

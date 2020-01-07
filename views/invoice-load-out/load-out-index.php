@@ -28,13 +28,21 @@ $this->params['breadcrumbs'][] = $this->title;
    
    
    
+   	<!--- Image -->
+	 <div class="row"> 
+       <center>
+	   <div class="col-sm-2 col-xs-6"> 
+        <?php		
+        $image = '<i class="fa fa-balance-scale" style="font-size:56px"></i>';	
+        echo "<div class='subfolder border shadowX'>" .
+		     Html::a( $image ."<p></p><br>" , ["#"], $options = ["title" => "Sign up requests",]) . 
+		     "</div>"; 
+	    ?>
+       </div>
+	   </center>
+	</div></br>
    
-    <!--- Image -->
-	<div class="col-sm-8 col-xs-12">
-      <p>
-	     <i class="fa fa-balance-scale" style="font-size:96px; color:navy;"></i>
-      </p>
-    </div>
+  
 	
 	
 		

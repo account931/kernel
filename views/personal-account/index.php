@@ -43,14 +43,20 @@ $this->params['breadcrumbs'][] = $this->title;
    echo Collapse::widget([
     'items' => [
         [
-            'label' => 'Profile',
+            'label' => 'Ваш аккаунт',
             'content' => '   
-                        <div class="col-lg-offset-1" style="color:#999;">
-                         <b>Here goes personal info</b>.
-						 <p>Name: '. Yii::$app->user->identity->username . '</p>
+                        <div class="col-lg-offset-1" style="color:;">
+						 <i class="fa fa-address-card-o" style="font-size:36px"></i></br>
+                         <p><b>Деталі Вашаго аккаунту</b>.</p>
+						 <p>Username: '. Yii::$app->user->identity->username . '</p>
 						 <p>Email: '. Yii::$app->user->identity->email . '</p>
+						 <p>Name: '. Yii::$app->user->identity->first_name . '</p>
+						 <p>Last name: '. Yii::$app->user->identity->last_name . '</p>
+						 <p>Company: '. Yii::$app->user->identity->company_name . '</p>
+						 <p>Phone: '. Yii::$app->user->identity->phone_number . '</p>
+						 <p>Address: '. Yii::$app->user->identity->address . '</p>
                        </div>',
-            // to  be  this  block open  by  default   de  comment  the  following 
+            // to  be  this  block open  by  default de-comment  the  following 
             /*'contentOptions' => [
                 'class' => 'in'
             ]*/  
@@ -106,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php		
                 $image = '<i class="fa fa-area-chart" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Транзакції</p><br>" , ["/transactions/mytransations", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
+			        Html::a( $image ."<p>Транзакції</p><br>" , ["/transactions/mytransations"], $options = ["title" => "History",]) . 
 		            "</div>";
                  ?>
             </div>
@@ -115,7 +121,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php		
                 $image = '<i class="fa fa-comments-o" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Бот помiчник</p><br>" , ["", "traceFolder" => $folderName,   ] /* $url = null*/, $options = ["title" => "more  info",]) . 
+			        Html::a( $image ."<p>Бот помiчник</p><br>" , ["#"] /* $url = null*/, $options = ["title" => "more  info",]) . 
 		            "</div>";
                  ?>
             </div>
