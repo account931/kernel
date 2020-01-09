@@ -78,7 +78,6 @@
 /* break words */
 .word-breakX {
 	word-wrap: break-word;
-	color:red;
 }
 
 /* Colors Css for messages, requests, etc */

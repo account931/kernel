@@ -19,6 +19,9 @@ use Yii;
  * @property int $user_date_unix
  * @property string $confirmed_by_admin
  * @property int $confirmed_date_unix
+ * @property int $date_to_load_out
+ * @property int $b_intervals
+ * @property int $b_quarters
  * @property int $elevator_id
  * @property string $completed
  * @property int $completed_date_unix
@@ -40,7 +43,7 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'invoice_unique_id', 'product_id', 'product_wieght', 'user_date_unix'], 'required'], // 'confirmed_date_unix', 'elevator_id', 'completed_date_unix'
-            [['user_id', 'product_id', 'product_wieght', 'user_date_unix', 'confirmed_date_unix', 'elevator_id', 'completed_date_unix'], 'integer'], //'invoice_unique_id',
+            [['user_id', 'product_id', 'product_wieght', 'user_date_unix', 'confirmed_date_unix', 'date_to_load_out', 'b_intervals', 'b_quarters', 'elevator_id', 'completed_date_unix'], 'integer'], //'invoice_unique_id',
             [['confirmed_by_admin', 'completed', 'invoice_unique_id'], 'string'],
 			['invoice_unique_id', 'unique', 'targetClass' => '\app\modules\models\InvoiceLoadOut', 'message' => 'This Invoice ID has already been taken.'],
 			['product_wieght','validateWeight'], //my validation function validateWeight
@@ -61,6 +64,9 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
             'user_date_unix' => Yii::t('app', 'User Date Unix'),
             'confirmed_by_admin' => Yii::t('app', 'Confirmed By Admin'),
             'confirmed_date_unix' => Yii::t('app', 'Confirmed Date Unix'),
+			'date_to_load_out' => Yii::t('app', 'Date To Load Out'),
+            'b_intervals' => Yii::t('app', 'B Intervals'),
+            'b_quarters' => Yii::t('app', 'B Quarters'),
             'elevator_id' => Yii::t('app', 'Elevator ID'),
             'completed' => Yii::t('app', 'Completed'),
             'completed_date_unix' => Yii::t('app', 'Completed Date Unix'),
@@ -122,14 +128,21 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 	
 	
 	
-	//for json
+	//for json to return hasOne relations
 	 public function fields()
      {
-    return [
-        'user_id' => function ($model) {
-            return $model->users->email; // Return related model property, correct according to your structure
-        },
-		'invoice_unique_id'
+        return [
+            'user_id' => function ($model) {
+                return $model->users->email; // Return related model property, correct according to your structure
+            },
+			'product_id' => function ($model) {
+                return $model->products->pr_name_name; // Return related model property, correct according to your structure
+            },
+		    'invoice_unique_id',
+		    'product_wieght',
+		    'user_date_unix'  => function ($model) {
+                return Yii::$app->formatter->format($model->user_date_unix, 'date'); 
+            },
       ];
      }
 	 

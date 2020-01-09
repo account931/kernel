@@ -1,7 +1,8 @@
 (function(){ //START IIFE (Immediately Invoked Function Expression)
 $(document).ready(function(){
 	
-   
+ //uses ajax from js/admin/datepicker.js
+ 
     //====================
     //click on invoice in admin/views/load-out-index.php
     $(document).on("click", '.invoice-one', function() {      //for newly generated 
@@ -13,7 +14,8 @@ $(document).ready(function(){
     function runAjaxToGetInvoice(context){
 		//alert(context.getAttribute("data-invoic-id"));
 		var ajax_url = urlX + "/index.php?r=admin/invoice-load-out/ajax_get_invoice";
-		alert(ajax_url);
+		//alert(ajax_url);
+		$(".loader").show(80); //hide the loader
 		
 		// send  data  to  PHP handler  ************ 
         $.ajax({
@@ -28,14 +30,14 @@ $(document).ready(function(){
                 // do something;
 				console.log(data);
 				//getAjaxAnswer_andBuild_6_month(data, idX); //data => return from php script //idX => id of clicked room
-				//$(".loader").hide(3000); //hide the loader
+				$(".loader").hide(3000); //hide the loader
 				buildAnswer(data);
-				scrollResults("#invoiceSelected", ".parent().");
+				scrollResults("#invoiceSelected");
 				
             },  //end success
 			error: function (error) {
 				$("#invoiceSelected").stop().fadeOut("slow",function(){ $(this).html("Failed")}).fadeIn(2000);
-				scrollResults("#invoiceSelected", ".parent().");
+				scrollResults("#invoiceSelected");
 				//console.log(data);
             }	
         });
@@ -43,26 +45,56 @@ $(document).ready(function(){
 		
 	}
 
-	//======================
+	
+	//======================  
 	//Build ajax success
     function buildAnswer(data){
-		  var calendar =      
-            '<br><input type="button" value="<<" id="prevDay" class="btn btn-success"/>' +
-            '<input type="button" value=" Calendar" id="calendarPick" class="btn btn-danger"/>' +
-            '<input type="button" value=">>" id="nextDay" class="btn btn-success"/>' +
-            '<br><br>';
 		
-		  var textX = '<div class="col-sm-12 col-xs-12"><h3><center>Запит</center></h3> </div>' + 
-		              '<div class="col-sm-12 col-xs-12  list-group-item header-color">' + 
-		                 '<div class="col-sm-6 col-xs-6 word-breakX">Номер накладної</div>' + '<div class="col-sm-6 col-xs-6 word-breakX">' + data.invoiceLoadOut.invoice_unique_id + '</div>' +
-						 '<div class="col-sm-6 col-xs-6 word-breakX">Користувач </div>'     + '<div class="col-sm-6 col-xs-6 word-breakX">' + data.invoiceLoadOut.user_id + '</div>' +
-					  '</div>' +
-					  calendar;
+		  var calendar = '<div class="col-sm-12 col-xs-12 calendar">' +
+	            '<br><i class="fa fa-calendar" style="font-size:74px"></i><br><br>' +
+		        '<input type="button"  value="<<" id="prevDay" class="btn btn-info"/>' +
+                ' <input type="button"  value=" Calendar" id="datepicker2" class="btn btn-danger"/>' +    
+                ' <input type="button"  value=">>" id="nextDay" class="btn btn-success"/><br><br>' +
+				'<p>DatePicker: <input type="text" id="datepicker"></p>' +
+				'<p>Manual Date: <input type="date" id="datePickerManual"/></p>' + //TRUE here
+				'<p><button type="button" id="getIntListBtn" class="btn">Ok</button></p>' //button to send ajax
+	            '</div>';
+				
+		
+		  var textX = '<div class="col-sm-12 col-xs-12"><h3><center>Запит <i class="fa fa-briefcase" style="font-size:31px"></i></center></h3> </div>' + 
+		              '<div class="col-sm-12 col-xs-12  list-group-item header-color invoice-selected">' + 
+		                 '<div class="col-sm-6 col-xs-6 word-breakX list-group-item"> Номер накладної</div>' + '<div class="col-sm-6 col-xs-6 word-breakX list-group-item ">' + data.invoiceLoadOut.invoice_unique_id + '</div>' +
+						 '<div class="col-sm-6 col-xs-6 word-breakX list-group-item"> Користувач </div>'     + '<div class="col-sm-6 col-xs-6 word-breakX list-group-item">' + data.invoiceLoadOut.user_id + '</div>' +
+						 '<div class="col-sm-6 col-xs-6 word-breakX list-group-item"> Продукт </div>'        + '<div class="col-sm-6 col-xs-6 word-breakX list-group-item">' + data.invoiceLoadOut.product_id + ' ' + data.invoiceLoadOut.product_wieght + ' кг </div>' +
+						 '<div class="col-sm-6 col-xs-6 word-breakX list-group-item"> Дата </div>'           + '<div class="col-sm-6 col-xs-6 word-breakX list-group-item">' + data.invoiceLoadOut.user_date_unix + '</div>' +
+					  '</div>' + 
+					  calendar; 
+					  
 					  
 		  $("#invoiceSelected").stop().fadeOut("slow",function(){ $(this).html(textX)}).fadeIn(2000);	
+
 	}
 
 
+	
+
+
+
+
+
+
+	
+	   
+});
+// end ready		
+	
+}()); //END IIFE (Immediately Invoked Function Expression)
+
+
+
+
+
+   //Moved outside  IIFE to be visible in other scripts, i.e js/datepicker.js -----------------------------------------
 
     // Advanced Scroll the page to results  #resultFinal
 	// **************************************************************************************
@@ -108,12 +140,3 @@ $(document).ready(function(){
     // **************************************************************************************
     // **************************************************************************************
 
-
-
-
-	
-	   
-});
-// end ready		
-	
-}()); //END IIFE (Immediately Invoked Function Expression)

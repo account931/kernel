@@ -120,16 +120,41 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	
 	
-	<!-- here goes the div with selected invoice -->
+	
+	<!----------------- Div with selected invoice's details and datepicker (html-ed with ajax) ------------>
 	<div class="col-sm-12 col-xs-12" id="invoiceSelected">
 	</div>
-	<!-- END here goes the div with selected invoice -->
+	<!------------- END Div with selected invoice's details and datepicker (html-ed with ajax)  ------------>
 	
 	
 	
+	
+	<!----------------- Div with Interval list (html-ed with ajax) ------------>
+	<div class="col-sm-12 col-xs-12" id="intervalList">
+
+	</div>
+	<!------------- Div with Interval list (html-ed with ajax)  ------------>
+	
+	
+	
+	
+	
+	<!----------------- Div with hidden form  ------------>
+	<div class="col-sm-12 col-xs-12" id="form">
+	form
+	</div>
+	<!------------- END Div with hidden form   ------------>
+
+	
+
+	
+	<!------------- Loader for ajax waiting time ------------>
+	<div class="loader" id="loader"></div>
+	<!------------- Loader for ajax waiting time ------------>
 	
 	
 	<?php
+	//not used???
 	function crop($text, $tLenght=33){
 	   $length = $tLenght; //? $tLenght : 15; 
 	   $text1 = $text; 
@@ -142,3 +167,23 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	
 </div>
+
+
+
+<?php
+//DELETE?????
+$this->registerJsFile(
+    '@web/js/jqueryX.min.js',
+    ['depends' => [\yii\web\JqueryAsset::className()]]
+);
+
+$this->registerJsFile(
+     '@web/js/datepicker_ui/datepicker.min.js',
+    ['depends' => [\yii\web\JqueryAsset::className()]]
+);
+?>
+
+
+
+
+
