@@ -111,7 +111,7 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 	 
 	 
 	 
-	 //notify the user-> send the message
+	 //notify the user-> send the message, when a user successfuly submitted request to LoadOut
 	public function  sendMessage(){
 		$model = new Messages();
 		$model->m_sender_id = 1; //admin
@@ -121,6 +121,25 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 						" у кількості  " .$this->product_wieght . "кг.</p>" .   //weight
 						"<p> Номер накладної  " . $this->invoice_unique_id . ".</p>" .
 						"<p> Очікуйте на повідомлення з підтвердженням адміністратора та датою і часом</p>" .
+						"<p>Best regards, Admin team. </p>";  
+		$model->m_unix = time();
+		$model->save();
+	}
+	
+	
+    //notify the user-> send the message, when Admin confirmed the request
+	public function  sendMessage_LoadOut_Confirmed($i, $y){
+		$model = new Messages();
+		$model->m_sender_id = 1; //admin
+		$model->m_receiver_id = $i->user_id; 
+		$model->m_text = "<p>Dear user <b>". $i->users->first_name . "</b></p>" .//hasOne relation (gets username by ID)
+		                "<p>Ми отримали Ваш запит на вiдвантаження <b>" . $i->products->pr_name_name . "</b>" . //hasOne relation(gets product name by ID)
+						" у кількості  <b>" .$i->product_wieght . "</b> кг.</p>" .   //weight
+						"<p> Номер накладної <b> " . $i->invoice_unique_id . "</b>.</p>". 
+						"<p>Ваша заявка була свалено адміністратором. Ваша дата та час для відвантаження продукції <b>" . Yii::$app->formatter->format($i->date_to_load_out, 'date') . 
+						" " . $i->b_intervals . "." . $i->b_quarters . "0 </b>" . // 7.00, 9.30, etc
+						". Елеватор номер <b>" . $i->elevator_id . //elevator
+						"</b>.</p>" .
 						"<p>Best regards, Admin team. </p>";  
 		$model->m_unix = time();
 		$model->save();

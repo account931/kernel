@@ -94,7 +94,7 @@ class InvoiceLoadOutController extends Controller
 			    $model->deductProduct();
 			    $model->sendMessage();
 				$model->attributes = '';
-			    Yii::$app->getSession()->setFlash('statusOK', "Ваш запит на вiдвантаження вiдправлено адмiстратору. Очiкуйте пiдтвердження у повiдомаленнях"); 
+			    Yii::$app->getSession()->setFlash('statusOK', "Ваш запит на вiдвантаження вiдправлено адмiстратору. Очiкуйте пiдтвердження у повiдомленнях"); 
 			    return $this->refresh();
            } else {
 			    //var_dump($model->getErrors());

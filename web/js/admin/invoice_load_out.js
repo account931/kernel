@@ -1,3 +1,5 @@
+window.invoiceIDX;
+
 (function(){ //START IIFE (Immediately Invoked Function Expression)
 $(document).ready(function(){
 	
@@ -6,7 +8,9 @@ $(document).ready(function(){
     //====================
     //click on invoice in admin/views/load-out-index.php
     $(document).on("click", '.invoice-one', function() {      //for newly generated 
+	   window.invoiceIDX = this.getAttribute("data-invoic-id"); 
 	   runAjaxToGetInvoice(this);
+	   
 	});
    
 	   
@@ -28,11 +32,13 @@ $(document).ready(function(){
 			},
             success: function(data) {
                 // do something;
+				
 				console.log(data);
 				//getAjaxAnswer_andBuild_6_month(data, idX); //data => return from php script //idX => id of clicked room
-				$(".loader").hide(3000); //hide the loader
+				$(".loader").fadeOut(3000); //hide the loader
 				buildAnswer(data);
 				scrollResults("#invoiceSelected");
+				
 				
             },  //end success
 			error: function (error) {
@@ -50,17 +56,26 @@ $(document).ready(function(){
 	//Build ajax success
     function buildAnswer(data){
 		
+		  //build dropdown with elevators, var elevators is set in admin/views/load-out-index.php
+		  var dropdownElevators = "<select id='selElevator'><option selected value='false'>Оберіть елеватор</option>";
+		  for(i = 0; i < elevators.length; i++){
+			 dropdownElevators+= "<option value='" + elevators[i].e_id + "'>" + "Елеватор " + elevators[i].e_id + "<option>";
+		  }
+		  dropdownElevators+= "</select>";
+		
+		  //build datepicker calendar + var dropdownElevators
 		  var calendar = '<div class="col-sm-12 col-xs-12 calendar">' +
 	            '<br><i class="fa fa-calendar" style="font-size:74px"></i><br><br>' +
 		        '<input type="button"  value="<<" id="prevDay" class="btn btn-info"/>' +
                 ' <input type="button"  value=" Calendar" id="datepicker2" class="btn btn-danger"/>' +    
                 ' <input type="button"  value=">>" id="nextDay" class="btn btn-success"/><br><br>' +
 				'<p>DatePicker: <input type="text" id="datepicker"></p>' +
-				'<p>Manual Date: <input type="date" id="datePickerManual"/></p>' + //TRUE here
+				'<p>Manual Date: <input type="date" id="datePickerManual"/></p>' + //datePicker calendar -> TRUE here
+				'<p>Елеватор: ' + dropdownElevators + '</p>' + //elevator  
 				'<p><button type="button" id="getIntListBtn" class="btn">Ok</button></p>' //button to send ajax
 	            '</div>';
 				
-		
+		  //build selected invoice info + var calendar
 		  var textX = '<div class="col-sm-12 col-xs-12"><h3><center>Запит <i class="fa fa-briefcase" style="font-size:31px"></i></center></h3> </div>' + 
 		              '<div class="col-sm-12 col-xs-12  list-group-item header-color invoice-selected">' + 
 		                 '<div class="col-sm-6 col-xs-6 word-breakX list-group-item"> Номер накладної</div>' + '<div class="col-sm-6 col-xs-6 word-breakX list-group-item ">' + data.invoiceLoadOut.invoice_unique_id + '</div>' +

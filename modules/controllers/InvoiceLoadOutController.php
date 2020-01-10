@@ -10,9 +10,11 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\models\InvoiceLoadOut;
 use yii\data\Pagination;
+use app\modules\models\InvoiceLoadOut_Just_Admin_Form;
+use app\modules\models\Elevators;
 //use app\models\User;
 //use app\models\ProductName;
-//use app\modules\models\Elevators;
+
 //use app\models\Balance;
 
 
@@ -56,24 +58,57 @@ class InvoiceLoadOutController extends Controller
 	  
 
     /**
-     * Lists all InvoiceLoadOut requests sent by user.
+     * Lists all InvoiceLoadOut requests sent by user. Main page, rest of info is added by ajax.
      * @return mixed
      */
     public function actionIndex()
     {
-		
-       $requestsLoadOutCount = InvoiceLoadOut::find()->where(['confirmed_by_admin' => self::STATUS_PENDING]) -> all();
+	   $model_1 = new InvoiceLoadOut();
 	   
-	   //LinkPager
+       $requestsLoadOutCount = InvoiceLoadOut::find()->where(['confirmed_by_admin' => self::STATUS_PENDING]) -> all(); //for counting
+	   $allElevators = Elevators::find()->all();
+	   
+	   $model = new InvoiceLoadOut_Just_Admin_Form(); //form for admin to add selected date and finilize the user's request.
+	   
+	   //LinkPager (to list all invoices where self::STATUS_PENDING)
 	   $query = InvoiceLoadOut::find()->where(['confirmed_by_admin' => self::STATUS_PENDING]);
        $pages= new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
        $modelPageLinker = $query->offset($pages->offset)->limit($pages->limit)->all();
 
 
+	   //save the form and finilize the user's request
+	    if ($model->load(Yii::$app->request->post())) {
+			 //finds the request to LoadOut started by the User, here finilize it by adding date to load, intervals, quarters and elevatpr number
+			$thisInvoice = InvoiceLoadOut::find()->where(['id' => $model->id])->one(); //invoice ID, set to hidden form by js/invoice_load_out.js 
+			
+			//HERE SHOULD BE ADDITIONAL CHECK if THR DATE/TIME is still FREE!!!!!!!!!!!!!!!!----------------------------
+			
+			//assign fields
+			$thisInvoice->confirmed_by_admin = '1'; 
+			$thisInvoice->confirmed_date_unix = $model->confirmed_date_unix;
+			$thisInvoice->date_to_load_out = $model->date_to_load_out;
+			$thisInvoice->b_intervals = $model->b_intervals;
+			$thisInvoice->b_quarters = $model->b_quarters;
+			$thisInvoice->elevator_id = $model->elevator_id;
+			
+			if ($thisInvoice ->save(false)){
+				$model_1->sendMessage_LoadOut_Confirmed($thisInvoice, $model);
+			    Yii::$app->getSession()->setFlash('statusOK', "Заявкау успішно опрацьовано. Kористувачу відправленно повідомлення"); 
+			    return $this->refresh();
+           } else {
+			    //var_dump($model->getErrors());
+			    Yii::$app->getSession()->setFlash('statusOK', "Error"); 
+		   }
+		}
+		
+	   
+	   
         return $this->render('load-out-index', [
             'requestsLoadOutCount' => $requestsLoadOutCount,
 			'modelPageLinker' => $modelPageLinker, //pageLinker
             'pages' => $pages,      //pageLinker
+			'model' =>  $model,  //model for admin form
+			'allElevators' => $allElevators //list of all elevators for dropdown
         ]);
     }
 
@@ -121,13 +156,22 @@ class InvoiceLoadOutController extends Controller
     public function actionAjax_get_interval_list() 
     {	
 	    global $text;
-	    $dayPost = Yii::$app->request->post('serverSelectedDateUnix'); //$_POST['serverSelectedDateUnix'];
+	    $dayPost = Yii::$app->request->post('serverSelectedDateUnix'); //$_POST['serverSelectedDateUnix'] from ajax ->js/admin/datepicker_action.js;
+		$elevatorPost = Yii::$app->request->post('serverSelectedElevator'); 
 		
-		$result = InvoiceLoadOut::find()->orderBy ('id ASC') ->where([ 'date_to_load_out' => $dayPost]) ->all(); 
-
-		$text = Yii::$app->formatter->format($dayPost, 'date') . "</br>" . $dayPost;// . "</br>" . var_dump($result) ; 
+		//!!!!!!!!! -- change {Where} to between + Where Elevator
+		$result = InvoiceLoadOut::find()
+		          ->orderBy ('id ASC') 
+		          ->where([ 'date_to_load_out' => $dayPost]) //->andWhere(['between', 'book_from_unix', strtotime($first1), strtotime($last1) ]) 
+			      ->andWhere(['elevator_id' => $elevatorPost]) 
+			      ->all(); 
+        
 		
-		$text.= "<div class='col-sm-12 col-xs-12>j</div>";
+		//date_default_timezone_set('Europe/Kiev');
+		$text = Yii::$app->formatter->format($dayPost, 'date') . "</br> JS-> " . $dayPost . " VS Php -> " . strtotime(date('1/10/2020 00:00:00')) . " - " . time() . " = " . strtotime("now") ;// . "</br>" . var_dump($result) ; 
+		//(date('m/d/Y h:i:s')
+		
+		$text.= "<div class='col-sm-12 col-xs-12'>delete me</div>";
 		
 
 		
@@ -180,7 +224,7 @@ class InvoiceLoadOutController extends Controller
             $quarter = 3;
         }
  
-        $text = $text ."<div class='col-sm-2 col-xs-3 free shadowX'> Free =>  ".$iterator.  "."   .$minutesStart . "-" . $nextIterator . "." . $minutesEnd . "</div>";
+        $text = $text ."<div class='col-sm-2 col-xs-3 free shadowX' data-inter='" .$iterator . "' data-quarter='" . $quarter . "' > Free =>  ".$iterator.  "."   .$minutesStart . "-" . $nextIterator . "." . $minutesEnd . "</div>";
         //$text = $text ."<p style='display:none;margin-top:0.7em;background-color:;' class='nnn'>  Your agenda</br> <textarea rows='2' cols='50' placeholder='...'></textarea> </br><button type='button' class='bookFinal' id='' > OK </button>  </p>";
 
      }
@@ -192,20 +236,23 @@ class InvoiceLoadOutController extends Controller
     $bIntervals = array();// array for intervals available 
 	
 	foreach($result as $ss){
-        array_push($bIntervals, $ss->b_intervals);
+        array_push($bIntervals, $ss->b_intervals);  //Sort!!!!!!!!!
     }
-		
+	
+	//!!!!!!!!!!! FIX AFTER ALL
+    $fixArray = sort($bIntervals);  //duplicate array, sorted in case $bIntervals[7,8,7]
+	
     //just test, EREASE IT!!!!!
     foreach ($bIntervals as $y){
 	   $text.= "</br>arr=> " . $y;
     }	
 		
-     $text.= "</br> Count=> " . count($bIntervals);  //just test, EREASE IT!!!!!
+     $text.= "<div class='col-sm-12 col-xs-12'> Count=> " . count($bIntervals) . "</div>";  //just test, EREASE IT!!!!!
 	 
 	 
 	 
 	 
-	 for($i = 6; $i < 23; $i++){
+	 for($i = 8; $i < 20; $i++){
              //if time exists in array  $bIntervals, displays taken
              if(in_array($i, $bIntervals)){ 
 			     $indexOf = array_search($i, $bIntervals); // find the indexOf of $i, which exists in array to use {$rowF[$indexOf]['b_booker'].}

@@ -31,11 +31,9 @@ class AdminOnlyMainModuleAsset extends AssetBundle
 		'js/admin/invoice_load_out.js', //ajax to loadOut
 		'https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js', //Sweet Alert JS
 		'js/admin/datepicker_actions.js', //my datepicker
-		
 	    //'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js',
 	    //'js/jqueryX.min.js',
 	    //'//code.jquery.com/ui/1.11.4/jquery-ui.js',
-
 		//'js/datepicker_ui/datepicker.min.js', //datepicker UI Lib JS  
 		//'js/datepicker_ui/datepicker.js',
 		

@@ -3,7 +3,7 @@ $(document).ready(function(){
 	
 	//on clicking the button after the datepicker
 	$(document).on('click', '#getIntListBtn',  function() {
-		var date = $("#datePickerManual").val();
+		var date = $("#datePickerManual").val(); 
 		if(check_user_date_input()){ 
             //alert(date);   
             sendAjaxToGetIntervalsView();	
@@ -13,11 +13,29 @@ $(document).ready(function(){
 	
 	//click on Free Interval
 	$(document).on('click', '.free',  function() {
-		swal("!", "Дата вільна!", "success"); //sweet alert
-		$(this).siblings().removeClass("clicked-interv");
-		//$(this).addClass("clicked-interv");
+		//swal("!", "Дата вільна!", "success"); //sweet alert
+		$(this).siblings().removeClass("clicked-interv"); //removed clicked CSS
         $(this).addClass("clicked-interv");
+		
+		//show selected date, hour and time 
+		var monthNames = ["", "Січня", "Лютого", "Березня", "Квітня", "Травня", "Липня", "Червня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
+		var selectedDate = $("#datePickerManual").val().split("-")[2] + " " + monthNames[parseInt($("#datePickerManual").val().split("-")[1])];
+		var textSel = "Ви обрали " + selectedDate + ". Час  " + this.getAttribute('data-inter') + "." + this.getAttribute("data-quarter") + "0";
+		$("#selDate").stop().fadeOut("slow",function(){ $(this).html( textSel )}).fadeIn(2000);
+		
+	    //assign clicke value to formFinish
+		$("#invoiceID").val(parseInt(window.invoiceIDX)); //selected invoice ID
+		$("#dateToLoad").val(new Date($("#datePickerManual").val()).getTime()/1000 );  //selected date in Unix
+		$("#intervalHour").val( this.getAttribute("data-inter"));
+		$("#quarterMinute").val( this.getAttribute("data-quarter"));
+		$("#elevator").val( $('#selElevator').val() );  
+		
+		$("#formFinish").show(800);
+		scrollResults("#formFinish");
+		
     });
+   
+   
    
    
    //click on Taken Interval
@@ -42,18 +60,21 @@ $(document).ready(function(){
             url: ajax_url,
             type: 'POST',
 			dataType: 'text', // without this it returned string(that can be alerted), now it returns object
-			//passing the ID of invoice load out
+			//passing Unix time of selected date and selected Elevator
             data: { 
-			    serverSelectedDateUnix: unixSelected
+			    serverSelectedDateUnix: unixSelected,
+				serverSelectedElevator: unixSelected,
+				
 			},
             success: function(data) {
                 // do something;
 				console.log(data);
 				//getAjaxAnswer_andBuild_6_month(data, idX); //data => return from php script //idX => id of clicked room
-				$(".loader").hide(3000); //hide the loader
+				$(".loader").fadeOut(2000); //hide the loader
 				//buildAnswer(data);
 				$("#intervalList").stop().fadeOut("slow",function(){ $(this).html(data)}).fadeIn(2000);
 				scrollResults("#intervalList");
+				
 				
             },  //end success
 			error: function (error) {
@@ -79,7 +100,7 @@ $(document).ready(function(){
     // **************************************************************************************
     //                                                                                     ** 
 	function check_user_date_input() {
-        //checks if not empty input
+        //checks if not empty date input
 		if ($("#datePickerManual").val() == ""){
 			swal("Помилка!", "Ви не вибрали дату!", "error"); //sweet alert
 			return false;
@@ -91,6 +112,21 @@ $(document).ready(function(){
 			swal("Помилка!", "Ви обрали минулу дату! Оберіть нову дату ", "error"); //sweet alert
 			return false;
 		}
+		
+		//check if not Sunday
+		 var d = new Date($("#datePickerManual").val());
+         var n = d.getDay();
+		 if(n == 0){
+		    swal("Помилка!", "Ви обрали неділю. Неділя вихідний ", "error"); //sweet alert
+			return false;
+		}
+		
+		//checks if not empty elevator input
+		if ($('#selElevator').val() == "false"){
+			swal("Помилка!", "Елеватор не обрано!", "error"); //sweet alert
+			return false;
+		}
+		
 		
 	    return true;
 	}
