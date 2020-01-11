@@ -24,6 +24,10 @@
    display:none;
 }
 
+.borderZ{
+	border: 1px solid red;border-radius:25px; padding:0.1em;
+}
+
 /*Class for taken and free dates     #00e600*/
 .taken{background-color:#ff471a; color:white; margin-bottom: 1em; margin-left:1em; padding:0.7em; border: 22px; cursor:not-allowed;} /* border:solid red 2px;padding:2em; */
 .free {background-color:#5cb85c; color:white; margin-bottom: 1em; margin-left:1em; padding:0.7em; border: 22px; cursor:pointer;} /* padding:2em; */

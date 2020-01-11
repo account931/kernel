@@ -143,7 +143,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	
 	
-	<!----------------- Div with Interval list (html-ed with ajax) ------------>
+	<!----------------- Div with Interval list (free/taken) (html-ed with ajax) ------------>
 	<div class="col-sm-12 col-xs-12" id="intervalList">
 
 	</div>
@@ -151,12 +151,15 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	
 	
-
+    </br>
 	
 	
 	<!----------------- Div with hidden form (where Admin sets date to loadOut, hour & minutes)  ------------>
 	<div class="col-sm-12 col-xs-12" id="formFinish"> 
-	    <div class="col-sm-12 col-xs-12 text-danger"><h3 id="selDate"></h3></div> <!-- this div to display selected date, hour, min, html-ed in js/datepicker_action.js -->
+	
+	    <div class="col-sm-12 col-xs-12 text-danger"><!-- this div to display selected date, hour, min, html-ed in js/datepicker_action.js -->
+		    <center><h3  class="borderZ" id="selDate"></h3></center>
+		</div> 
 	
 	    <?php $form = ActiveForm::begin(); ?>
 	
@@ -202,19 +205,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	<!------------- Loader for ajax waiting time ------------>
 	<div class="loader" id="loader"></div>
 	<!------------- Loader for ajax waiting time ------------>
-	
-	
-	<?php
-	//not used???
-	function crop($text, $tLenght=33){
-	   $length = $tLenght; //? $tLenght : 15; 
-	   $text1 = $text; 
-	   if(strlen($text1) > $length){
-		   $text1 = substr($text1, 0, $length) . "...";
-		} 
-	   return $text1;
-   }
-	?>
 	
 	
 </div>

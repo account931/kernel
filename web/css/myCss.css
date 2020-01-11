@@ -89,7 +89,10 @@
  background-color:#f2f2f2; /* #e6e6e6 #f2f2f2;*/
 }
 
-
+/* for unread emails */
+.boldX{
+	font-weight: bold;
+}
 
 
 

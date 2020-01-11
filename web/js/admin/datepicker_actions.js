@@ -1,7 +1,8 @@
+//contains 2nd ajax request
 (function(){ //START IIFE (Immediately Invoked Function Expression)
 $(document).ready(function(){
 	
-	//on clicking the button after the datepicker
+	//on clicking the OK button after the datepicker
 	$(document).on('click', '#getIntListBtn',  function() {
 		var date = $("#datePickerManual").val(); 
 		if(check_user_date_input()){ 
@@ -20,7 +21,7 @@ $(document).ready(function(){
 		//show selected date, hour and time 
 		var monthNames = ["", "Січня", "Лютого", "Березня", "Квітня", "Травня", "Липня", "Червня", "Серпня", "Вересня", "Жовтня", "Листопада", "Грудня"];
 		var selectedDate = $("#datePickerManual").val().split("-")[2] + " " + monthNames[parseInt($("#datePickerManual").val().split("-")[1])];
-		var textSel = "Ви обрали " + selectedDate + ". Час  " + this.getAttribute('data-inter') + "." + this.getAttribute("data-quarter") + "0";
+		var textSel = "<p class='border'>Ви обрали " + selectedDate + ". Час  " + this.getAttribute('data-inter') + "." + this.getAttribute("data-quarter") + "0</p><p><i class='fa fa-calendar-check-o' style='font-size:34px'></i></p>";
 		$("#selDate").stop().fadeOut("slow",function(){ $(this).html( textSel )}).fadeIn(2000);
 		
 	    //assign clicke value to formFinish
@@ -48,6 +49,7 @@ $(document).ready(function(){
 	
 	//sends ajax to InvoiceLoadOutController to get built list with free/taken intervals
 	function sendAjaxToGetIntervalsView(){
+	
 		
 		var unixSelected = new Date($("#datePickerManual").val()).getTime()/1000; //selected date in Unix, must have /1000
 		
@@ -63,7 +65,7 @@ $(document).ready(function(){
 			//passing Unix time of selected date and selected Elevator
             data: { 
 			    serverSelectedDateUnix: unixSelected,
-				serverSelectedElevator: unixSelected,
+				serverSelectedElevator: $('#selElevator').val()
 				
 			},
             success: function(data) {

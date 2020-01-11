@@ -5,10 +5,10 @@
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
 
-$this->title = 'My Messages';
+$this->title = 'Мої повідомлення';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-about">
+<div id="all" class="site-about animate-bottom">
     <h1><?= Html::encode($this->title) ?></h1>
 
 	
@@ -39,23 +39,23 @@ $this->params['breadcrumbs'][] = $this->title;
 		
 	} else {
 		
-		echo '<div class="col-sm-8 col-xs-12 text-success"> You have <b class="text-danger">'  . count($messagesCount) . ' </b>messages </div></hr>';
+		echo '<div class="col-sm-8 col-xs-12 text-success"> You have <b class="text-danger">'  . count($messagesCount) . ' </b>messages </div><hr>';
 		
 		//table headers
 		echo '<div class="col-sm-12 col-xs-12 list-group-item header-color">' .
 		       '<div class="col-sm-2 col-xs-2"> <b> From </b></div>' .
-		       '<div class="col-sm-2 col-xs-4"> <b> Date </b></div>' .
-			   '<div class="col-sm-8 col-xs-6"> <b> Text </b></div>' .
+		       '<div class="col-sm-4 col-xs-4"> <b> Date </b></div>' .
+			   '<div class="col-sm-6 col-xs-6"> <b> Text </b></div>' .
 			 '</div>';
 
 		$i = 0;
 		foreach($messages as $m){
 		    $i++;
 			
-			echo '<div class="col-sm-12 col-xs-12  list-group-item bg-success cursorX ' .($i%2 ? 'evenX':''). '" data-toggle="modal" data-target="#myModal' . $i . '">' .  //data-toggle="modal" data-target="#myModal' . $i .   for modal
+			echo '<div class="col-sm-12 col-xs-12  list-group-item mail bg-success cursorX ' .($m->m_status_read == '0' ? 'boldX ':' ')  .($i%2 ? 'evenX':''). '" data-toggle="modal" data-target="#myModal' . $i . '">' .  //data-toggle="modal" data-target="#myModal' . $i .   for modal
 			       '<div class="col-sm-2 col-xs-3 word-breakX">' . $m->users->email . '</div>' . //hasOne relation
-				   '<div class="col-sm-2 col-xs-4">' . $m->m_time .      '</div>' .
-				   '<div class="col-sm-8 col-xs-5">' . crop($m->m_text, 27) .   '</div>' .
+				   '<div class="col-sm-4 col-xs-4">' . $m->m_time .      '</div>' .
+				   '<div class="col-sm-6 col-xs-5">' . $messModel->crop($m->m_text, 27) .   '</div>' .
 				 '</div>';
 		?>
 
@@ -96,17 +96,12 @@ $this->params['breadcrumbs'][] = $this->title;
                   </div>
               </div>
            </div>
-          <!------------ End Modal --------------->
-		  
-		  
-		  
+          <!------------ End Modal ---------------> 
 		  
 		  
        <?php		
 				 
 		}
-		
-	
 	}
 	
 	
@@ -116,14 +111,6 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); 
 	
 	
-	function crop($text, $tLenght=33){
-	   $length = $tLenght; //? $tLenght : 15; 
-	   $text1 = $text; 
-	   if(strlen($text1) > $length){
-		   $text1 = substr($text1, 0, $length) . "...";
-		} 
-	   return $text1;
-   }
 	?>
 	
 	

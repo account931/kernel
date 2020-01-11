@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php echo Yii::$app->session->getFlash('statusOK'); ?>
     </div>
     <?php endif;?>
-   <!------ END FLASH  ----->
+   <!------ END FLASH  --------->
    
    
    
@@ -48,36 +48,34 @@ $this->params['breadcrumbs'][] = $this->title;
 		
 	<div class="col-sm-12 col-xs-12"></div>
 	
-	
-	<?php $form = ActiveForm::begin( 
-	    [ 'options' => ['class' => 'form-inline'],
-		'fieldConfig' => [
+	    <?php $form = ActiveForm::begin( 
+	       [ 'options' => ['class' => 'form-inline'],
+		   'fieldConfig' => [
                 //'enableError' => true ,
                 'template' => '<div class="col-sm-12">{label}</div>
 				              <div class="col-sm-6">{input}{error}</div>'
-                                ]
-		]); ?>
+           ]
+		 ]); ?>
 	
-    <div class="col-sm-4 col-xs-12">
-	<?= $form->field($model, 'user_id')->textInput(['value' => Yii::$app->user->identity->id, 'placeholder' => 'User ID']); ?>
-	</div>
+        <div class="col-sm-4 col-xs-12">
+	    <?= $form->field($model, 'user_id')->textInput(['value' => Yii::$app->user->identity->id, 'placeholder' => 'User ID']); ?>
+	    </div>
 	
-	<div class="col-sm-4 col-xs-12">
-    <?= $form->field($model, 'invoice_unique_id')->textInput([ 'placeholder' => 'Invoice ID']) ?> <!-- hiddenInput(['value'=> '', 'id' => 'some_id'])->label(false); -->
-    </div>
+	    <div class="col-sm-4 col-xs-12">
+        <?= $form->field($model, 'invoice_unique_id')->textInput([ 'placeholder' => 'Invoice ID']) ?> <!-- hiddenInput(['value'=> '', 'id' => 'some_id'])->label(false); -->
+        </div>
 	
-	<div class="col-sm-4 col-xs-12">
-    <?=$form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])->joinWith(['productname'])->all(),'balance_productName_id', 'productname.pr_name_name'),['prompt'=>'choose product']);?>
-    </div>
+	    <div class="col-sm-4 col-xs-12">
+        <?=$form->field($model, 'product_id')->dropDownList(ArrayHelper::map(Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])->joinWith(['productname'])->all(),'balance_productName_id', 'productname.pr_name_name'),['prompt'=>'choose product']);?>
+        </div>
 	
-	<div class="col-sm-4 col-xs-12">
-    <?= $form->field($model, 'product_wieght')->textInput(['placeholder' => 'вага в кг']) ?>
-    </div>
+	    <div class="col-sm-4 col-xs-12">
+        <?= $form->field($model, 'product_wieght')->textInput(['placeholder' => 'вага в кг']) ?>
+        </div>
 	
-	<div class="col-sm-4 col-xs-12">
-	<?= $form->field($model, 'user_date_unix')->textInput(['placeholder' => 'Unix']); ?>
-	</div>
-	
+	    <div class="col-sm-4 col-xs-12">
+	    <?= $form->field($model, 'user_date_unix')->textInput(['placeholder' => 'Unix']); ?>
+	    </div>
 	
 	</div>
 	

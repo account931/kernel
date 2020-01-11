@@ -62,5 +62,14 @@ class Messages extends \yii\db\ActiveRecord
       }
 	  
 	  
+	  //method to crop extra text
+	  public function crop($text, $tLenght=33){
+	      $length = $tLenght; //? $tLenght : 15; 
+	      $text1 = $text; 
+	      if(strlen($text1) > $length){
+		      $text1 = substr($text1, 0, $length) . "...";
+		  } 
+	      return $text1;
+     }
 	  
 }

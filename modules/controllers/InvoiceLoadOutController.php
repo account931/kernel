@@ -82,6 +82,7 @@ class InvoiceLoadOutController extends Controller
 			$thisInvoice = InvoiceLoadOut::find()->where(['id' => $model->id])->one(); //invoice ID, set to hidden form by js/invoice_load_out.js 
 			
 			//HERE SHOULD BE ADDITIONAL CHECK if THR DATE/TIME is still FREE!!!!!!!!!!!!!!!!----------------------------
+			//Check if free
 			
 			//assign fields
 			$thisInvoice->confirmed_by_admin = '1'; 
@@ -93,7 +94,7 @@ class InvoiceLoadOutController extends Controller
 			
 			if ($thisInvoice ->save(false)){
 				$model_1->sendMessage_LoadOut_Confirmed($thisInvoice, $model);
-			    Yii::$app->getSession()->setFlash('statusOK', "Заявкау успішно опрацьовано. Kористувачу відправленно повідомлення"); 
+			    Yii::$app->getSession()->setFlash('statusOK', "Заявку успішно опрацьовано. Kористувачу відправленно повідомлення"); 
 			    return $this->refresh();
            } else {
 			    //var_dump($model->getErrors());
@@ -160,15 +161,15 @@ class InvoiceLoadOutController extends Controller
 		$elevatorPost = Yii::$app->request->post('serverSelectedElevator'); 
 		
 		//!!!!!!!!! -- change {Where} to between + Where Elevator
-		$result = InvoiceLoadOut::find()
+		$result = InvoiceLoadOut::find()  
 		          ->orderBy ('id ASC') 
-		          ->where([ 'date_to_load_out' => $dayPost]) //->andWhere(['between', 'book_from_unix', strtotime($first1), strtotime($last1) ]) 
-			      ->andWhere(['elevator_id' => $elevatorPost]) 
+		          ->where([ 'date_to_load_out' => (int)$dayPost]) //->andWhere(['between', 'date_to_load_out', $dayPost, $dayPost - 86400 ])  //->where([ 'date_to_load_out' => $dayPost]) 
+			      ->andWhere(['elevator_id' => (int)$elevatorPost ]) 
 			      ->all(); 
-        
+		
 		
 		//date_default_timezone_set('Europe/Kiev');
-		$text = Yii::$app->formatter->format($dayPost, 'date') . "</br> JS-> " . $dayPost . " VS Php -> " . strtotime(date('1/10/2020 00:00:00')) . " - " . time() . " = " . strtotime("now") ;// . "</br>" . var_dump($result) ; 
+		$text = "<p>Elevator-> " . $elevatorPost ."</p>" . Yii::$app->formatter->format($dayPost, 'date') . "</br> JS-> " . $dayPost . " VS Php -> " . strtotime(date('1/10/2020 00:00:00')) . " - " . time() . " = " . strtotime("now") ;// . "</br>" . var_dump($result) ; 
 		//(date('m/d/Y h:i:s')
 		
 		$text.= "<div class='col-sm-12 col-xs-12'>delete me</div>";
@@ -270,7 +271,7 @@ class InvoiceLoadOutController extends Controller
 				 
 			   if($i == $bIntervals[$Next_i]){  //if have duplicate = Reserved/Reserved
 					DisplayReserved($i, null, $indexOf, $result, '00',  '30'); //1st Row  //DisplayReserved($iterator,$nextIterator,$indexOf,$result,$minutesStart,$minutesEnd)
-				       //second row
+				    //second row
 					$Next_indexOf = $indexOf + 1; //Take next row from Active Record result
 					DisplayReserved($i, $t, $indexOf+1, $result, '30',  '00');  //2nd Row //Reserved second Row
 				   }
@@ -300,7 +301,7 @@ class InvoiceLoadOutController extends Controller
                 
 			  
 			} else {  // End if(in_array($i, $bIntervals))  //if i does not exist in array (i.e it is FREE/FREE)
-			      $tt=$i+1;	
+			      $tt = $i + 1;	
 				//
 				
 				//1st FREE ROW
@@ -316,12 +317,7 @@ class InvoiceLoadOutController extends Controller
 	  // End Inject
 
 	 
-	 
-	 
-	 
-	 
-	 
-	 
+	
 	 
 	 
 	 return $text;

@@ -29,6 +29,7 @@ class AppAsset extends AssetBundle
 	    'js/loader.js',
 		 'https://code.jquery.com/ui/1.12.1/jquery-ui.js', //autocomplete JS
 		'js/admin/autocomplete.js', //autocomplete JS
+		'js/messages.js', //messages JS
 		
     ];
     public $depends = [

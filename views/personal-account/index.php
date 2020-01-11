@@ -5,7 +5,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Collapse;  //  Collapse (hide/show)
 
-$this->title = 'Personal Account';
+$this->title = 'особистий кабінет';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div id="all" class="site-about animate-bottom personal-account">
@@ -13,11 +13,11 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	<! -- Delete in production -->
 	<p class="text-danger small">Pretty URL + fix url for ajax in admin (display number of reg requestd)</p>
-	<p class="text-danger small">Admin layout in views/layouts + with admin assets only (js,css)</p>
     <! -- Delete in production -->
 	
     <p><i class="fa fa-drivers-license-o" style="font-size:14px"></i> Welcome, <?=Yii::$app->user->identity->username;?> </p>
-	<p> Your balance is : 
+	<hr>
+	<p> На Вашому балансі : 
 	    <?php
 		    //display user's balance
 		    if(!$balance){
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					echo "<div class='row'>";
 				    echo "<div class='col-sm-2 col-xs-5'><i class='fa fa-shopping-basket' style='font-size:16px'></i> " . 
 					                                            $k->productname->pr_name_name . ":</div>" . //hasOne relation
-						 "<div class='col-sm-1 col-xs-2'><b>" . $k->balance_amount_kg . "</b>" .        //weight
+						 "<div class='col-sm-1 col-xs-2'><b>" . $k->balance_amount_kg . "</b>" . " " .      //weight
 						                                        $k->productname->pr_name_measure  . "</div>";  //hasOne relation
 				    echo "</div>";
 			    }
@@ -89,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  ?>
             </div>
 			
-			<div class="col-sm-2 col-xs-6">
+			<div class="col-sm-2 col-xs-6 badge1 bb " data-badge="N/A"">
                 <?php		
                 $image = '<i class="fa fa-envelope-o" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX lavender'>" .

@@ -1,3 +1,4 @@
+//contains 1st ajax request
 window.invoiceIDX;
 
 (function(){ //START IIFE (Immediately Invoked Function Expression)
@@ -59,7 +60,7 @@ $(document).ready(function(){
 		  //build dropdown with elevators, var elevators is set in admin/views/load-out-index.php
 		  var dropdownElevators = "<select id='selElevator'><option selected value='false'>Оберіть елеватор</option>";
 		  for(i = 0; i < elevators.length; i++){
-			 dropdownElevators+= "<option value='" + elevators[i].e_id + "'>" + "Елеватор " + elevators[i].e_id + "<option>";
+			 dropdownElevators+= "<option value='" + elevators[i].e_id + "'>" + "Елеватор " + elevators[i].e_id + "</option>";
 		  }
 		  dropdownElevators+= "</select>";
 		

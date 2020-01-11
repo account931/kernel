@@ -5,6 +5,7 @@ use app\models\Balance;
 use app\models\User;
 use app\models\ProductName;
 use app\modules\models\Messages;
+use app\modules\models\InvoiceLoadIn;
 
 use Yii;
 
@@ -84,7 +85,11 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
           return $this->hasOne(ProductName::className(), ['pr_name_id' => 'product_id']); 
       }
 	  
-	  
+	  //hasMany
+	  public function getTabless(){
+          return $this->hasOne(InvoiceLoadIn::className(),['user_kontagent_id' => 'user_id']);
+      }
+
 	
 	 //my validation, checks if user is not taking more than he has
 	 public function validateWeight(){
@@ -132,11 +137,12 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 		$model = new Messages();
 		$model->m_sender_id = 1; //admin
 		$model->m_receiver_id = $i->user_id; 
+		//Yii::$app->formatter->locale = 'ru-RU';
 		$model->m_text = "<p>Dear user <b>". $i->users->first_name . "</b></p>" .//hasOne relation (gets username by ID)
 		                "<p>Ми отримали Ваш запит на вiдвантаження <b>" . $i->products->pr_name_name . "</b>" . //hasOne relation(gets product name by ID)
 						" у кількості  <b>" .$i->product_wieght . "</b> кг.</p>" .   //weight
 						"<p> Номер накладної <b> " . $i->invoice_unique_id . "</b>.</p>". 
-						"<p>Ваша заявка була свалено адміністратором. Ваша дата та час для відвантаження продукції <b>" . Yii::$app->formatter->format($i->date_to_load_out, 'date') . 
+						"<p>Ваша заявка була свалено адміністратором. Ваша дата та час для відвантаження продукції <b>" . Yii::$app->formatter->asDate($i->date_to_load_out, 'dd-MM-yyyy') . 
 						" " . $i->b_intervals . "." . $i->b_quarters . "0 </b>" . // 7.00, 9.30, etc
 						". Елеватор номер <b>" . $i->elevator_id . //elevator
 						"</b>.</p>" .
