@@ -113,7 +113,7 @@ use yii\helpers\Json;
    <div class="row"> 
        <center>
 	   
-	       <div class="col-sm-2 col-xs-6 badge1 bb " data-badge=""> <!-- badge -->
+	       <div class="col-sm-2 col-xs-6 mobile-padding badge1 bb " data-badge=""> <!-- badge -->
                 <?php		
                 $image = '<i class="fa fa-address-card-o" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
@@ -122,17 +122,25 @@ use yii\helpers\Json;
 				?>
            </div>
 	   
-	         <div class="col-sm-2 col-xs-6 badge1 bb" data-badge="4">
+	         <div class="col-sm-2 col-xs-6 mobile-padding badge1 bb" data-badge="4">
                 <?php		
-                $image = '<i class="fa fa-balance-scale " style="font-size:96px"></i>';	
+                $image = '<i class="fa fa-truck" style="font-size:96px"></i>';	   
                 echo "<div class='subfolder border shadowX lavender'>" .
 			        Html::a( $image ."<p>Запит вiдвантаження</p><br>" , ["/admin/invoice-load-out/index" ] , $options = ["title" => "Freight requests",]) . 
 		            "</div>";
                  ?>
             </div>
 	   
-	        
-			 <div class="col-sm-2 col-xs-6">
+	         <div class="col-sm-2 col-xs-6 mobile-padding badge1 bb" data-badge="4">
+                <?php		
+                $image = '<i class="fa fa-balance-scale" style="font-size:96px"></i>';	  
+                echo "<div class='subfolder border shadowX lavender'>" .
+			        Html::a( $image ."<p>Переоформлення</p><br>" , ["/admin/invoice-load-out/index" ] , $options = ["title" => "Transfer requests",]) . 
+		            "</div>";
+                 ?>
+            </div>
+			
+			 <div class="col-sm-2 col-xs-6 mobile-padding">
                 <?php		
                 $image = '<i class="fa fa-automobile" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
@@ -141,18 +149,18 @@ use yii\helpers\Json;
                  ?>
             </div>
 			
-			<div class="col-sm-2 col-xs-6">
+			<div class="col-sm-2 col-xs-6 mobile-padding">
                 <?php		
-                $image = '<i class="fa fa-area-chart" style="font-size:96px"></i>';	
+                $image = '<i class="fa fa-book" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Нова накладна</p><br>" , ["/admin/invoice-load-in/index",] , $options = ["title" => "New invoice",]) . 
+			        Html::a( $image ."<p>Нова накладна</p><br>" , ["/admin/invoice-load-in/create",] , $options = ["title" => "New invoice",]) . 
 		            "</div>";
                  ?>
             </div>
 			
-			<div class="col-sm-2 col-xs-6">
+			<div class="col-sm-2 col-xs-6 mobile-padding">
                 <?php		
-                $image = '<i class="fa fa-book" style="font-size:96px"></i>';	
+                $image = '<i class="fa fa-gg" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
 			        Html::a( $image ."<p>Новий товар</p><br>" , ["/site/login",] , $options = ["title" => "Add new product",]) . 
 		            "</div>";

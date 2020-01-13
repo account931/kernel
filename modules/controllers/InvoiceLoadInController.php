@@ -94,7 +94,7 @@ class InvoiceLoadInController extends Controller
 		$products = ProductName::find()->all(); 
 		$elevators = Elevators::find()->all(); //elevators for form dropdown
 		
-		$model->invoice_id = Yii::$app->security->generateRandomString(18); //invoiceID to form 
+		$model->invoice_id = Yii::$app->security->generateRandomString(5). "-" . time(); //invoiceID to form 
 		$model->unix = time();
 		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

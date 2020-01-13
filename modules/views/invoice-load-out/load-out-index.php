@@ -13,15 +13,24 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
 	
-   <!------ FLASH Message ----->
+   <!------ FLASH Message if OK ----->
    <?php if( Yii::$app->session->hasFlash('statusOK') ): ?>
     <div class="alert alert-success alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <?php echo Yii::$app->session->getFlash('statusOK'); ?>
     </div>
     <?php endif;?>
-   <!------ END FLASH  ----->
+   <!------ END FLASH if OK ----->
    
+   
+      <!------ FLASH Message if FAILS ----->
+   <?php if( Yii::$app->session->hasFlash('statusFAIL') ): ?>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <?php echo Yii::$app->session->getFlash('statusFAIL'); ?>
+    </div>
+    <?php endif;?>
+   <!------ END FLASH if FAILS ----->
 
 	
 	<!---- Image ----> 

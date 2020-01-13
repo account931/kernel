@@ -15,7 +15,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?>
 	<i class="fa fa-folder-open-o" style="font-size:34px"></i></h1>
+	<p>Зареєструвати надходження нового зерна від клієнта</p>
 	
+	
+	
+	<!--- Image -->
+	 <div class="row"> 
+         <center>
+	         <div class="col-sm-2 col-xs-6"> 
+             <?php		
+             $image = '<i class="fa fa-dropbox" style="font-size:46px"></i>';	
+             echo "<div class='subfolder border shadowX'>" .
+		     Html::a( $image ."<p></p><br>" , ["#"], $options = ["title" => "My transactions",]) . 
+		     "</div>"; 
+	         ?>
+            </div>
+	     </center>
+	</div></br>
 	
 	
 	<?php

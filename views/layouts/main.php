@@ -43,15 +43,15 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             //['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
+            ['label' => 'Про нас', 'url' => ['/site/about']],
             //['label' => 'Contact', 'url' => ['/site/contact']],
-			['label' => 'My account', 'url' => ['/personal-account/index'] ,'visible' => (!Yii::$app->user->isGuest)],
+			['label' => 'Мій кабінет', 'url' => ['/personal-account/index'] ,'visible' => (!Yii::$app->user->isGuest)],
 			['label' => 'Sign up', 'url' => ['/site/signup'] ,'visible' => (Yii::$app->user->isGuest)],
 			['label' => 'AdminPanel (delete)', 'url' => ['/admin/default/index']],
 			['label' => 'Вiдвантажити', 'url' => ['/invoice-load-out/load-out']],
-			['label' => 'Переоформити', 'url' => ['#']],
+			['label' => 'Переоформити', 'url' => ['/transfer-rights/transfer-right']],
 			['label' => 'Повiдомлення', 'url' => ['/messages/show-messages']],  
-			['label' => 'Транзакції (істроія)', 'url' => ['/transactions/mytransations']],
+			['label' => 'Історія', 'url' => ['/transactions/mytransations']],
 			
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]

@@ -63,6 +63,7 @@ class InvoiceLoadOutController extends Controller
      */
     public function actionIndex()
     {
+	   $finalCheckifFree = false;
 	   $model_1 = new InvoiceLoadOut();
 	   
        $requestsLoadOutCount = InvoiceLoadOut::find()->where(['confirmed_by_admin' => self::STATUS_PENDING]) -> all(); //for counting
@@ -81,25 +82,36 @@ class InvoiceLoadOutController extends Controller
 			 //finds the request to LoadOut started by the User, here finilize it by adding date to load, intervals, quarters and elevatpr number
 			$thisInvoice = InvoiceLoadOut::find()->where(['id' => $model->id])->one(); //invoice ID, set to hidden form by js/invoice_load_out.js 
 			
-			//HERE SHOULD BE ADDITIONAL CHECK if THR DATE/TIME is still FREE!!!!!!!!!!!!!!!!----------------------------
-			//Check if free
+			//Aditional final CHECK if THR DATE/TIME is still FREE!!
+			$finalCheckifFree = InvoiceLoadOut::find()
+			           ->where(['elevator_id' => $model->elevator_id])
+                       ->andWhere(['date_to_load_out' => $model->date_to_load_out])
+                       ->andWhere(['b_intervals' => $model->b_intervals])	
+                       ->andWhere(['b_quarters' => $model->b_quarters])						   
+			           -> all(); 
+			if($finalCheckifFree){
+				Yii::$app->getSession()->setFlash('statusFAIL', "На жаль, за цей час дату вже було зайнято. Оберіть іншую");
+                return $this->refresh();				
+			} else {
 			
-			//assign fields
-			$thisInvoice->confirmed_by_admin = '1'; 
-			$thisInvoice->confirmed_date_unix = $model->confirmed_date_unix;
-			$thisInvoice->date_to_load_out = $model->date_to_load_out;
-			$thisInvoice->b_intervals = $model->b_intervals;
-			$thisInvoice->b_quarters = $model->b_quarters;
-			$thisInvoice->elevator_id = $model->elevator_id;
+			    //assign fields
+			    $thisInvoice->confirmed_by_admin = '1'; 
+			    $thisInvoice->confirmed_date_unix = $model->confirmed_date_unix;
+			    $thisInvoice->date_to_load_out = $model->date_to_load_out;
+			    $thisInvoice->b_intervals = $model->b_intervals;
+			    $thisInvoice->b_quarters = $model->b_quarters;
+			    $thisInvoice->elevator_id = $model->elevator_id;
 			
-			if ($thisInvoice ->save(false)){
-				$model_1->sendMessage_LoadOut_Confirmed($thisInvoice, $model);
-			    Yii::$app->getSession()->setFlash('statusOK', "Заявку успішно опрацьовано. Kористувачу відправленно повідомлення"); 
-			    return $this->refresh();
-           } else {
-			    //var_dump($model->getErrors());
-			    Yii::$app->getSession()->setFlash('statusOK', "Error"); 
-		   }
+			    if ($thisInvoice ->save(false)){
+				    $model_1->sendMessage_LoadOut_Confirmed($thisInvoice, $model);
+			        Yii::$app->getSession()->setFlash('statusOK', "Заявку успішно опрацьовано. Kористувачу відправленно повідомлення"); 
+			        return $this->refresh();
+                } else {
+			       //var_dump($model->getErrors());
+			       Yii::$app->getSession()->setFlash('statusOK', "Error"); 
+		        }
+		   
+		   }//end else  !$finalCheckifFree
 		}
 		
 	   

@@ -44,11 +44,12 @@ AdminOnlyMainModuleAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-			['label' => 'User My account', 'url' => ['/personal-account/index'] ,'visible' => (!Yii::$app->user->isGuest)],
-			['label' => 'Sign up', 'url' => ['/site/signup'] ,'visible' => (Yii::$app->user->isGuest)],
+			['label' => 'Кабінет користувача', 'url' => ['/personal-account/index']],
+			//['label' => 'Sign up', 'url' => ['/site/signup'] ,'visible' => (Yii::$app->user->isGuest)],
 			['label' => 'AdminPanel', 'url' => ['/admin/default/index'] ],
 			['label' => 'Запити на реєстрацію', 'url' => ['/admin/admin-x/users-registration-requests']],
-			['label' => 'Запит на вiдвантаження', 'url' => ['/admin/invoice-load-out/index'] ],
+			['label' => 'Запит на вiдвантаження', 'url' => ['/admin/invoice-load-out/index'] ],  
+			['label' => 'Нова накладна', 'url' => ['/admin/invoice-load-in/create'] ],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

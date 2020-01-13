@@ -72,7 +72,7 @@
 
 .cursorX:hover {
 	background: #ddd; /*#f2f2f2;*/
-    opacity:0.9;	
+    /*opacity:0.9;*/
 }
 
 /* break words */
@@ -93,6 +93,21 @@
 .boldX{
 	font-weight: bold;
 }
+
+/* main account fa-fa icons*/
+.icon-x{
+	font-size: 196px;  color:red;
+}
+
+/* ---------------------------------------- Mobile */
+@media screen and (max-width: 480px) { 
+    .mobile-padding{
+		margin-bottom:1em;
+    }
+}
+
+
+
 
 
 

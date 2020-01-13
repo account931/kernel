@@ -99,7 +99,7 @@ class TransactionsController extends Controller
 				}
 			} 
 		}
-       // var_dump($queryTemp);
+		
 	   $query = $queryTemp;
 		
 		return $this->render('transactions-index', [

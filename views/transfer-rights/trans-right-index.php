@@ -5,47 +5,28 @@
 use yii\helpers\Html;
 use Yii;
 
-$this->title = 'Моя історія';
+$this->title = 'Переоформити';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div id="all" class="site-about animate-bottom">
-
-    
-	
     <h1><?= Html::encode($this->title) ?></h1>
-	
-	<div class="row">
-	
-	    <div class="col-sm-6 col-xs-12"><!-- left-->
-	
-	        <!--- Image -->
-	        <div class="row"> 
-                <center>
-	                <div class="col-sm-4 col-xs-6"> 
-                        <?php		
-                        $image = '<i class="fa fa-area-chart" style="font-size:56px"></i>';	
-                        echo "<div class='subfolder border shadowX'>" .
-		                Html::a( $image ."<p></p><br>" , ["#"], $options = ["title" => "My transactions",]) . 
-		                "</div>"; 
-	                    ?>
-                    </div>
-	            </center>
-	        </div></br>
-	
-	    </div><!-- left-->
+	<p>Переоформити зерно на іншого кристувача</p>
 	
 	
-	
-	   <div class="col-sm-6 col-xs-6"><!-- right -->
-	      <select>
-		    <option>Останній місяць</option>
-			<option>Останні 3 місяці</option>
-			<option>Останні півроку</option>
-		  </select>
-	  </div><!-- right -->
-    
-	</div><!-- row-->
-	
+	 <!--- Image -->
+	 <div class="row"> 
+         <center>
+	         <div class="col-sm-2 col-xs-6"> 
+             <?php		
+             $image = '<i class="fa fa-balance-scale" style="font-size:56px"></i>';	
+             echo "<div class='subfolder border shadowX'>" .
+		     Html::a( $image ."<p></p><br>" , ["#"], $options = ["title" => "My transactions",]) . 
+		     "</div>"; 
+	         ?>
+            </div>
+	     </center>
+	</div></br>
+
 	
 	
     <!-- Results -->
@@ -71,15 +52,13 @@ $this->params['breadcrumbs'][] = $this->title;
 		       if (isset($value['user_id'])){
 			       echo "<div class='bg-danger cursorX' data-toggle='modal' data-target='#myModalHistory" . $i ."'>" .   
 				         "<i class='fa fa-mail-reply' style='font-size:18px'></i><br>" .
-						 "<b>" .Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i') . "</b><br>" .
-       				     " Списано. " .
+       				     " Списано:" . Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i') . " " .
 				         //"User: " . $value['user_id'] . 
 				          //$value->users->email . //hasOne
 					      " Накладна:<b> " .$value['invoice_unique_id']  . "</b> " . 
 						  " Елеватор: <b> " .$value['elevator_id']  . "</b> " . 
 						  "<div class='bg-danger'>  - " . $value['product_wieght'] .  " кг " . $value->products->pr_name_name  . " </div>". //-1kg
 						  "</div>";
-				
 				
                    //text for modal				
 	               $text =  '<div class="row list-group-item">
@@ -89,25 +68,18 @@ $this->params['breadcrumbs'][] = $this->title;
 						  <div class="row list-group-item">
 						      <div class="col-sm-1 col-xs-3">Дата:</div>
 						      <div class="col-sm-4 col-xs-9">' .Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i') . '</div> 
-						  </div>
-						   <div class="row list-group-item">
-						      <div class="col-sm-1 col-xs-3">Списано :</div>
-						      <div class="col-sm-4 col-xs-9"> - ' . $value['product_wieght'] .  " кг " . $value->products->pr_name_name . '</div> 
 						  </div>';
-						  
 								
 		       //if it is from {invoice_load_in DB}	
 		       } else {
 			   
 				    echo "<div class='bg-success cursorX' data-toggle='modal' data-target='#myModalHistory" . $i ."'>" . 
 				        "<i class='fa fa-mail-forward' style='font-size:18px'></i><br>" .
-						"<b>" . Yii::$app->formatter->asDate($value->unix, 'dd-MM-yyyy H:i') . "</b><br>" .
-        				"Додано. " . 
+        				"Додано : " .Yii::$app->formatter->asDate($value->unix, 'dd-MM-yyyy H:i'). " " .
 				        "Накладна:<b>  " . $value['invoice_id'] . " </b>" .  
 						" Елеватор: <b> " .$value['elevator_id']  . "</b> " . 
 						"<div class='bg-success'>  + " . $value['product_wight'] .  " кг " . $value->products->pr_name_name  . " </div>". //-1kg
 						"</div>";
-				
 				
                    //text for modal				
 	               $text =  '<div class="row list-group-item">
@@ -117,10 +89,6 @@ $this->params['breadcrumbs'][] = $this->title;
                          <div class="row list-group-item">
 						      <div class="col-sm-1 col-xs-3">Дата:</div>
 						      <div class="col-sm-4 col-xs-9">' .Yii::$app->formatter->asDate($value->unix, 'dd-MM-yyyy H:i') . '</div> 
-						  </div>
-                           <div class="row list-group-item">
-						      <div class="col-sm-1 col-xs-3">Додано :</div>
-						      <div class="col-sm-4 col-xs-9"> + ' . $value['product_wight'] .  " кг " . $value->products->pr_name_name . '</div> 
 						  </div>';						  
 
 		       }

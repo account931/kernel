@@ -5,7 +5,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Collapse;  //  Collapse (hide/show)
 
-$this->title = 'особистий кабінет';
+$this->title = 'Мій кабінет';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div id="all" class="site-about animate-bottom personal-account">
@@ -71,34 +71,34 @@ $this->params['breadcrumbs'][] = $this->title;
    <div class="row"> 
        <center>
 	   
-	       <div class="col-sm-2 col-xs-6">
+	       <div class="col-sm-2 col-xs-6 mobile-padding">
                 <?php		
-                $image = '<i class="fa fa-address-card-o" style="font-size:96px"></i>';	
+                $image = '<i class="fa fa-truck" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
 			        Html::a( $image ."<p>Вiдвантажити</p><br>", ["/invoice-load-out/load-out" ] , $options = ["title" => "Load out",]) . 
 		            "</div>"; 
 				?>
            </div>
 	   
-	       <div class="col-sm-2 col-xs-6">
+	       <div class="col-sm-2 col-xs-6 mobile-padding">
                 <?php		
                 $image = '<i class="fa fa-balance-scale" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX lavender'>" .
-			        Html::a( $image ."<p>Переоформити</p><br>" , ["/site/login" ], $options = ["title" => "Renew",]) . 
+			        Html::a( $image ."<p>Переоформити</p><br>" , ["/transfer-rights/transfer-right" ], $options = ["title" => "transfer rights",]) . 
 		            "</div>";
                  ?>
             </div>
 			
-			<div class="col-sm-2 col-xs-6 badge1 bb " data-badge="N/A"">
+			<div class="col-sm-2 col-xs-6 mobile-padding badge1 bb" data-badge="N/A"">
                 <?php		
                 $image = '<i class="fa fa-envelope-o" style="font-size:96px"></i>';	
-                echo "<div class='subfolder border shadowX lavender'>" .
+                echo "<div class='subfolder border shadowX'>" .
 			        Html::a( $image ."<p>Повiдомлення</p><br>" , ["/messages/show-messages" ], $options = ["title" => "messages",]) . 
 		            "</div>";
                  ?>
             </div>
 			
-	        <div class="col-sm-2 col-xs-6">
+	        <div class="col-sm-2 col-xs-6 mobile-padding">
                 <?php		
                 $image = '<i class="fa fa-automobile" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX lavender'>" .
@@ -108,16 +108,16 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 	   
 	        
-			 <div class="col-sm-2 col-xs-6">
+			 <div class="col-sm-2 col-xs-6 mobile-padding">
                 <?php		
                 $image = '<i class="fa fa-area-chart" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Транзакції</p><br>" , ["/transactions/mytransations"], $options = ["title" => "History",]) . 
+			        Html::a( $image ."<p>Історія</p><br>" , ["/transactions/mytransations"], $options = ["title" => "History",]) . 
 		            "</div>";
                  ?>
             </div>
 			
-			<div class="col-sm-2 col-xs-6">
+			<div class="col-sm-2 col-xs-6 mobile-padding">
                 <?php		
                 $image = '<i class="fa fa-comments-o" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
