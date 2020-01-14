@@ -70,11 +70,10 @@ $(document).ready(function(){
 		        '<input type="button"  value="<<" id="prevDay" class="btn btn-info"/>' +
                 ' <input type="button"  value=" Calendar" id="datepicker2" class="btn btn-danger"/>' +    
                 ' <input type="button"  value=">>" id="nextDay" class="btn btn-success"/><br><br>' +
-				'<p>DatePicker: <input type="text" id="datepicker"></p>' +
 				'<p>Manual Date: <input type="date" id="datePickerManual"/></p>' + //datePicker calendar -> TRUE here
 				'<p>Елеватор: ' + dropdownElevators + '</p>' + //elevator  
-				'<p><button type="button" id="getIntListBtn" class="btn">Ok</button></p>' //button to send ajax
-	            '</div>';
+				'<p><button type="button" id="getIntListBtn" class="btn btn-primary">Ok</button></p>' //button to send ajax
+	            '</div><br>';
 				
 		  //build selected invoice info + var calendar
 		  var textX = '<div class="col-sm-12 col-xs-12"><h3><center>Запит <i class="fa fa-briefcase" style="font-size:31px"></i></center></h3> </div>' + 

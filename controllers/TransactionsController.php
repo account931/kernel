@@ -67,8 +67,8 @@ class TransactionsController extends Controller
     {
 		
 		//$query = InvoiceLoadOut::find()->where(['user_id' => Yii::$app->user->identity->id])->joinWith(['tabless'])->all(); 
-		$query1 = InvoiceLoadOut::find()->where(['user_id' => Yii::$app->user->identity->id])->all(); 
-		$query2 = InvoiceLoadIn::find()->where(['user_kontagent_id' => Yii::$app->user->identity->id])->all(); 
+		$query1 = InvoiceLoadOut::find()->orderBy ('id ASC')->where(['user_id' => Yii::$app->user->identity->id])->all(); 
+		$query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => Yii::$app->user->identity->id])->all(); 
 		$queryTemp = array_merge($query1, $query2);
 		
 		
@@ -99,9 +99,9 @@ class TransactionsController extends Controller
 				}
 			} 
 		}
-		
-	   $query = $queryTemp;
-		
+	   
+	   $query = array_reverse($queryTemp); //new comes first
+	   		
 		return $this->render('transactions-index', [
 		      'query' => $query, 
 	    ]);

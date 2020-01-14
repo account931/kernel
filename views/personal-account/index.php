@@ -17,54 +17,19 @@ $this->params['breadcrumbs'][] = $this->title;
 	
     <p><i class="fa fa-drivers-license-o" style="font-size:14px"></i> Welcome, <?=Yii::$app->user->identity->username;?> </p>
 	<hr>
+	
 	<p> На Вашому балансі : 
+	
 	    <?php
-		    //display user's balance
-		    if(!$balance){
-			    echo " <b>0</b> <i>(you seem to have nothing on your balance so far).</i>";
-				
-		    } else {
-		        
-		        foreach ($balance as $k){
-					echo "<div class='row'>";
-				    echo "<div class='col-sm-2 col-xs-5'><i class='fa fa-shopping-basket' style='font-size:16px'></i> " . 
-					                                            $k->productname->pr_name_name . ":</div>" . //hasOne relation
-						 "<div class='col-sm-1 col-xs-2'><b>" . $k->balance_amount_kg . "</b>" . " " .      //weight
-						                                        $k->productname->pr_name_measure  . "</div>";  //hasOne relation
-				    echo "</div>";
-			    }
-				
-			}
+		   //display user's balance  
+	       echo \app\componentsX\views\user\PersonalAccount::showUserBalance($balance);
 		?>
 	</p>
 
     <?php
-  //Collapse widget
-   echo Collapse::widget([
-    'items' => [
-        [
-            'label' => 'Ваш аккаунт',
-            'content' => '   
-                        <div class="col-lg-offset-1" style="color:;">
-						 <i class="fa fa-address-card-o" style="font-size:36px"></i></br>
-                         <p><b>Деталі Вашаго аккаунту</b>.</p>
-						 <p>Username: '. Yii::$app->user->identity->username . '</p>
-						 <p>Email: '. Yii::$app->user->identity->email . '</p>
-						 <p>Name: '. Yii::$app->user->identity->first_name . '</p>
-						 <p>Last name: '. Yii::$app->user->identity->last_name . '</p>
-						 <p>Company: '. Yii::$app->user->identity->company_name . '</p>
-						 <p>Phone: '. Yii::$app->user->identity->phone_number . '</p>
-						 <p>Address: '. Yii::$app->user->identity->address . '</p>
-                       </div>',
-            // to  be  this  block open  by  default de-comment  the  following 
-            /*'contentOptions' => [
-                'class' => 'in'
-            ]*/  
-          ], 
-	  ]
-  ]);
-  // End Collapse widget
-  ?>
+	//Collapse widget with user's info    
+	echo \app\componentsX\views\user\PersonalAccount::showCollapsedUserInfo();
+    ?>
   
   
    <!-- Personal account menu items -->

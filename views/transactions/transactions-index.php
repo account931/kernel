@@ -61,6 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	    <div class="col-sm-12 col-xs-12"> 
 	    <?php 
+		//date_default_timezone_set('Europe/Kiev');
 	    $i = 0;
 	    //iterate over merged and manually sorted array
 	    foreach($query as $key=>$value){
@@ -70,9 +71,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		       //if it is from {invoice_load_out DB} use field {invoice_unique_id}
 		       if (isset($value['user_id'])){
 			       echo "<div class='bg-danger cursorX' data-toggle='modal' data-target='#myModalHistory" . $i ."'>" .   
-				         "<i class='fa fa-mail-reply' style='font-size:18px'></i><br>" .
-						 "<b>" .Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i') . "</b><br>" .
-       				     " Списано. " .
+				         "<i class='fa fa-mail-reply' style='font-size:18px'></i><br>" . 
+						 "<b>" . date("d-m-Y H:i:s", $value->date_to_load_out) . "</b><br>".
+						 //"<b>" .Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i:s') . "</b><br>" .
+       				     " Списано. " . //Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i:s ') . "<br>" .
 				         //"User: " . $value['user_id'] . 
 				          //$value->users->email . //hasOne
 					      " Накладна:<b> " .$value['invoice_unique_id']  . "</b> " . 
@@ -101,7 +103,8 @@ $this->params['breadcrumbs'][] = $this->title;
 			   
 				    echo "<div class='bg-success cursorX' data-toggle='modal' data-target='#myModalHistory" . $i ."'>" . 
 				        "<i class='fa fa-mail-forward' style='font-size:18px'></i><br>" .
-						"<b>" . Yii::$app->formatter->asDate($value->unix, 'dd-MM-yyyy H:i') . "</b><br>" .
+						//"<b>" . Yii::$app->formatter->asDate($value->unix, 'dd-MM-yyyy H:i') . "</b><br>" .
+						"<b>" . date("d-m-Y H:i:s", $value->unix) . "</b><br>".
         				"Додано. " . 
 				        "Накладна:<b>  " . $value['invoice_id'] . " </b>" .  
 						" Елеватор: <b> " .$value['elevator_id']  . "</b> " . 

@@ -90,7 +90,7 @@ class InvoiceLoadInController extends Controller
     {
         $model = new InvoiceLoadIn();
 		
-		$allUsers = User::find()->orderBy ('id DESC')->all(); //users list for rofm autocomplete
+		$allUsers = User::find()->orderBy ('id DESC')->all(); //users list for form autocomplete
 		$products = ProductName::find()->all(); 
 		$elevators = Elevators::find()->all(); //elevators for form dropdown
 		

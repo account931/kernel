@@ -82,36 +82,47 @@ class InvoiceLoadOutController extends Controller
 			 //finds the request to LoadOut started by the User, here finilize it by adding date to load, intervals, quarters and elevatpr number
 			$thisInvoice = InvoiceLoadOut::find()->where(['id' => $model->id])->one(); //invoice ID, set to hidden form by js/invoice_load_out.js 
 			
-			//Aditional final CHECK if THR DATE/TIME is still FREE!!
-			$finalCheckifFree = InvoiceLoadOut::find()
+			//Aditional final check if DATE/TIME is still free (if someone has not taken this time while we were booking)
+			$checkIfFree_date = InvoiceLoadOut::find()
 			           ->where(['elevator_id' => $model->elevator_id])
                        ->andWhere(['date_to_load_out' => $model->date_to_load_out])
                        ->andWhere(['b_intervals' => $model->b_intervals])	
                        ->andWhere(['b_quarters' => $model->b_quarters])						   
-			           -> all(); 
-			if($finalCheckifFree){
-				Yii::$app->getSession()->setFlash('statusFAIL', "На жаль, за цей час дату вже було зайнято. Оберіть іншую");
+			           ->one(); 
+			if($checkIfFree_date){
+				Yii::$app->getSession()->setFlash('statusFAIL', "На жаль, за цей час дату вже було зайнято. Оберіть іншую дату.");
                 return $this->refresh();				
-			} else {
+			} 
 			
-			    //assign fields
-			    $thisInvoice->confirmed_by_admin = '1'; 
-			    $thisInvoice->confirmed_date_unix = $model->confirmed_date_unix;
-			    $thisInvoice->date_to_load_out = $model->date_to_load_out;
-			    $thisInvoice->b_intervals = $model->b_intervals;
-			    $thisInvoice->b_quarters = $model->b_quarters;
-			    $thisInvoice->elevator_id = $model->elevator_id;
+
+			//Aditional final check if someone has not edited/proceeded this invouce while we were booking)
+			$checkIfFreeInvoice = InvoiceLoadOut::find()->where(['id' => $model->id ])->one(); 
+			if( isset($checkIfFreeInvoice->confirmed_by_admin) && $checkIfFreeInvoice->confirmed_by_admin == '1'){
+				//if(strcmp($checkIfFree_invoice->confirmed_by_admin, '1') == 0){
+				Yii::$app->getSession()->setFlash('statusFAIL', "На жаль, за цей час цю накладну вже було опрацьовано. Оберіть іншую накладно.");
+                return $this->refresh();				
+			}
 			
-			    if ($thisInvoice ->save(false)){
-				    $model_1->sendMessage_LoadOut_Confirmed($thisInvoice, $model);
-			        Yii::$app->getSession()->setFlash('statusOK', "Заявку успішно опрацьовано. Kористувачу відправленно повідомлення"); 
-			        return $this->refresh();
-                } else {
-			       //var_dump($model->getErrors());
-			       Yii::$app->getSession()->setFlash('statusOK', "Error"); 
-		        }
+				
+	
+			
+			//assign fields from InvoiceLoadOut_Just_Admin_Form form
+			$thisInvoice->confirmed_by_admin = '1'; 
+			$thisInvoice->confirmed_date_unix = $model->confirmed_date_unix;
+			$thisInvoice->date_to_load_out = $model->date_to_load_out;
+			$thisInvoice->b_intervals = $model->b_intervals;
+			$thisInvoice->b_quarters = $model->b_quarters;
+			$thisInvoice->elevator_id = $model->elevator_id;
+			
+			if ($thisInvoice ->save(false)){
+				$model_1->sendMessage_LoadOut_Confirmed($thisInvoice, $model);
+			    Yii::$app->getSession()->setFlash('statusOK', "Заявку успішно опрацьовано. Kористувачу відправленно повідомлення"); 
+			    return $this->refresh();
+            } else {
+			   //var_dump($model->getErrors());
+			   Yii::$app->getSession()->setFlash('statusOK', "Error"); 
+		    }
 		   
-		   }//end else  !$finalCheckifFree
 		}
 		
 	   
@@ -262,10 +273,22 @@ class InvoiceLoadOutController extends Controller
 		
      $text.= "<div class='col-sm-12 col-xs-12'> Count=> " . count($bIntervals) . "</div>";  //just test, EREASE IT!!!!!
 	 
+	 date_default_timezone_set("Europe/Kiev");
 	 
+	 //fixing start hour, i.e if u selected today in calendar, it will build intervals from current hour only
+	 $that_date  = time(); //unixTime now
+     $first_hour = $that_date - ($that_date % (60*60*24)); //unixTime of now at 00:00:00
+	 $text.=  "<br>form: " . $dayPost . " first_hour: " . $first_hour ."<br>" ; //JUST TEST, ERASE
 	 
+	 if($dayPost == $first_hour){
+	     $startHour = date("H") + 1; //start from current hour
+	 } else {
+		 $startHour = 8;
+	 }
+	 $start = $startHour;
+	 //
 	 
-	 for($i = 8; $i < 20; $i++){
+	 for($i = $start; $i < 20; $i++){
              //if time exists in array  $bIntervals, displays taken
              if(in_array($i, $bIntervals)){ 
 			     $indexOf = array_search($i, $bIntervals); // find the indexOf of $i, which exists in array to use {$rowF[$indexOf]['b_booker'].}

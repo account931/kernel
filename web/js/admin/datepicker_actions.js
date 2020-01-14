@@ -104,7 +104,7 @@ $(document).ready(function(){
 	function check_user_date_input() {
         //checks if not empty date input
 		if ($("#datePickerManual").val() == ""){
-			swal("Помилка!", "Ви не вибрали дату!", "error"); //sweet alert
+			swal("Помилка!", "Ви не обрали дату!", "error"); //sweet alert
 			return false;
 		}
 		
