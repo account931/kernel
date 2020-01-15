@@ -66,13 +66,58 @@ class TransactionsController extends Controller
     public function actionMytransations()
     {
 		
-		//$query = InvoiceLoadOut::find()->where(['user_id' => Yii::$app->user->identity->id])->joinWith(['tabless'])->all(); 
-		$query1 = InvoiceLoadOut::find()->orderBy ('id ASC')->where(['user_id' => Yii::$app->user->identity->id])->all(); 
-		$query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => Yii::$app->user->identity->id])->all(); 
-		$queryTemp = array_merge($query1, $query2);
+		 //find transaction for all period (if there is no $_GET['period'])
+		 if (!Yii::$app->getRequest()->getQueryParam('period')){
+		    //$query = InvoiceLoadOut::find()->where(['user_id' => Yii::$app->user->identity->id])->joinWith(['tabless'])->all(); 
+		    $query1 = InvoiceLoadOut::find()->orderBy ('id ASC')->where(['user_id' => Yii::$app->user->identity->id])->all(); 
+		    $query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => Yii::$app->user->identity->id])->all(); 
+		    
+		 }
 		
 		
-		
+		 //find transaction for current month only (if there is $_GET['currentMonth'])
+         if (Yii::$app->getRequest()->getQueryParam('period') == "currentMonth"){
+			$query1 = InvoiceLoadOut::find()->orderBy ('id ASC')->where(['user_id' => Yii::$app->user->identity->id])
+			         ->andWhere(['between', 'user_date_unix', strtotime(date('Y-m-01 00:00:00')), time() ])  //time()->current Unix, strtotime(date('Y-m-01 00:00:00')) -> unix of first day of current month
+			         ->all(); 
+				 
+		    $query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => Yii::$app->user->identity->id])
+			        ->andWhere(['between', 'unix', strtotime(date('Y-m-01 00:00:00')), time() ])  
+			        ->all(); 
+		 }
+		 
+		 //find transaction for previous month only (if there is $_GET['lastMonth'])
+         if (Yii::$app->getRequest()->getQueryParam('period') == "lastMonth"){
+			$startLastMonth = mktime(0, 0, 0, date("m") - 1, 1, date("Y")); //Unix of 1st day of last month
+            $endLastMonth = mktime(0, 0, 0, date("m"), 0, date("Y"));       //Unix of 1ast day of last month
+
+			$query1 = InvoiceLoadOut::find()->orderBy ('id ASC')->where(['user_id' => Yii::$app->user->identity->id])
+			         ->andWhere(['between', 'user_date_unix', $startLastMonth, $endLastMonth  ])  
+			         ->all(); 
+				 
+		    $query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => Yii::$app->user->identity->id])
+			        ->andWhere(['between', 'unix', $startLastMonth, $endLastMonth  ])  
+			        ->all(); 
+		 }
+		 
+		 
+		 //find transaction for last 6 month (if there is $_GET['last_6_Month'])
+         if (Yii::$app->getRequest()->getQueryParam('period') == "last_6_Month"){
+			$startLastMonth = mktime(0, 0, 0, date("m") - 6, 1, date("Y")); //Unix of 1st day of the  month -6
+
+			$query1 = InvoiceLoadOut::find()->orderBy ('id ASC')->where(['user_id' => Yii::$app->user->identity->id])
+			         ->andWhere(['between', 'user_date_unix', $startLastMonth, time() ])  
+			         ->all(); 
+				 
+		    $query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => Yii::$app->user->identity->id])
+			        ->andWhere(['between', 'unix', $startLastMonth, time() ])  
+			        ->all(); 
+		 }
+		 
+		 
+		 
+		 $queryTemp = array_merge($query1, $query2);
+		 
 		//sort merged array by unixTime from 2 arrays (InvoiceLoadOut::date_to_load_out/InvoiceLoadIn::unix)
 		$query = array();
 		for($i = 0; $i < count($queryTemp); $i++){

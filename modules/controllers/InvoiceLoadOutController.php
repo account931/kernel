@@ -280,8 +280,8 @@ class InvoiceLoadOutController extends Controller
      $first_hour = $that_date - ($that_date % (60*60*24)); //unixTime of now at 00:00:00
 	 $text.=  "<br>form: " . $dayPost . " first_hour: " . $first_hour ."<br>" ; //JUST TEST, ERASE
 	 
-	 if($dayPost == $first_hour){
-	     $startHour = date("H") + 1; //start from current hour
+	 if($dayPost == $first_hour && ( ((date("H") + 1) > 8) || ((date("H") + 1) < 20)) ){ //if current hour is between 8 -20
+	       $startHour = date("H") + 1; //start from current hour
 	 } else {
 		 $startHour = 8;
 	 }

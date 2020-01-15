@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use Yii;
 
 $this->title = 'Моя історія';
@@ -36,11 +37,17 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	
 	
-	   <div class="col-sm-6 col-xs-6"><!-- right -->
-	      <select>
-		    <option>Останній місяць</option>
-			<option>Останні 3 місяці</option>
-			<option>Останні півроку</option>
+	   <div class="col-sm-6 col-xs-6"><!-- right div ith DropDown -->
+	      <select id="dropdownnn"><!-- triggered with js -->
+			<?php  
+             $selectStatus = 'selected="selected"'; 			
+			 echo '<option value="' . Url::to(["transactions/mytransations"]) . '"' . ((!isset($_GET['period'])) ? $selectStatus:'')  . '> За весь час </option>';
+             echo '<option value="' . Url::to(["transactions/mytransations", "period" => "currentMonth"]) . '"' . ((isset($_GET['period']) && $_GET['period'] == "currentMonth") ? $selectStatus:'')  . '> Поточний місяць </option>';
+             echo '<option value="' . Url::to(["transactions/mytransations", "period" => "lastMonth"])    . '"' . ((isset($_GET['period']) && $_GET['period'] == "lastMonth") ? $selectStatus:'')  . '> Попередній місяць </option>';
+             echo '<option value="' . Url::to(["transactions/mytransations", "period" => "last_6_Month"]) . '"' . ((isset($_GET['period']) && $_GET['period'] == "last_6_Month") ? $selectStatus:'')  . '> Останні півроку </option>';		 
+			?>
+
+
 		  </select>
 	  </div><!-- right -->
     
@@ -55,7 +62,21 @@ $this->params['breadcrumbs'][] = $this->title;
 		
 	} else {
 		
-		echo '<div class="col-sm-8 col-xs-12 text-success"> У Вас  <b class="text-danger">'  . count($query) . ' </b> транзакцій </div><hr>';
+		//define $period
+		if (!Yii::$app->getRequest()->getQueryParam('period')){
+			$period = ' за весь час';
+		}
+		if (Yii::$app->getRequest()->getQueryParam('period') == "currentMonth"){
+			$period = ' за поточний місяць';
+		}
+		if (Yii::$app->getRequest()->getQueryParam('period') == "lastMonth"){
+			$period = ' за минулий місяць';
+		}
+		if (Yii::$app->getRequest()->getQueryParam('period') == "last_6_Month"){
+			$period = ' за останнні 6 місяців';
+		}
+			
+		echo '<div class="col-sm-8 col-xs-12 text-success"> У Вас  <b class="text-danger">'  . count($query) . ' </b> транзакцій ' . $period  . '</div><hr>';
 	
 	?>
 	
@@ -72,13 +93,14 @@ $this->params['breadcrumbs'][] = $this->title;
 		       if (isset($value['user_id'])){
 			       echo "<div class='bg-danger cursorX' data-toggle='modal' data-target='#myModalHistory" . $i ."'>" .   
 				         "<i class='fa fa-mail-reply' style='font-size:18px'></i><br>" . 
-						 "<b>" . date("d-m-Y H:i:s", $value->date_to_load_out) . "</b><br>".
+						 "<b>" . date("d-m-Y H:i:s", $value->user_date_unix) . "</b><br>".  //unix hen user make request
 						 //"<b>" .Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i:s') . "</b><br>" .
        				     " Списано. " . //Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i:s ') . "<br>" .
-				         //"User: " . $value['user_id'] . 
 				          //$value->users->email . //hasOne
 					      " Накладна:<b> " .$value['invoice_unique_id']  . "</b> " . 
 						  " Елеватор: <b> " .$value['elevator_id']  . "</b> " . 
+						  "Відвантаження: <b>" . date("d-m-Y H:i:s", $value->date_to_load_out) . "</b>" .
+						  " Статус: OK" .
 						  "<div class='bg-danger'>  - " . $value['product_wieght'] .  " кг " . $value->products->pr_name_name  . " </div>". //-1kg
 						  "</div>";
 				

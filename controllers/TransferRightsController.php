@@ -7,8 +7,8 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\modules\models\InvoiceLoadOut;
-use app\modules\models\InvoiceLoadIn;
+use app\models\TransferRights;
+
 
 class TransferRightsController extends Controller
 {
@@ -66,7 +66,8 @@ class TransferRightsController extends Controller
     public function actionTransferRight()
     {
 		
-		$model = "";
+		$model = new TransferRights();
+		
 		
 		return $this->render('trans-right-index', [
 		      'model' => $model, 
