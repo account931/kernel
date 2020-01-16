@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use yii\helpers\Json;
 use Yii;
 
 $this->title = 'Переоформити';
@@ -12,6 +13,28 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 	<p>Переоформити зерно на іншого користувача</p>
 	
+	
+	<!------ FLASH Message ----->
+   <?php if( Yii::$app->session->hasFlash('statusOK') ): ?>
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <?php echo Yii::$app->session->getFlash('statusOK'); ?>
+    </div>
+    <?php endif;?>
+   <!------ END FLASH  --------->
+   
+   
+   
+   <!------ FLASH Message ----->
+   <?php if( Yii::$app->session->hasFlash('statusFail') ): ?>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <?php echo Yii::$app->session->getFlash('statusFail'); ?>
+    </div>
+    <?php endif;?>
+   <!------ END FLASH  --------->
+   
+   
 	
 	 <!--- Image -->
 	 <div class="row"> 
@@ -25,10 +48,19 @@ $this->params['breadcrumbs'][] = $this->title;
 	         ?>
             </div>
 	     </center>
-	</div></br>
+	</div></br><hr>
 
 	
-	
+	<?php
+	//passing php obj to autocomplete.js
+    $this->registerJs(
+           "var usersX2 = ".Json::encode($allUsers).";", 
+           yii\web\View::POS_HEAD, 
+           'calender-events-script3'
+     );
+	 ?>
+	 
+	 
 	
 	<?= $this->render('_form', [
         'model' => $model,

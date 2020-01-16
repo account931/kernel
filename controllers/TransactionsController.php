@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\modules\models\InvoiceLoadOut;
 use app\modules\models\InvoiceLoadIn;
+use app\models\TransferRights;
 
 class TransactionsController extends Controller
 {
@@ -71,6 +72,7 @@ class TransactionsController extends Controller
 		    //$query = InvoiceLoadOut::find()->where(['user_id' => Yii::$app->user->identity->id])->joinWith(['tabless'])->all(); 
 		    $query1 = InvoiceLoadOut::find()->orderBy ('id ASC')->where(['user_id' => Yii::$app->user->identity->id])->all(); 
 		    $query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => Yii::$app->user->identity->id])->all(); 
+			$query3 = TransferRights::find()->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])->all();
 		    
 		 }
 		
@@ -84,6 +86,11 @@ class TransactionsController extends Controller
 		    $query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => Yii::$app->user->identity->id])
 			        ->andWhere(['between', 'unix', strtotime(date('Y-m-01 00:00:00')), time() ])  
 			        ->all(); 
+					
+			 $query3 = TransferRights::find() ->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])
+			        ->andWhere(['between', 'unix_time', strtotime(date('Y-m-01 00:00:00')), time() ])  
+			        ->all();
+					
 		 }
 		 
 		 //find transaction for previous month only (if there is $_GET['lastMonth'])
@@ -97,6 +104,10 @@ class TransactionsController extends Controller
 				 
 		    $query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => Yii::$app->user->identity->id])
 			        ->andWhere(['between', 'unix', $startLastMonth, $endLastMonth  ])  
+			        ->all(); 
+					
+			$query3= TransferRights::find() ->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])
+			        ->andWhere(['between', 'unix_time', $startLastMonth, $endLastMonth  ])  
 			        ->all(); 
 		 }
 		 
@@ -112,11 +123,15 @@ class TransactionsController extends Controller
 		    $query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => Yii::$app->user->identity->id])
 			        ->andWhere(['between', 'unix', $startLastMonth, time() ])  
 			        ->all(); 
+					
+			$query3 = TransferRights::find() ->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])
+			        ->andWhere(['between', 'unix_time', $startLastMonth, time() ])  
+			        ->all(); 
 		 }
 		 
 		 
 		 
-		 $queryTemp = array_merge($query1, $query2);
+		 $queryTemp = array_merge($query1, $query2, $query3);
 		 
 		//sort merged array by unixTime from 2 arrays (InvoiceLoadOut::date_to_load_out/InvoiceLoadIn::unix)
 		$query = array();
@@ -124,15 +139,21 @@ class TransactionsController extends Controller
 			
 			
 			for($j = 0; $j < count($queryTemp)/* - $i*/; $j++){
-				if(isset($queryTemp[$j]['user_id'])){
-				   $key = 'date_to_load_out';
-			    } else {
+				
+				if(isset($queryTemp[$j]['user_id'])){ //if it is from {invoice_load_out DB}
+				   $key = 'user_date_unix'; //'date_to_load_out';
+			    } else if (isset($queryTemp[$j]['from_user_id'])) {  //if it is from {transfer_rights DB}
+					$key = 'unix_time';
+				} else { //if it is from {invoice_load_in DB}
 				    $key = 'unix';
 			    }
-			    if(isset($queryTemp[$j+1]['user_id'])){
-				    $key2 = 'date_to_load_out';
-			    } else {
-				   $key2 = 'unix';
+				
+			    if(isset($queryTemp[$j+1]['user_id'])){ //if it is from {invoice_load_out DB}
+				    $key2 = 'user_date_unix'; //'date_to_load_out';
+			   } else if (isset($queryTemp[$j]['from_user_id'])) {  //if it is from {transfer_rights DB}
+					$key2 = 'unix_time';
+				} else { //if it is from {invoice_load_in DB}
+				    $key2 = 'unix';
 			    }
 			
 				if(isset($queryTemp[$j][$key])&& isset($queryTemp[$j+1][$key2])){

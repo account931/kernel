@@ -57,6 +57,9 @@ $this->params['breadcrumbs'][] = $this->title;
 	
     <!-- Results -->
 	<?php
+	date_default_timezone_set('Europe/Kiev');
+	
+	
 	if(empty($query)){
 		echo '<div class="col-sm-8 col-xs-12 text-danger"> Поки що жодних транзакцій</div>';
 		
@@ -95,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				         "<i class='fa fa-mail-reply' style='font-size:18px'></i><br>" . 
 						 "<b>" . date("d-m-Y H:i:s", $value->user_date_unix) . "</b><br>".  //unix hen user make request
 						 //"<b>" .Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i:s') . "</b><br>" .
-       				     " Списано. " . //Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i:s ') . "<br>" .
+       				     " Списано. Відвантажено з елеватора. " . //Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i:s ') . "<br>" .
 				          //$value->users->email . //hasOne
 					      " Накладна:<b> " .$value['invoice_unique_id']  . "</b> " . 
 						  " Елеватор: <b> " .$value['elevator_id']  . "</b> " . 
@@ -118,7 +121,38 @@ $this->params['breadcrumbs'][] = $this->title;
 						      <div class="col-sm-1 col-xs-3">Списано :</div>
 						      <div class="col-sm-4 col-xs-9"> - ' . $value['product_wieght'] .  " кг " . $value->products->pr_name_name . '</div> 
 						  </div>';
-						  
+				
+				
+				
+				
+			   //if it is from {transfer_rights DB}	
+               } else if (isset($value['from_user_id'])){
+
+                     echo "<div class='bg-danger cursorX' data-toggle='modal' data-target='#myModalHistory" . $i ."'>" .   
+				         "<i class='fa fa-mail-reply' style='font-size:18px'></i><br>" . 
+						 "<b>" . date("d-m-Y H:i:s", $value->unix_time) . "</b><br>".  //unix hen user make request
+       				     " Списано/Переоформлено на <b> " . $value->users->email . "</b>" .
+					      " Накладна:<b> " .$value['invoice_id']  . "</b> " . 
+						  " Статус: OK" .
+						  "<div class='bg-danger'>  - " . $value['product_weight'] .  " кг " . $value->products->pr_name_name  . " </div>". //-1kg
+						  "</div>";
+				
+				
+                   //text for modal				
+	               $text =  '<div class="row list-group-item">
+						      <div class="col-sm-1 col-xs-3">Накладна:</div>
+						      <div class="col-sm-4 col-xs-9">' . $value['invoice_id'] . '</div> 
+						  </div>
+						  <div class="row list-group-item">
+						      <div class="col-sm-1 col-xs-3">Дата:</div>
+						      <div class="col-sm-4 col-xs-9">' . date("d-m-Y H:i:s", $value->unix_time) . '</div> 
+						  </div>
+						   <div class="row list-group-item">
+						      <div class="col-sm-1 col-xs-3">Списано :</div>
+						      <div class="col-sm-4 col-xs-9"> - ' . $value['product_weight'] .  " кг " . $value->products->pr_name_name . '</div> 
+						  </div>';
+			   
+			  			   
 								
 		       //if it is from {invoice_load_in DB}	
 		       } else {
@@ -127,7 +161,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				        "<i class='fa fa-mail-forward' style='font-size:18px'></i><br>" .
 						//"<b>" . Yii::$app->formatter->asDate($value->unix, 'dd-MM-yyyy H:i') . "</b><br>" .
 						"<b>" . date("d-m-Y H:i:s", $value->unix) . "</b><br>".
-        				"Додано. " . 
+        				"Додано. Завантажено на елеватор. " . 
 				        "Накладна:<b>  " . $value['invoice_id'] . " </b>" .  
 						" Елеватор: <b> " .$value['elevator_id']  . "</b> " . 
 						"<div class='bg-success'>  + " . $value['product_wight'] .  " кг " . $value->products->pr_name_name  . " </div>". //-1kg

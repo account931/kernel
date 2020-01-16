@@ -76,37 +76,18 @@ use yii\helpers\Json;
 		   
 
     
+	<!-- Displays Elevators' All balance of all users -->
+	<?php echo \app\componentsX\views\admin\AdminPersonalAccount::showAllElevetorStatistics($userCount, $products, $balance); ?>
 	
 	
 	
 	
-	 <?php
-  //Collapse widget
-   echo Collapse::widget([
-    'items' => [
-        [
-            'label' => 'Profile',
-            'content' => '   
-                        <div class="col-lg-offset-1" style="color:;">
-						 <i class="fa fa-address-card-o" style="font-size:36px"></i></br>
-                         <p><b>Деталі Вашаго аккаунту</b>.</p>
-						 <p>Username: '. Yii::$app->user->identity->username . '</p>
-						 <p>Email: '. Yii::$app->user->identity->email . '</p>
-						 <p>Name: '. Yii::$app->user->identity->first_name . '</p>
-						 <p>Last name: '. Yii::$app->user->identity->last_name . '</p>
-						 <p>Company: '. Yii::$app->user->identity->company_name . '</p>
-						 <p>Phone: '. Yii::$app->user->identity->phone_number . '</p>
-						 <p>Address: '. Yii::$app->user->identity->address . '</p>
-                       </div>',
-            // to  be  this  block open  by  default   de  comment  the  following 
-            /*'contentOptions' => [
-                'class' => 'in'
-            ]*/  
-          ], 
-	  ]
-  ]);
-  // End Collapse widget
-  ?>
+	 <br>
+
+  <!-- Collapse widget -->
+  <?php echo \app\componentsX\views\admin\AdminPersonalAccount::showCollapsedUserInfo();?>
+
+
   
   
    <!-- Admin account menu items -->
@@ -131,11 +112,11 @@ use yii\helpers\Json;
                  ?>
             </div>
 	   
-	         <div class="col-sm-2 col-xs-6 mobile-padding badge1 bb" data-badge="4">
+	         <div class="col-sm-2 col-xs-6 mobile-padding">
                 <?php		
                 $image = '<i class="fa fa-balance-scale" style="font-size:96px"></i>';	  
                 echo "<div class='subfolder border shadowX lavender'>" .
-			        Html::a( $image ."<p>Переоформлення</p><br>" , ["/admin/invoice-load-out/index" ] , $options = ["title" => "Transfer requests",]) . 
+			        Html::a( $image ."<p>Переоформлення?</p><br>" , ["/admin/invoice-load-out/index" ] , $options = ["title" => "Transfer requests",]) . 
 		            "</div>";
                  ?>
             </div>

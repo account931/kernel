@@ -9,6 +9,9 @@ use app\models\User;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\modules\models\RegisterRequest_InputModel;
+use app\models\ProductName;
+use app\models\Balance;
+
 /**
  * Default controller for the `admin` module
  */
@@ -83,12 +86,15 @@ class AdminXController extends Controller
     public function actionAdminPanel()
     {
 
-		 /*if(Yii::$app->user->isGuest){
-		   return $this->redirect(['/admin/default/index']);
-		 }*/
+	    $userCount = User::find();
+		$products = ProductName::find()->all();
+		$balance = Balance::find()->all();
 		
-		
-        return $this->render('admin-panel');
+        return $this->render('admin-panel', [
+            'userCount' => $userCount,
+			'products' =>  $products ,
+			'balance' => $balance
+        ]);
     }
 	
 	

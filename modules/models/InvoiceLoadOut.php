@@ -59,7 +59,7 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User ID'),
-            '' => Yii::t('app', 'Invoice Unique ID'),
+            'invoice_unique_id' => Yii::t('app', 'Invoice ID'),
             'product_id' => Yii::t('app', 'Product ID'),
             'product_wieghinvoice_unique_idt' => Yii::t('app', 'Product Wieght'),
             'user_date_unix' => Yii::t('app', 'User Date Unix'),
@@ -142,7 +142,7 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 		                "<p>Ми отримали Ваш запит на вiдвантаження <b>" . $i->products->pr_name_name . "</b>" . //hasOne relation(gets product name by ID)
 						" у кількості  <b>" .$i->product_wieght . "</b> кг.</p>" .   //weight
 						"<p> Номер накладної <b> " . $i->invoice_unique_id . "</b>.</p>". 
-						"<p>Вашу заявку було свалено адміністратором. Ваша дата та час для відвантаження продукції <b>" . Yii::$app->formatter->asDate($i->date_to_load_out, 'dd-MM-yyyy H:s') . 
+						"<p>Вашу заявку було схвалено адміністратором. Ваша дата та час для відвантаження продукції <b>" . Yii::$app->formatter->asDate($i->date_to_load_out, 'dd-MM-yyyy H:s') . 
 						" " . $i->b_intervals . "." . $i->b_quarters . "0 </b>" . // 7.00, 9.30, etc
 						". Елеватор номер <b>" . $i->elevator_id . //elevator
 						"</b>.</p>" .

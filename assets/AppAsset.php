@@ -31,6 +31,7 @@ class AppAsset extends AssetBundle
 		'js/admin/autocomplete.js', //autocomplete JS
 		'js/messages.js', //messages JS
 		'js/transactions.js', //transactions js
+		'js/transfer_rights.js',  //transfer rights to third user
 		
     ];
     public $depends = [

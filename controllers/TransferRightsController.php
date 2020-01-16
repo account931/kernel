@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\TransferRights;
+use app\models\User;
 
 
 class TransferRightsController extends Controller
@@ -67,10 +68,25 @@ class TransferRightsController extends Controller
     {
 		
 		$model = new TransferRights();
+		$allUsers = User::find()->orderBy ('id DESC')->all(); //users list for form autocomplete
+		
+		if ($model->load(Yii::$app->request->post())) {
+			if ( $model->save()){
+				//addUser2
+				//deductUser1
+				//send Email
+			    Yii::$app->getSession()->setFlash('statusOK', "Ваш запит на переоформлення зерна виконано. Пiдтвердження у повiдомленнях."); 
+			    return $this->refresh();
+           } else {
+			    //var_dump($model->getErrors());
+			    Yii::$app->getSession()->setFlash('statusFail', "Error"); 
+		   }
+		}
 		
 		
 		return $this->render('trans-right-index', [
-		      'model' => $model, 
+		      'model' => $model,
+			  'allUsers' => $allUsers,
 	    ]);
     }
 
