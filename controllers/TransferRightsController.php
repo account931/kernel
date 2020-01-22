@@ -60,7 +60,7 @@ class TransferRightsController extends Controller
 	
     //====================================================
     /**
-     * Application to transfer your right to other client
+     * Application to transfer your product right to other client
      *
      * 
      */
@@ -72,9 +72,26 @@ class TransferRightsController extends Controller
 		
 		if ($model->load(Yii::$app->request->post())) {
 			if ( $model->save()){
-				//addUser2
-				//deductUser1
-				//send Email
+				
+				$res1 = $model->checkBalance(Yii::$app->user->identity->id); //this current User balance
+				$res2 = $model->checkBalance($model->to_user_id); //2nd User balance, id from form
+				
+				//++ Add product weight to 2nd User 
+				if($res2){
+			        //adds and updates with new weight		
+			        $model->balanceAdd($res2);
+		        } else {
+			        //saves new row with product and weight	
+			        $model->addNewProduct($res2);
+		        }
+				
+			    //-- deduct from this current User1
+			    $model->deductProduct($res1);  
+				
+				
+				$model->sendMessageUser1(); //send the message to current user
+				$model->sendMessageUser2(); //send the message to User who obtained new product
+				
 			    Yii::$app->getSession()->setFlash('statusOK', "Ваш запит на переоформлення зерна виконано. Пiдтвердження у повiдомленнях."); 
 			    return $this->refresh();
            } else {

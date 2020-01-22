@@ -11,6 +11,15 @@ use app\models\Balance;
 
 <div class="invoice-load-in-form">
 
+   <?php
+   //generate invoice number
+   $invoice = "Trans-" . Yii::$app->security->generateRandomString(5). "-" . time(); 
+   ?>
+  
+   
+	<h3><span class="p-5 bg-success">Накладна  <i class="fa fa-print " style="font-size:34px"></i> <b> <?=$invoice?></b></h3>
+	
+
     <?php $form = ActiveForm::begin( 
 	    [ 'options' => ['class' => 'form-inline'],
 		'fieldConfig' => [
@@ -55,7 +64,7 @@ use app\models\Balance;
 	-->
 	
 	<div class="col-sm-6 col-xs-12"><i class="fa fa-map-signs" style="font-size:24px"></i>
-    <?= $form->field($model, 'invoice_id')->textInput(['value' => "Trans-" .Yii::$app->security->generateRandomString(3). "-" . time()]); //invoiceID to for]) ?>
+    <?= $form->field($model, 'invoice_id')->textInput(['value' => $invoice ]); //invoiceID to for]) ?>
     </div>
 	
 	

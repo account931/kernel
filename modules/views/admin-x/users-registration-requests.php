@@ -4,7 +4,7 @@
 /* @var $model app\models\LoginForm */
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-$this->title = 'Registration requests';
+$this->title = 'Запити на реєстрацію';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

@@ -46,12 +46,12 @@ AppAsset::register($this);
             ['label' => 'Про нас', 'url' => ['/site/about']],
             //['label' => 'Contact', 'url' => ['/site/contact']],
 			['label' => 'Мій кабінет', 'url' => ['/personal-account/index'] ,'visible' => (!Yii::$app->user->isGuest)],
-			['label' => 'Sign up', 'url' => ['/site/signup'] ,'visible' => (Yii::$app->user->isGuest)],
-			['label' => 'AdminPanel (delete)', 'url' => ['/admin/default/index']],
-			['label' => 'Вiдвантажити', 'url' => ['/invoice-load-out/load-out']],
-			['label' => 'Переоформити', 'url' => ['/transfer-rights/transfer-right']],
-			['label' => 'Повiдомлення', 'url' => ['/messages/show-messages']],  
-			['label' => 'Історія', 'url' => ['/transactions/mytransations']],
+			['label' => 'Реєстрація', 'url' => ['/site/signup'] ,'visible' => (Yii::$app->user->isGuest)],
+			['label' => 'AdminPanel (delete)', 'url' => ['/admin/default/index'], 'visible' => (!Yii::$app->user->isGuest)],
+			['label' => 'Вiдвантажити', 'url' => ['/invoice-load-out/load-out'], 'visible' => (!Yii::$app->user->isGuest)],
+			['label' => 'Переоформити', 'url' => ['/transfer-rights/transfer-right'], 'visible' => (!Yii::$app->user->isGuest)],
+			['label' => 'Повiдомлення', 'url' => ['/messages/show-messages'], 'visible' => (!Yii::$app->user->isGuest)], 
+			['label' => 'Історія', 'url' => ['/transactions/mytransations'], 'visible' => (!Yii::$app->user->isGuest)],
 			
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]

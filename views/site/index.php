@@ -20,7 +20,7 @@ $this->title = 'Welcome to Kernel';
    
 	
     <div class="jumbotron shadowX lavender">
-        <h1 class="text-shadowX ">Welcome to Kernel</h1>
+        <h1 class="text-shadowX lavender ">Welcome to Kernel</h1>
 		<?//Html::img(Yii::$app->getUrlManager()->getBaseUrl().'/images/kernel.jpg' , $options = ["id"=>"","margin-left"=>"3%","class"=>"","width"=>"5%","title"=>"Kernel"] ); ?>
     </div>
  
@@ -46,7 +46,7 @@ $this->title = 'Welcome to Kernel';
 			<div class="col-sm-2 col-xs-6">
 			<?php
 			    $image = '<i class="fa fa-user-plus" style="font-size:96px"></i>';	
-				 echo "<div class='subfolder border shadowX'>" .
+				 echo "<div class='subfolder border shadowX lavender'>" .
 			             Html::a( $image ."<p>Sign up</p><br>" , ["/site/signup"] , $options = ["title" => "Sign Up",]) . 
 				      "</div>";
 			?>

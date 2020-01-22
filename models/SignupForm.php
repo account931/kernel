@@ -40,7 +40,7 @@ class SignupForm extends Model
             ['password', 'string', 'min' => 6],
 			['password_confirm','required'],
 			//my compare passwords  & confirm
-            ['password_confirm', 'compare', 'compareAttribute'=>'password', 'message'=>"Passwords don't match", /*'on' => 'update' */   ],
+            ['password_confirm', 'compare', 'compareAttribute'=>'password', 'message'=>"Паролі не співпадають", /*'on' => 'update' */   ],
 			['phone_number', 'string', 'max' => 14], 
 			['phone_number','validateDatesX'], //my validation
 			[['first_name', 'last_name'], 'string', 'max' => 22],
@@ -79,7 +79,7 @@ class SignupForm extends Model
 		  //$RegExp_Phone = '/^[+]380\([\d]{1,4}\)[0-9]+$/';
 		  $RegExp_Phone = '/^[+]380[\d]{1,4}[0-9]+$/';
 		  if (!preg_match($RegExp_Phone, $this->phone_number)){
-			  $this->addError('phone_number','Phone number must be in format +380********* ');
+			  $this->addError('phone_number','Телефон має бути у форматі +380********* ');
 		  }
      }
 	   

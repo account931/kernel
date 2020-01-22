@@ -94,8 +94,8 @@ class InvoiceLoadInController extends Controller
 		$products = ProductName::find()->all(); 
 		$elevators = Elevators::find()->all(); //elevators for form dropdown
 		
-		$model->invoice_id = Yii::$app->security->generateRandomString(5). "-" . time(); //invoiceID to form 
-		$model->unix = time();
+		//$model->invoice_id = Yii::$app->security->generateRandomString(5). "-" . time(); //invoiceID to form 
+		//$model->unix = time();
 		
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 			$res = $model->checkBalance();
@@ -110,7 +110,9 @@ class InvoiceLoadInController extends Controller
 			
 		    $model->sendMessage(); //notify the user
 			
-            return $this->redirect(['view', 'id' => $model->id]);
+            //return $this->redirect(['view', 'id' => $model->id]);
+			Yii::$app->getSession()->setFlash('OK', "Накладну звережено. {$model->products->pr_name_name} :  {$model->product_wight} кг.");
+			return $this->refresh();
         }
 
         return $this->render('create', [

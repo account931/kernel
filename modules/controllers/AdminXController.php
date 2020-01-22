@@ -69,7 +69,7 @@ class AdminXController extends Controller
      */
 	public function beforeAction($action){
 	    if(Yii::$app->user->isGuest){
-		    throw new \yii\web\NotFoundHttpException("You have no admin rights. Triggered in beforeAction()");
+		    throw new \yii\web\NotFoundHttpException("You have no admin rights.");
 	    }
         return parent::beforeAction($action); 
 	  }

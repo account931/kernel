@@ -65,7 +65,7 @@ class InvoiceLoadOutController extends Controller
         $model = new InvoiceLoadOut();
 		
 		//form fields
-		$model->invoice_unique_id = Yii::$app->security->generateRandomString(5). "-" . time(); //invoiceID to form 
+		//$model->invoice_unique_id = Yii::$app->security->generateRandomString(5). "-" . time(); //invoiceID to form 
 		$model->user_date_unix = time();
 		
 		//products for dropdown form

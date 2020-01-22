@@ -149,10 +149,10 @@ class SiteController extends Controller
                 /*if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
                 }*/
-				Yii::$app->getSession()->setFlash('warnX1', "Successfully registered. Please wait for admin approval. You will recieve an email notification, check the email box you specified. After that you'll be able to sign in.");
+				Yii::$app->getSession()->setFlash('warnX1', "Ви були успішно зареєстровані. Очікуйте на підтвердження реєстрації адміністратором. Ви отримаєте повідомлення на email, вказаний при реєстрації і після цього зможете заходтити до особистого кабінету.");
                 return $this->goHome();				
             } else {
-				Yii::$app->getSession()->setFlash('warnX', "Registration failed!!! Check your input for errors."); 
+				Yii::$app->getSession()->setFlash('warnX', "Помилка реєстрації!!! Перевірте Ваші дані."); 
 			}
         }
  

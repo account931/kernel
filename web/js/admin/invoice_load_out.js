@@ -70,7 +70,7 @@ $(document).ready(function(){
 		        '<input type="button"  value="<<" id="prevDay" class="btn btn-info"/>' +
                 ' <input type="button"  value=" Calendar" id="datepicker2" class="btn btn-danger"/>' +    
                 ' <input type="button"  value=">>" id="nextDay" class="btn btn-success"/><br><br>' +
-				'<p>Manual Date: <input type="date" id="datePickerManual"/></p>' + //datePicker calendar -> TRUE here
+				'<p>Оберіть дату: <input type="date" id="datePickerManual"/></p>' + //datePicker calendar -> TRUE here
 				'<p>Елеватор: ' + dropdownElevators + '</p>' + //elevator  
 				'<p><button type="button" id="getIntListBtn" class="btn btn-primary">Ok</button></p>' //button to send ajax
 	            '</div><br>';

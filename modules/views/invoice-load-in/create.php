@@ -34,6 +34,16 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div></br>
 	
 	
+   <!------ FLASH Message ----->
+   <?php if( Yii::$app->session->hasFlash('OK') ): ?>
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <?php echo Yii::$app->session->getFlash('OK'); ?>
+    </div>
+    <?php endif;?>
+   <!------ END FLASH  ----->
+   
+	
 	<?php
 	//passing php obj to autocomplete.js
     $this->registerJs(

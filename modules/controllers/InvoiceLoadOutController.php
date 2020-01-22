@@ -191,11 +191,11 @@ class InvoiceLoadOutController extends Controller
 			      ->all(); 
 		
 		
-		//date_default_timezone_set('Europe/Kiev');
-		$text = "<p>Elevator-> " . $elevatorPost ."</p>" . Yii::$app->formatter->format($dayPost, 'date') . "</br> JS-> " . $dayPost . " VS Php -> " . strtotime(date('1/10/2020 00:00:00')) . " - " . time() . " = " . strtotime("now") ;// . "</br>" . var_dump($result) ; 
+		
+		//$text = "<p>Elevator-> " . $elevatorPost ."</p>" . Yii::$app->formatter->format($dayPost, 'date') . "</br> JS-> " . $dayPost . " VS Php -> " . strtotime(date('1/10/2020 00:00:00')) . " - " . time() . " = " . strtotime("now") ;// . "</br>" . var_dump($result) ; 
 		//(date('m/d/Y h:i:s')
 		
-		$text.= "<div class='col-sm-12 col-xs-12'>delete me</div>";
+		//$text.= "<div class='col-sm-12 col-xs-12'>delete me</div>";
 		
 
 		
@@ -268,17 +268,17 @@ class InvoiceLoadOutController extends Controller
 	
     //just test, EREASE IT!!!!!
     foreach ($bIntervals as $y){
-	   $text.= "</br>arr=> " . $y;
+	   //$text.= "</br>arr=> " . $y;
     }	
 		
-     $text.= "<div class='col-sm-12 col-xs-12'> Count=> " . count($bIntervals) . "</div>";  //just test, EREASE IT!!!!!
+     //$text.= "<div class='col-sm-12 col-xs-12'> Count=> " . count($bIntervals) . "</div>";  //just test, EREASE IT!!!!!
 	 
-	 date_default_timezone_set("Europe/Kiev");
+	 
 	 
 	 //fixing start hour, i.e if u selected today in calendar, it will build intervals from current hour only
 	 $that_date  = time(); //unixTime now
      $first_hour = $that_date - ($that_date % (60*60*24)); //unixTime of now at 00:00:00
-	 $text.=  "<br>form: " . $dayPost . " first_hour: " . $first_hour ."<br>" ; //JUST TEST, ERASE
+	 //$text.=  "<br>form: " . $dayPost . " first_hour: " . $first_hour ."<br>" ; //JUST TEST, ERASE
 	 
 	 if($dayPost == $first_hour && ( ((date("H") + 1) > 8) || ((date("H") + 1) < 20)) ){ //if current hour is between 8 -20
 	       $startHour = date("H") + 1; //start from current hour

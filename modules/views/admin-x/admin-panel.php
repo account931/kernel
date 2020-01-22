@@ -76,15 +76,14 @@ use yii\helpers\Json;
 		   
 
     
-	<!-- Displays Elevators' All balance of all users -->
+	<!-- Displays all Elevators' balance of all users -->
 	<?php echo \app\componentsX\views\admin\AdminPersonalAccount::showAllElevetorStatistics($userCount, $products, $balance); ?>
-	
 	
 	
 	
 	 <br>
 
-  <!-- Collapse widget -->
+  <!-- Collapse widget with user info -->
   <?php echo \app\componentsX\views\admin\AdminPersonalAccount::showCollapsedUserInfo();?>
 
 
@@ -112,14 +111,7 @@ use yii\helpers\Json;
                  ?>
             </div>
 	   
-	         <div class="col-sm-2 col-xs-6 mobile-padding">
-                <?php		
-                $image = '<i class="fa fa-balance-scale" style="font-size:96px"></i>';	  
-                echo "<div class='subfolder border shadowX lavender'>" .
-			        Html::a( $image ."<p>Переоформлення?</p><br>" , ["/admin/invoice-load-out/index" ] , $options = ["title" => "Transfer requests",]) . 
-		            "</div>";
-                 ?>
-            </div>
+	     
 			
 			 <div class="col-sm-2 col-xs-6 mobile-padding">
                 <?php		

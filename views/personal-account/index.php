@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 	
 	<! -- Delete in production -->
-	<p class="text-danger small">Pretty URL + fix url for ajax in admin (display number of reg requestd)</p>
+	<!--!--<p class="text-danger small">Pretty URL + fix url for ajax in admin (display number of reg requestd)</p>-->
     <! -- Delete in production -->
 	
     <p><i class="fa fa-drivers-license-o" style="font-size:14px"></i> Welcome, <?=Yii::$app->user->identity->username;?> </p>
@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  ?>
             </div>
 			
-			<div class="col-sm-2 col-xs-6 mobile-padding badge1 bb" data-badge="N/A"">
+			<div class="col-sm-2 col-xs-6 mobile-padding badge1 bb" data-badge="7">
                 <?php		
                 $image = '<i class="fa fa-envelope-o" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .

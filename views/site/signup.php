@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\widgets\Pjax;
  
-$this->title = 'Signup';
+$this->title = 'Реєстрація';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
@@ -37,21 +37,20 @@ $this->params['breadcrumbs'][] = $this->title;
    <!------ END FLASH  ----->
    
 	
-    <p>Please fill out the following fields to signup:</p>
-	<p>add to DB, model and this form => phone, name, surename, company</p>
+    
     <div class="row">
         <div class="col-lg-5">
             <?php Pjax::begin(); ?>
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-                <?= $form->field($model, 'email') ?>
-                <?= $form->field($model, 'password')->passwordInput() ?>
-				<?= $form->field($model, 'password_confirm')->passwordInput() ?>
-				<?= $form->field($model, 'phone_number')->textInput() ?>
-				<?= $form->field($model, 'first_name')->textInput() ?>
-				<?= $form->field($model, 'last_name')->textInput() ?>
-				<?= $form->field($model, 'company_name')->textInput() ?>
-				<?= $form->field($model, 'address')->textInput() ?>
+                <?= $form->field($model, 'email')->label('Email'); ?>
+                <?= $form->field($model, 'password')->passwordInput()->label('Пароль'); ?>
+				<?= $form->field($model, 'password_confirm')->passwordInput()->label('Повторіть пароль'); ?>
+				<?= $form->field($model, 'phone_number')->textInput()->label('Телефон'); ?>
+				<?= $form->field($model, 'first_name')->textInput()->label('Ім"я'); ?>
+				<?= $form->field($model, 'last_name')->textInput()->label('Прізвище'); ?>
+				<?= $form->field($model, 'company_name')->textInput()->label('Компанія'); ?>
+				<?= $form->field($model, 'address')->textInput()->label('Адреса'); ?>
                 <div class="form-group">
                     <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>

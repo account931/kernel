@@ -151,7 +151,7 @@ class User extends ActiveRecord implements IdentityInterface
 		if(!$res){
 			$res = static::findOne(['email' => $email, 'status' => self::STATUS_INACTIVE]);
 			if($res){
-				return Yii::$app->getSession()->setFlash('failX', "Your account is pending activation by the admin. Please try later."); 
+				return Yii::$app->getSession()->setFlash('failX', "Ваш акаунт ще не було активовано адміністратором. Спробуйте пізніше."); 
 			}
 		}
         return $res; 

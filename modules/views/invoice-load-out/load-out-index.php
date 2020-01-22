@@ -84,52 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			       '<div class="col-sm-2 col-xs-6">' . $m->users->email . '</div>' . //hasOne relation
 				   '<div class="col-sm-2 col-xs-6">' . Yii::$app->formatter->format($m->user_date_unix, 'date') .      '</div>' .
 				   //'<div class="col-sm-8 col-xs-6">' . crop($m->m_text, 27) .   '</div>' .
-				 '</div>';
-		?>
-
-
-		
-		 <!--------- Hidden Modal ---------->
-		 <!--
-           <div class="modal fade" id="myModal<?php echo $i;?>" role="dialog">
-               <div class="modal-dialog modal-lg">
-                   <div class="modal-content">
-                       <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal">&times;</button>
-                           <h4 class="modal-title"><i class="fa fa-envelope-open-o" style="font-size:50px; color: navy;"></i> <b> Email</b> </h4>
-                       </div>
-					   
-                      <div class="modal-body">
-                          <p><b>Message</b></p>
-						  
-						  <div class="row list-group-item">
-						      <div class="col-sm-1 col-xs-3">From</div>
-						      <div class="col-sm-4 col-xs-9"><?=$m->users->email; //hasOne ?></div> 
-						  </div>
-						  
-						  <div class="row list-group-item">
-						      <div class="col-sm-1 col-xs-3">Date</div>
-						      <div class="col-sm-4 col-xs-9"><?=Yii::$app->formatter->format($m->user_date_unix, 'date'); //hasOne?></div> 
-						  </div>
-						  
-						  
-					 
-                     </div>
-					  
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                      </div>
-                  </div>
-              </div>
-           </div> -->
-          <!------------ End Modal --------------->
-		  
-		  
-		  
-		  
-		  
-       <?php		
-				 
+				 '</div>'; 
 		}
 		
 	
@@ -173,32 +128,32 @@ $this->params['breadcrumbs'][] = $this->title;
 	    <?php $form = ActiveForm::begin(); ?>
 	
 	     <div class="col-sm-4 col-xs-12">
-	    <?= $form->field($model, 'id')->textInput([ 'placeholder' => 'invoice ID', 'id' => 'invoiceID' , 'type' => 'number' ])->label('Invoice ID'); ?>
+	    <?= $form->field($model, 'id')->hiddenInput([ 'placeholder' => 'invoice ID', 'id' => 'invoiceID' ])->label(false);  ?>
 	    </div>
 		
         <div class="col-sm-4 col-xs-12">
-	    <?= $form->field($model, 'confirmed_date_unix')->textInput([ 'placeholder' => 'Confirm date', 'value'=> time(), 'type' => 'number' ]); ?>
+	    <?= $form->field($model, 'confirmed_date_unix')->hiddenInput([ 'placeholder' => 'Confirm date', 'value'=> time() ])->label(false); ?>
 	    </div>
 	
 	    <div class="col-sm-4 col-xs-12">
-        <?= $form->field($model, 'date_to_load_out')->textInput([ 'placeholder' => 'Date to load', 'id' => 'dateToLoad', 'type' => 'number']) ?> 
+        <?= $form->field($model, 'date_to_load_out')->hiddenInput([ 'placeholder' => 'Date to load', 'id' => 'dateToLoad'])->label(false); ?> 
         </div>
 	
 	    <div class="col-sm-4 col-xs-12">
-        <?= $form->field($model, 'b_intervals')->textInput(['placeholder' => 'Hour', 'id' => 'intervalHour']) ?>
+        <?= $form->field($model, 'b_intervals')->hiddenInput(['placeholder' => 'Hour', 'id' => 'intervalHour'])->label(false); ?>
         </div>
 	
 	    <div class="col-sm-4 col-xs-12">
-	    <?= $form->field($model, 'b_quarters')->textInput(['placeholder' => 'Minute', 'id' => 'quarterMinute']); ?>
+	    <?= $form->field($model, 'b_quarters')->hiddenInput(['placeholder' => 'Minute', 'id' => 'quarterMinute'])->label(false); ?>
 	    </div>
 	
 	    <div class="col-sm-4 col-xs-12">
-	    <?= $form->field($model, 'elevator_id')->textInput(['placeholder' => 'Elevator', 'id' => 'elevator', 'type' => 'number']); ?>
+	    <?= $form->field($model, 'elevator_id')->hiddenInput(['placeholder' => 'Elevator', 'id' => 'elevator'])->label(false); ?>
 	    </div>
 	
 	    <div class="col-sm-12 col-xs-12">
             <div class="form-group">
-                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                <?= Html::submitButton('Зберегти', ['class' => 'btn btn-success']) ?>
             </div>
 	    </div>
 

@@ -2,6 +2,7 @@
 
 namespace app\models;
 use app\models\Balance;
+use app\modules\models\Messages;
 use Yii;
 
 /**
@@ -19,7 +20,7 @@ use Yii;
 class TransferRights extends \yii\db\ActiveRecord
 {
 	
-	public $user2;
+	public $user2; //autocomplete field
     /**
      * @inheritdoc
      */
@@ -67,9 +68,14 @@ class TransferRights extends \yii\db\ActiveRecord
       }
 	  
 	  
-	  //hasOne relation
+	  //hasOne relation -> gets User2 (receiver))username by ID)
 	  public function getUsers(){
           return $this->hasOne(User::className(), ['id' => 'to_user_id']); 
+      }
+	  
+	   //hasOne relation2-> gets this User(sender))username by ID)
+	  public function getUsers2(){
+          return $this->hasOne(User::className(), ['id' => 'from_user_id']); 
       }
 	
 	//my validation, checks if user is not taking more than he has
@@ -87,6 +93,81 @@ class TransferRights extends \yii\db\ActiveRecord
 		  }
      }
 	 
+	 
+	  //Check User balance (if user has relvant product balance in DB Balance, i.e product !=0)
+	  public function checkBalance($id){
+		  $userBalance = Balance::find()->where(['balance_user_id' => $id])->andWhere(['balance_productName_id' => $this->product_id])->one();
+		  return $userBalance;	  
+	  }
+	  
+	  
+	  
+	  //
+	  //adds and updates with new weight	 
+	  public function balanceAdd($user2){
+		$prev = $user2->balance_amount_kg;
+		$new = $prev + $this->product_weight;
+		$user2->balance_amount_kg = $new;
+		$user2->balance_last_edit = date('Y-m-d H:i:s'); //update time
+		$user2->save();
+		
+	}		
+
+	//saves new row with product and weigth	  
+	public function addNewProduct($user2){
+		$m = new Balance();
+		$m->balance_productName_id = $this->product_id; //product id
+		$m->balance_user_id = $this->to_user_id; //user id 
+		$m->balance_amount_kg = $this->product_weight; //product weight
+		$m->save();
+	}
+	 
+	 
+	// to minus -- product from user's balance 
+	 public function deductProduct($user1){
+		 //$b = Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])->andWhere(['balance_productName_id' => $this->product_id]) -> one();
+		 
+		 if($user1->balance_amount_kg == $this->product_weight){
+			 $user1->delete();
+		 } else {
+			 $newAmount = $user1->balance_amount_kg - $this->product_weight;
+			 $user1->balance_amount_kg = $newAmount ;
+             $user1->save();			 
+		 }
+	 }
+	 
+	 
+	//notify the user-> send the message to current user(sender)
+	public function  sendMessageUser1(){
+		$model = new Messages();
+		$model->m_sender_id = 2; // Yii::$app->user->identity->id;
+		$model->m_receiver_id = Yii::$app->user->identity->id;;
+		$model->m_text = "<p>Шановний <b>". $this->users2->first_name . "</b></p>" . //hasOne relation (gets this User(sender))username by ID)
+		                "<p>Ви переоформили  на користувача " . $this->users->first_name . //hasOne relation (gets User2(reciever) username by ID)
+						" " . $this->products->pr_name_name . //hasOne relation(gets product name by ID)
+						" " . $this->product_weight . "кг.</p>" .   //weight
+						"<p> Номер накладної " . $this->invoice_id . ".</p>" .
+						"<p>Best regards, Admin team. </p>";  
+		$model->m_unix = time();
+		$model->save();
+	}
+	
+	//notify the user-> send the message to User who obtained new product(reciever)
+	public function  sendMessageUser2(){
+		$model = new Messages();
+		$model->m_sender_id = 2; // Yii::$app->user->identity->id;
+		$model->m_receiver_id = $this->to_user_id;
+		$model->m_text = "<p>Шановний <b>". $this->users->first_name . "</b></p>" .//hasOne relation (gets User2(reciever) username by ID)  
+		                "<p>Користувач <b>" . $this->users2->first_name  . "</b>" .//hasOne relation (gets User(sender)username by ID)
+						" переоформив на Вас " . $this->products->pr_name_name . //hasOne relation(gets product name by ID)
+						" " . $this->product_weight . "кг.</p>" .   //weight
+						"<p> Номер накладної  " . $this->invoice_id . ".</p>" .
+						"<p>Best regards, Admin team. </p>";  
+		$model->m_unix = time();
+		$model->save();
+	}
+	  //
+	  
 	
 	 
 }

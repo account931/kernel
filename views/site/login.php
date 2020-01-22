@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
    
 
     <!--<i class="fa fa-cubes" style="font-size:68px;color:navy"></i>-->
-    <p>Please fill out the following fields to login:</p>
+    <p>Будь-ласка, введіть Ваші логін та пароль:</p>
 
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
