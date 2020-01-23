@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\modules\models\InvoiceLoadOut;
 use app\modules\models\InvoiceLoadIn;
 use app\models\TransferRights;
+use app\models\HistoryTransaction;
 
 class TransactionsController extends Controller
 {
@@ -66,13 +67,14 @@ class TransactionsController extends Controller
      */
     public function actionMytransations()
     {
+		$model = new HistoryTransaction();
 		
 		 //find transaction for all period (if there is no $_GET['period'])
 		 if (!Yii::$app->getRequest()->getQueryParam('period')){
 		    //$query = InvoiceLoadOut::find()->where(['user_id' => Yii::$app->user->identity->id])->joinWith(['tabless'])->all(); 
 		    $query1 = InvoiceLoadOut::find()->orderBy ('id ASC')->where(['user_id' => Yii::$app->user->identity->id])->all(); 
 		    $query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => Yii::$app->user->identity->id])->all(); 
-			$query3 = TransferRights::find()->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])->all();
+			$query3 = TransferRights::find()->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])->orWhere(['to_user_id' => Yii::$app->user->identity->id])->all();
 		    
 		 }
 		
@@ -87,7 +89,7 @@ class TransactionsController extends Controller
 			        ->andWhere(['between', 'unix', strtotime(date('Y-m-01 00:00:00')), time() ])  
 			        ->all(); 
 					
-			 $query3 = TransferRights::find() ->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])
+			 $query3 = TransferRights::find() ->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])->orWhere(['to_user_id' => Yii::$app->user->identity->id])
 			        ->andWhere(['between', 'unix_time', strtotime(date('Y-m-01 00:00:00')), time() ])  
 			        ->all();
 					
@@ -106,7 +108,7 @@ class TransactionsController extends Controller
 			        ->andWhere(['between', 'unix', $startLastMonth, $endLastMonth  ])  
 			        ->all(); 
 					
-			$query3= TransferRights::find() ->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])
+			$query3= TransferRights::find() ->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])->orWhere(['to_user_id' => Yii::$app->user->identity->id])
 			        ->andWhere(['between', 'unix_time', $startLastMonth, $endLastMonth  ])  
 			        ->all(); 
 		 }
@@ -124,7 +126,7 @@ class TransactionsController extends Controller
 			        ->andWhere(['between', 'unix', $startLastMonth, time() ])  
 			        ->all(); 
 					
-			$query3 = TransferRights::find() ->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])
+			$query3 = TransferRights::find() ->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])->orWhere(['to_user_id' => Yii::$app->user->identity->id])
 			        ->andWhere(['between', 'unix_time', $startLastMonth, time() ])  
 			        ->all(); 
 		 }

@@ -5,6 +5,9 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use Yii;
+use app\modules\models\InvoiceLoadOut;
+use app\modules\models\InvoiceLoadIn;
+use app\models\TransferRights;
 
 $this->title = 'Моя історія';
 $this->params['breadcrumbs'][] = $this->title;
@@ -57,8 +60,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	
     <!-- Results -->
 	<?php
-	date_default_timezone_set('Europe/Kiev');
-	
 	
 	if(empty($query)){
 		echo '<div class="col-sm-8 col-xs-12 text-danger"> Поки що жодних транзакцій</div>';
@@ -85,26 +86,28 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	    <div class="col-sm-12 col-xs-12"> 
 	    <?php 
-		//date_default_timezone_set('Europe/Kiev');
+        //HISTORY result does here
 	    $i = 0;
 	    //iterate over merged and manually sorted array
-	    foreach($query as $key=>$value){
+	    foreach($query as $key => $value){
+			
 		    $i++;
 		    echo "<div class='col-sm-12 col-xs-12 list-group-item'>";
            
 		       //if it is from {invoice_load_out DB} use field {invoice_unique_id}
-		       if (isset($value['user_id'])){
+		       if ($value instanceof InvoiceLoadOut) {  //(isset($value['user_id']))
 			       echo "<div class='bg-danger cursorX' data-toggle='modal' data-target='#myModalHistory" . $i ."'>" .   
-				         "<i class='fa fa-mail-reply' style='font-size:18px'></i><br>" . 
-						 "<b>" . date("d-m-Y H:i:s", $value->user_date_unix) . "</b><br>".  //unix hen user make request
-						 //"<b>" .Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i:s') . "</b><br>" .
-       				     " Списано. Відвантажено з елеватора. " . //Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i:s ') . "<br>" .
-				          //$value->users->email . //hasOne
-					      " Накладна:<b> " .$value['invoice_unique_id']  . "</b> " . 
-						  " Елеватор: <b> " .$value['elevator_id']  . "</b> " . 
-						  "Відвантаження: <b>" . date("d-m-Y H:i:s", $value->date_to_load_out) . "</b>" .
-						  " Статус: OK" .
-						  "<div class='bg-danger'>  - " . $value['product_wieght'] .  " кг " . $value->products->pr_name_name  . " </div>". //-1kg
+				             "<i class='fa fa-mail-reply' style='font-size:18px'></i><br>" . 
+						     "<b>" . date("d-m-Y H:i:s", $value->user_date_unix) . "</b><br>".  //unix hen user make request
+						     //"<b>" .Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i:s') . "</b><br>" .
+       				         " Списано. Відвантажено з елеватора. " . //Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i:s ') . "<br>" .
+				             //$value->users->email . //hasOne
+					         " Накладна:<b> " .$value['invoice_unique_id']  . "</b> " . 
+						     " Елеватор: <b> " .$value['elevator_id']  . "</b> " . 
+						     "Відвантаження: <b>" . date("d-m-Y H:i:s", $value->date_to_load_out) . "</b>" .
+						     " Статус: OK" .
+						     "<div class='bg-danger'>  - " . $value['product_wieght'] .  " кг " . $value->products->pr_name_name  . " </div>". //-1kg
+						     "<div class='bg-danger'>  На балансі " . $value['final_balance'] .  " кг " . $value->products->pr_name_name  . " </div>".
 						  "</div>";
 				
 				
@@ -126,20 +129,34 @@ $this->params['breadcrumbs'][] = $this->title;
 				
 				
 			   //if it is from {transfer_rights DB}	
-               } else if (isset($value['from_user_id'])){
-
-                     echo "<div class='bg-danger cursorX' data-toggle='modal' data-target='#myModalHistory" . $i ."'>" .   
+               } else if ($value instanceof TransferRights) {   //(isset($value['from_user_id']))
+				   
+                     if ($value->from_user_id == Yii::$app->user->identity->id){ //display 'Ви переказали', i.e view the Sender
+                         echo "<div class='bg-danger cursorX' data-toggle='modal' data-target='#myModalHistory" . $i ."'>" .   
 				         "<i class='fa fa-mail-reply' style='font-size:18px'></i><br>" . 
 						 "<b>" . date("d-m-Y H:i:s", $value->unix_time) . "</b><br>".  //unix hen user make request
        				     " Списано/Переоформлено на <b> " . $value->users->email . "</b>" .
 					      " Накладна:<b> " .$value['invoice_id']  . "</b> " . 
 						  " Статус: OK" .
 						  "<div class='bg-danger'>  - " . $value['product_weight'] .  " кг " . $value->products->pr_name_name  . " </div>". //-1kg
+						  "<div class='bg-danger'>  На балансі: " . $value['final_balance_sender'] .  " кг " . $value->products->pr_name_name  . " </div>".
 						  "</div>";
+						  
+					 } else if ($value->to_user_id == Yii::$app->user->identity->id){ //display 'Вам переказали', i.e view the Reciever
+                         echo "<div class='bg-success cursorX' data-toggle='modal' data-target='#myModalHistory" . $i ."'>" .   
+				         "<i class='fa fa-mail-reply' style='font-size:18px'></i><br>" . 
+						 "<b>" . date("d-m-Y H:i:s", $value->unix_time) . "</b><br>".  //unix hen user make request
+       				     " На Вас було переоформлено товар від на <b> " . $value->users2->email . "</b>" .
+					      " Накладна:<b> " .$value['invoice_id']  . "</b> " . 
+						  " Статус: OK" .
+						  "<div class='bg-success'>  + " . $value['product_weight'] .  " кг " . $value->products->pr_name_name  . " </div>". //-1kg
+						  "<div class='bg-success'>  На балансі: " . $value['final_balance_receiver'] .  " кг " . $value->products->pr_name_name  . " </div>".
+						  "</div>";
+					 }
 				
 				
-                   //text for modal				
-	               $text =  '<div class="row list-group-item">
+                       //text for modal				
+	                   $text =  '<div class="row list-group-item">
 						      <div class="col-sm-1 col-xs-3">Накладна:</div>
 						      <div class="col-sm-4 col-xs-9">' . $value['invoice_id'] . '</div> 
 						  </div>
@@ -152,10 +169,10 @@ $this->params['breadcrumbs'][] = $this->title;
 						      <div class="col-sm-4 col-xs-9"> - ' . $value['product_weight'] .  " кг " . $value->products->pr_name_name . '</div> 
 						  </div>';
 			   
-			  			   
+					    
 								
 		       //if it is from {invoice_load_in DB}	
-		       } else {
+		       } else if ($value instanceof InvoiceLoadIn) {
 			   
 				    echo "<div class='bg-success cursorX' data-toggle='modal' data-target='#myModalHistory" . $i ."'>" . 
 				        "<i class='fa fa-mail-forward' style='font-size:18px'></i><br>" .
@@ -165,6 +182,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				        "Накладна:<b>  " . $value['invoice_id'] . " </b>" .  
 						" Елеватор: <b> " .$value['elevator_id']  . "</b> " . 
 						"<div class='bg-success'>  + " . $value['product_wight'] .  " кг " . $value->products->pr_name_name  . " </div>". //-1kg
+						"<div class='bg-success'>  На балансі: " . $value['final_balance'] .  " кг " . $value->products->pr_name_name  . " </div>".
 						"</div>";
 				
 				

@@ -5,10 +5,11 @@ window.invoiceIDX;
 $(document).ready(function(){
 	
  //uses ajax from js/admin/datepicker.js
- 
+
     //====================
     //click on invoice in admin/views/load-out-index.php
     $(document).on("click", '.invoice-one', function() {      //for newly generated 
+	
 	   window.invoiceIDX = this.getAttribute("data-invoic-id"); 
 	   runAjaxToGetInvoice(this);
 	   
@@ -18,7 +19,7 @@ $(document).ready(function(){
     //=================
     function runAjaxToGetInvoice(context){
 		//alert(context.getAttribute("data-invoic-id"));
-		var ajax_url = urlX + "/index.php?r=admin/invoice-load-out/ajax_get_invoice";
+		var ajax_url = urlX + "/admin/invoice-load-out/ajax_get_invoice";
 		//alert(ajax_url);
 		$(".loader").show(80); //hide the loader
 		

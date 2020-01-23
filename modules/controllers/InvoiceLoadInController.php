@@ -111,7 +111,7 @@ class InvoiceLoadInController extends Controller
 		    $model->sendMessage(); //notify the user
 			
             //return $this->redirect(['view', 'id' => $model->id]);
-			Yii::$app->getSession()->setFlash('OK', "Накладну звережено. {$model->products->pr_name_name} :  {$model->product_wight} кг.");
+			Yii::$app->getSession()->setFlash('OK', "Накладну збережено. {$model->products->pr_name_name} :  {$model->product_wight} кг.");
 			return $this->refresh();
         }
 

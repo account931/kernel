@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  ?>
             </div>
 			
-			<div class="col-sm-2 col-xs-6 mobile-padding badge1 bb" data-badge="7">
+			<div class="col-sm-2 col-xs-6 mobile-padding badge1 bb" data-badge="??">
                 <?php		
                 $image = '<i class="fa fa-envelope-o" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .

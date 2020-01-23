@@ -16,6 +16,8 @@ use Yii;
  * @property int $unix_time
  * @property string $date
  * @property int product_weight
+ * @property int $final_balance_sender
+ * @property int $final_balance_receiver
  */
 class TransferRights extends \yii\db\ActiveRecord
 {
@@ -101,6 +103,14 @@ class TransferRights extends \yii\db\ActiveRecord
 	  }
 	  
 	  
+	 //update Reciever column
+	 public function updateColumnHistoryReciever($numb){
+		 //saves new Recievers's balance to new column in TransferRights (for History transactions)
+		 $inv = self::find()->where(['invoice_id' => $this->invoice_id])->one();
+		 $inv->final_balance_receiver = (int)$numb;
+		 $inv->save(false);
+	 }
+	 
 	  
 	  //
 	  //adds and updates with new weight	 
@@ -111,6 +121,7 @@ class TransferRights extends \yii\db\ActiveRecord
 		$user2->balance_last_edit = date('Y-m-d H:i:s'); //update time
 		$user2->save();
 		
+		$this->updateColumnHistoryReciever($new);
 	}		
 
 	//saves new row with product and weigth	  
@@ -120,21 +131,40 @@ class TransferRights extends \yii\db\ActiveRecord
 		$m->balance_user_id = $this->to_user_id; //user id 
 		$m->balance_amount_kg = $this->product_weight; //product weight
 		$m->save();
+		
+		$this->updateColumnHistoryReciever($this->product_weight);
 	}
 	 
 	 
+	 //update Sender column
+	 public function updateColumnHistorySender($numb){
+		 //saves new Sender's balance to new column in TransferRights (for History transactions)
+		 $inv = self::find()->where(['invoice_id' => $this->invoice_id])->one();
+		 $inv->final_balance_sender = (int)$numb;
+		 $inv->save(false);
+	 }
+	 
+	
 	// to minus -- product from user's balance 
 	 public function deductProduct($user1){
 		 //$b = Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])->andWhere(['balance_productName_id' => $this->product_id]) -> one();
 		 
 		 if($user1->balance_amount_kg == $this->product_weight){
 			 $user1->delete();
+			 $newAmount = 0;
 		 } else {
 			 $newAmount = $user1->balance_amount_kg - $this->product_weight;
 			 $user1->balance_amount_kg = $newAmount ;
              $user1->save();			 
 		 }
+		 $this->updateColumnHistorySender($newAmount);
 	 }
+	 
+	 
+	 
+	 
+	 
+	 
 	 
 	 
 	//notify the user-> send the message to current user(sender)

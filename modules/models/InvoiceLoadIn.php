@@ -25,6 +25,7 @@ use Yii;
  * @property int $product_wight
  * @property int $trash_content
  * @property int $humidity
+ * @property int final_balance
  */
 class InvoiceLoadIn extends \yii\db\ActiveRecord
 {
@@ -100,6 +101,11 @@ class InvoiceLoadIn extends \yii\db\ActiveRecord
 		$res->balance_amount_kg = $new;
 		$res->balance_last_edit = date('Y-m-d H:i:s'); //update time
 		$res->save();
+		
+		//saves new balance to new column in InvoiceLoadIn
+		$inv = self::find()->where(['invoice_id' => $this->invoice_id])->one();
+		$inv->final_balance = $new;
+		$inv->save();
 		
 	}		
 

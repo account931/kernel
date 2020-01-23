@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	<?php
 	//pass url to JS for ajax
-	$urlX1 = Yii::$app->getUrlManager()->getBaseUrl();
+	$urlX1 = Yii::$app->getUrlManager()->getBaseUrl(); //pass baseURL for 2 ajax
     $this->registerJs( "var urlX = ".Json::encode($urlX1).";",   yii\web\View::POS_HEAD,  'myproduct2-events-script' );
 	
 	//pass elevators to JS for ajax to build dropdown with elevators

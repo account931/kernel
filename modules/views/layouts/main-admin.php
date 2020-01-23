@@ -26,7 +26,7 @@ AdminOnlyMainModuleAsset::register($this);
     <title><?= Html::encode("Admin Panel"/*$this->title*/) ?></title>
     <?php $this->head() ?>
 	<!-- Favicon -->
-	<?php $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::to(['images/favicon.ico'])]);?>
+	<?php $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::to(['../images/favicon.ico'])]);?>
 	
 </head>
 <body>

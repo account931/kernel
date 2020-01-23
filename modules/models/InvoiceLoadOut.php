@@ -26,6 +26,7 @@ use Yii;
  * @property int $elevator_id
  * @property string $completed
  * @property int $completed_date_unix
+ * @property int $final_balance
  */
 class InvoiceLoadOut extends \yii\db\ActiveRecord
 {
@@ -106,11 +107,17 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 		 
 		 if($b->balance_amount_kg == $this->product_wieght){
 			 $b->delete();
+			 //$newAmount = 0;
 		 } else {
 			 $newAmount = $b->balance_amount_kg - $this->product_wieght;
 			 $b->balance_amount_kg = $newAmount ;
              $b->save();			 
 		 }
+		 
+		 //saves new balance to new column in InvoiceLoadOut (for History transactions)
+		 //$inv = self::find()->where(['invoice_unique_id' => $this->invoice_unique_id])->one();
+		 //$inv->final_balance = $newAmount;
+		 //$inv->save();
 	 }
 	 
 	 

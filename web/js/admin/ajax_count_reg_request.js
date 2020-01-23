@@ -12,7 +12,7 @@ $(document).ready(function(){
    //                                                                                     ** 
 	function countUserRegisterRequests(){ 
 		
-		   var urlX = url + '/index.php?r=admin/admin-x/count-register-requests'; //url from view/admin-panel
+		   var urlX = url; // + '/admin/admin-x/count-register-requests'; //url from view/admin-panel
 		
 		   // send  data  to  PHP handler  ************ 
            $.ajax({

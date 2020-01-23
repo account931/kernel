@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php
-$urlZ = Yii::$app->request->baseUrl; // . "/bot/ajax-reply"; 
+$urlZ = Yii::$app->request->baseUrl . "/admin/admin-x/count-register-requests"; //  Yii::$app->request->baseUrl; // . "/bot/ajax-reply"; 
 use yii\helpers\Json; 
 		 $this->registerJs(
             "var url = '" . $urlZ . "';",  
@@ -33,17 +33,6 @@ use yii\helpers\Json;
 	 ?>
 	
 	
-   <!-- Admin Image ???????--> 
-	    <div class="col-sm-12 col-xs-12">
-			<?php
-			/*
-			 $image = '<i class="fa fa-address-card-o" style="font-size:16px"></i>';	
-		     echo "<div class='subfolder border'>" .
-			        Html::a( $image ."<p>Sign in</p><br>" , ["#"], $options = ["title" => "Sign in",]) . 
-				    "</div>";
-					*/
-			 ?>
-	    </div>
    
   
    

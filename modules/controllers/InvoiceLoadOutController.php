@@ -99,7 +99,7 @@ class InvoiceLoadOutController extends Controller
 			$checkIfFreeInvoice = InvoiceLoadOut::find()->where(['id' => $model->id ])->one(); 
 			if( isset($checkIfFreeInvoice->confirmed_by_admin) && $checkIfFreeInvoice->confirmed_by_admin == '1'){
 				//if(strcmp($checkIfFree_invoice->confirmed_by_admin, '1') == 0){
-				Yii::$app->getSession()->setFlash('statusFAIL', "На жаль, за цей час цю накладну вже було опрацьовано. Оберіть іншую накладно.");
+				Yii::$app->getSession()->setFlash('statusFAIL', "На жаль, за цей час цю накладну вже було опрацьовано. Оберіть іншую накладну.");
                 return $this->refresh();				
 			}
 			

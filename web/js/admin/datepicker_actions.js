@@ -1,4 +1,4 @@
-//contains 2nd ajax request
+//contains 2nd of two ajax requests
 (function(){ //START IIFE (Immediately Invoked Function Expression)
 $(document).ready(function(){
 	
@@ -32,7 +32,7 @@ $(document).ready(function(){
 		$("#elevator").val( $('#selElevator').val() );  
 		
 		$("#formFinish").show(800);
-		scrollResults("#formFinish");
+		scrollResults(".pull-right"); //#formFinish
 		
     });
    
@@ -53,7 +53,7 @@ $(document).ready(function(){
 		
 		var unixSelected = new Date($("#datePickerManual").val()).getTime()/1000; //selected date in Unix, must have /1000
 		
-		var ajax_url = urlX + "/index.php?r=admin/invoice-load-out/ajax_get_interval_list";
+		var ajax_url = urlX + "/admin/invoice-load-out/ajax_get_interval_list";
 		//alert(ajax_url);
 		$(".loader").show(80); //hide the loader
 		
