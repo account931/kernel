@@ -84,6 +84,7 @@ class TransferRights extends \yii\db\ActiveRecord
 	 public function validateWeight(){
 		  $b = Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])->andWhere(['balance_productName_id' => $this->product_id]) -> one();
 		  if ($b->balance_amount_kg < $this->product_weight){
+			  $this->user2 = '';
 			  $this->addError('product_weight','Недостатньо на Вашому балансi. Доступно лише ' . $b->balance_amount_kg . ' кг.');
 		  }
      }
@@ -172,7 +173,7 @@ class TransferRights extends \yii\db\ActiveRecord
 		$model = new Messages();
 		$model->m_sender_id = 2; // Yii::$app->user->identity->id;
 		$model->m_receiver_id = Yii::$app->user->identity->id;;
-		$model->m_text = "<p>Шановний <b>". $this->users2->first_name . "</b></p>" . //hasOne relation (gets this User(sender))username by ID)
+		$model->m_text = "<p> Шановний <b>". $this->users2->first_name . "</b></p>" . //hasOne relation (gets this User(sender))username by ID)
 		                "<p>Ви переоформили  на користувача " . $this->users->first_name . //hasOne relation (gets User2(reciever) username by ID)
 						" " . $this->products->pr_name_name . //hasOne relation(gets product name by ID)
 						" " . $this->product_weight . "кг.</p>" .   //weight

@@ -65,7 +65,16 @@ class MessagesController extends Controller
      */
     public function actionShowMessages()
     {
+		//find all messages
 		$messagesCount = Messages::find() ->orderBy ('m_id DESC')->where(['m_receiver_id' => Yii::$app->user->identity->id])->all();
+		
+		//find unread messages from received array
+		$unreadCount = 0;
+		foreach($messagesCount as $c){
+		    if($c->m_status_read == '0'){
+				$unreadCount++;
+			}				
+		}
 		
 		//LinkPager
 		$messages = Messages::find() ->orderBy ('m_id DESC')->where(['m_receiver_id' => Yii::$app->user->identity->id]);//->all();
@@ -75,7 +84,8 @@ class MessagesController extends Controller
 		$messModel = new Messages();
 
 		return $this->render('messages-index', [
-		      'messagesCount' => $messagesCount , 
+		      'messagesCount' => $messagesCount, 
+			  'unreadCount' => $unreadCount,
 			  'modelPageLinker' => $modelPageLinker, //pageLinker
               'pages' => $pages,      //pageLinker
 			  'messModel'  => $messModel
@@ -85,5 +95,27 @@ class MessagesController extends Controller
 
 	
 
+	
+	//====================================================
+    /**
+     * Change clicked message m_status_read as read, i.e 1
+     *
+     * 
+     */
+    public function actionAjaxUpdateReadStatus()
+    {
+		$messages = Messages::find() ->where(['m_id' => $_POST['serverClickedID']]) ->one();
+		$messages->m_status_read = '1'; //read
+		$messages->save(false);
+		
+		//RETURN JSON DATA
+         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;  
+          return [
+             'result_status' => "OK",
+          ]; 
+		  
+	}
+
+		
 
 }

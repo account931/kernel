@@ -107,7 +107,7 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 		 
 		 if($b->balance_amount_kg == $this->product_wieght){
 			 $b->delete();
-			 //$newAmount = 0;
+			 $newAmount = 0;
 		 } else {
 			 $newAmount = $b->balance_amount_kg - $this->product_wieght;
 			 $b->balance_amount_kg = $newAmount ;
@@ -115,9 +115,9 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 		 }
 		 
 		 //saves new balance to new column in InvoiceLoadOut (for History transactions)
-		 //$inv = self::find()->where(['invoice_unique_id' => $this->invoice_unique_id])->one();
-		 //$inv->final_balance = $newAmount;
-		 //$inv->save();
+		 $inv = self::find()->where(['invoice_unique_id' => $this->invoice_unique_id])->one();
+		 $inv->final_balance = $newAmount;
+		 $inv->save(false);
 	 }
 	 
 	 

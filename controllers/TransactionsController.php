@@ -142,11 +142,16 @@ class TransactionsController extends Controller
 			
 			for($j = 0; $j < count($queryTemp)/* - $i*/; $j++){
 				
-				if(isset($queryTemp[$j]['user_id'])){ //if it is from {invoice_load_out DB}
+				if($queryTemp[$j] instanceof InvoiceLoadOut) {
+				//if(isset($queryTemp[$j]['user_id'])){ //if it is from {invoice_load_out DB}
 				   $key = 'user_date_unix'; //'date_to_load_out';
-			    } else if (isset($queryTemp[$j]['from_user_id'])) {  //if it is from {transfer_rights DB}
+				
+                } else if ($queryTemp[$j] instanceof TransferRights) { 			
+			    //} else if (isset($queryTemp[$j]['from_user_id'])) {  //if it is from {transfer_rights DB}
 					$key = 'unix_time';
-				} else { //if it is from {invoice_load_in DB}
+				
+                } else if ($queryTemp[$j] instanceof InvoiceLoadIn) {				
+				//} else { //if it is from {invoice_load_in DB}
 				    $key = 'unix';
 			    }
 				

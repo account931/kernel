@@ -5,12 +5,33 @@
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
 
+//custom asset
+use app\assets\user\MessagesAsset;
+MessagesAsset::register($this);
+
+
 $this->title = 'Мої повідомлення';
 $this->params['breadcrumbs'][] = $this->title;
+
+
+
+
+//pass URL for JS ajax
+$urlZ = Yii::$app->request->baseUrl; 
+use yii\helpers\Json; 
+$this->registerJs(
+      "var url = '" . $urlZ . "';",  
+       yii\web\View::POS_HEAD, 
+       'mess-events-script'
+  );
+
 ?>
+
+
 <div id="all" class="site-about animate-bottom">
     <h1><?= Html::encode($this->title) ?></h1>
 
+	last message unix is <?php echo $messagesCount[0]->m_unix; ?>
 	
 	<!---- Image ----> 
 	 <div class="row"> 
@@ -39,23 +60,26 @@ $this->params['breadcrumbs'][] = $this->title;
 		
 	} else {
 		
-		echo '<div class="col-sm-8 col-xs-12 text-success"> You have <b class="text-danger">'  . count($messagesCount) . ' </b>messages </div><hr>';
+		echo '<div class="col-sm-8 col-xs-12 text-success"> У Вас <b class="text-danger">' . $unreadCount . '</b> непрочитаних повідомлень із <b class="text-danger">' . count($messagesCount) . ' </b> </div><hr>';
 		
 		//table headers
 		echo '<div class="col-sm-12 col-xs-12 list-group-item header-color">' .
 		       '<div class="col-sm-2 col-xs-2"> <b> From </b></div>' .
 		       '<div class="col-sm-4 col-xs-4"> <b> Date </b></div>' .
-			   '<div class="col-sm-6 col-xs-6"> <b> Text </b></div>' .
+			   '<div class="col-sm-1 col-xs-1"> <b> Seen </b></div>' .
+			   '<div class="col-sm-5 col-xs-5"> <b> Text </b></div>' .
 			 '</div>';
 
 		$i = 0;
 		foreach($messages as $m){
 		    $i++;
 			
-			echo '<div class="col-sm-12 col-xs-12  list-group-item mail bg-success cursorX ' .($m->m_status_read == '0' ? 'boldX ':' ')  .($i%2 ? 'evenX':''). '" data-toggle="modal" data-target="#myModal' . $i . '">' .  //data-toggle="modal" data-target="#myModal' . $i .   for modal
+			echo '<div id="' . $m->m_id . '" class="col-sm-12 col-xs-12  list-group-item mail bg-success cursorX ' .($m->m_status_read == '0' ? 'boldX ':' ')  .($i%2 ? 'evenX':''). '" data-toggle="modal" data-target="#myModal' . $i . '">' .  //data-toggle="modal" data-target="#myModal' . $i .   for modal
 			       '<div class="col-sm-2 col-xs-3 word-breakX">' . $m->users->email . '</div>' . //hasOne relation
 				   '<div class="col-sm-4 col-xs-4">' . $m->m_time .      '</div>' .
-				   '<div class="col-sm-6 col-xs-5">' . $messModel->crop($m->m_text, 27) .   '</div>' .
+				   '<div class="col-sm-1 col-xs-1">' . ($m->m_status_read == '0' ? '<i class="fa fa fa-envelope changeonclick" style="font-size:20px"></i> ':' <i class="fa fa-envelope-open-o" style="font-size:20px"></i>') .  '</div>' .  	
+				   '<div class="col-sm-5 col-xs-5">'  . $messModel->crop($m->m_text, 27) .   '</div>' .   
+   
 				 '</div>';
 		?>
 

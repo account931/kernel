@@ -91,7 +91,8 @@
 
 /* for unread emails */
 .boldX{
-	font-weight: bold;
+	font-weight: bold; 
+	/*text-shadow: #FC0 2px 0 10px;*/
 }
 
 /* main account fa-fa icons*/

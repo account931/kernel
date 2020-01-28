@@ -8,9 +8,12 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\Balance;
+use app\modules\models\Messages;
 
 class PersonalAccountController extends Controller
 {
+	const STATUS_NOT_READ = '0';
+	
     /**
      * {@inheritdoc}
      */
@@ -70,6 +73,33 @@ class PersonalAccountController extends Controller
     }
 
 	
-
+    
+	
+	
+	
+	
+	
+	 //===================================
+	 /**
+     * Ajax Check and count (via ajax request) if there are any inbox messages (with m_status_read' => 0) 
+     * @return json
+     */
+    public function actionCountInboxMessages()
+    {
+        $found = Messages::find()->where(['m_status_read' => self::STATUS_NOT_READ])->andWhere(['m_receiver_id' => Yii::$app->user->identity->id]);
+		$count = $found->count();
+		
+		//RETURN JSON DATA
+         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;  
+          return [
+             'result_status' => "OK",
+			 'count' => $count ,  
+          ]; 
+	}
+	
+	
+	
+	
+	
 
 }

@@ -8,7 +8,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Collapse;  //  Collapse (hide/show)
 
- use app\assets\AdminFrontPageAsset;   // use your custom asset
+ use app\assets\admin\AdminFrontPageAsset;   // use your custom asset
  AdminFrontPageAsset::register($this); 
 
 $this->title = 'Admin Panel';
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php
-$urlZ = Yii::$app->request->baseUrl . "/admin/admin-x/count-register-requests"; //  Yii::$app->request->baseUrl; // . "/bot/ajax-reply"; 
+$urlZ = Yii::$app->request->baseUrl; // . "/admin/admin-x/count-register-requests"; //  Yii::$app->request->baseUrl; // . "/bot/ajax-reply"; 
 use yii\helpers\Json; 
 		 $this->registerJs(
             "var url = '" . $urlZ . "';",  
@@ -91,7 +91,7 @@ use yii\helpers\Json;
 				?>
            </div>
 	   
-	         <div class="col-sm-2 col-xs-6 mobile-padding badge1 bb" data-badge="4">
+	         <div class="col-sm-2 col-xs-6 mobile-padding badge1 bb" data-badge="">
                 <?php		
                 $image = '<i class="fa fa-truck" style="font-size:96px"></i>';	   
                 echo "<div class='subfolder border shadowX lavender'>" .

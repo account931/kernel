@@ -105,7 +105,7 @@ class InvoiceLoadIn extends \yii\db\ActiveRecord
 		//saves new balance to new column in InvoiceLoadIn
 		$inv = self::find()->where(['invoice_id' => $this->invoice_id])->one();
 		$inv->final_balance = $new;
-		$inv->save();
+		$inv->save(false);
 		
 	}		
 

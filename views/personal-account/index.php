@@ -5,9 +5,26 @@
 use yii\helpers\Html;
 use yii\bootstrap\Collapse;  //  Collapse (hide/show)
 
+ use app\assets\UserMainPageOnlyAppAsset;   // use your custom asset
+ UserMainPageOnlyAppAsset::register($this); 
+
+
 $this->title = 'Мій кабінет';
 $this->params['breadcrumbs'][] = $this->title;
+
+
+
+$urlZ = Yii::$app->request->baseUrl;// . "/admin/admin-x/count-register-requests"; //  Yii::$app->request->baseUrl; // . "/bot/ajax-reply"; 
+use yii\helpers\Json; 
+		 $this->registerJs(
+            "var url = '" . $urlZ . "';",  
+             yii\web\View::POS_HEAD, 
+            'user1-events-script'
+     );
 ?>
+
+
+
 <div id="all" class="site-about animate-bottom personal-account">
     <h1><?= Html::encode($this->title) ?></h1>
 	
@@ -54,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  ?>
             </div>
 			
-			<div class="col-sm-2 col-xs-6 mobile-padding badge1 bb" data-badge="??">
+			<div class="col-sm-2 col-xs-6 mobile-padding badge1 bb" data-badge="">
                 <?php		
                 $image = '<i class="fa fa-envelope-o" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .

@@ -1,19 +1,19 @@
 (function(){ //START IIFE (Immediately Invoked Function Expression)
 $(document).ready(function(){
 	
-   
-   countUserRegisterRequests();
-   myVar = setInterval(countUserRegisterRequests, 1000*60*10 ); //repeat every 10 min
+
+   countUserLoadOutRequests();
+   myVar = setInterval(countUserLoadOutRequests, 1000*60*10 ); //repeat every 10 min
    
    
    //send ajax request to admin/admin-x/count-register-requests to count requests and displays to badge
    // **************************************************************************************
    // **************************************************************************************
    //                                                                                     ** 
-	function countUserRegisterRequests(){ 
+	function countUserLoadOutRequests(){ 
 		
-		   var urlX = url + '/admin/admin-x/count-register-requests'; //url from view/admin-panel
-		
+		   var urlX = url + '/personal-account/count-inbox-messages'; //url from view/admin-panel
+	
 		   // send  data  to  PHP handler  ************ 
            $.ajax({
               url: urlX,
@@ -23,7 +23,7 @@ $(document).ready(function(){
 				  displayBadgeValue(data);
               },  //end success
 			  error: function (error) {
-				  alert('fail');
+				  alert('messages ajax failed');
 				  //$(".all-6-month").stop().fadeOut("slow",function(){ $(this).html("Failed")}).fadeIn(2000);
               }	
           });

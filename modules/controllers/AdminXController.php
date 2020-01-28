@@ -11,13 +11,14 @@ use yii\filters\VerbFilter;
 use app\modules\models\RegisterRequest_InputModel;
 use app\models\ProductName;
 use app\models\Balance;
+use app\modules\models\InvoiceLoadOut;
 
 /**
  * Default controller for the `admin` module
  */
 class AdminXController extends Controller
 {
-	
+	 const STATUS_PENDING = '0';
 	
 	/**
      * {@inheritdoc}
@@ -122,9 +123,31 @@ class AdminXController extends Controller
 	
 	
 	
+		 //===================================
+	 /**
+     * Ajax Check and count (via ajax request) if there are any users' load-out requests (with where(['confirmed_by_admin' => self::STATUS_PENDING])) STATUS_PENDING == 0
+     * @return json
+     */
+    public function actionCountLoadOutRequests()
+    {
+        $found = InvoiceLoadOut::find()->where(['confirmed_by_admin' => self::STATUS_PENDING]);
+		$count = $found->count();
+		
+		//RETURN JSON DATA
+         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;  
+          return [
+             'result_status' => "OK",
+			 'count' => $count ,  
+          ]; 
+        
+    }
+	
+	
+	
+	
 	 //===================================
 	 /**
-     * Renders the page to view (approve/reject) users registration requests
+     * Renders the page to view (approve/reject) users' registration requests
      * @return string
      */
     public function actionUsersRegistrationRequests()

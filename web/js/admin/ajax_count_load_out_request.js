@@ -2,17 +2,17 @@
 $(document).ready(function(){
 	
    
-   countUserRegisterRequests();
-   myVar = setInterval(countUserRegisterRequests, 1000*60*10 ); //repeat every 10 min
+   countUserLoadOutRequests();
+   myVar = setInterval(countUserLoadOutRequests, 1000*60*10 ); //repeat every 10 min
    
    
    //send ajax request to admin/admin-x/count-register-requests to count requests and displays to badge
    // **************************************************************************************
    // **************************************************************************************
    //                                                                                     ** 
-	function countUserRegisterRequests(){ 
+	function countUserLoadOutRequests(){ 
 		
-		   var urlX = url + '/admin/admin-x/count-register-requests'; //url from view/admin-panel
+		   var urlX = url + '/admin/admin-x/count-load-out-requests'; //url from view/admin-panel
 		
 		   // send  data  to  PHP handler  ************ 
            $.ajax({
@@ -41,13 +41,13 @@ $(document).ready(function(){
 	function displayBadgeValue(data)
 	{
 		 if(data.count > 0){
-			 if(!$('.bb:eq(0)').hasClass('badge1')) {
-				 $('.bb:eq(0)').addClass('badge1');
+			 if(!$('.bb:eq(1)').hasClass('badge1')) {
+				 $('.bb:eq(1)').addClass('badge1');
 			 }
 
-			 $('.bb:eq(0)').attr('data-badge', data.count); //$('.badge1:eq(0)').stop().fadeOut("slow",function(){ $(this).attr('data-badge', data.count) }).fadeIn(2000);   
+			 $('.bb:eq(1)').attr('data-badge', data.count); //$('.badge1:eq(0)').stop().fadeOut("slow",function(){ $(this).attr('data-badge', data.count) }).fadeIn(2000);   
 		 } else {
-		     $('.bb:eq(0)').removeClass('badge1');
+		     $('.bb:eq(1)').removeClass('badge1');
 		 }
 		
 	}
