@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\models\InvoiceLoadOut;
+use app\modules\models\InvoiceLoadOut_2_Intervals;
 use yii\data\Pagination;
 use app\modules\models\InvoiceLoadOut_Just_Admin_Form;
 use app\modules\models\Elevators;
@@ -179,6 +180,11 @@ class InvoiceLoadOutController extends Controller
     // ** 
     public function actionAjax_get_interval_list() 
     {	
+	    $InvoiceLoadOutIntervals = new InvoiceLoadOut_2_Intervals();
+		//$InvoiceLoadOutIntervals->test();
+		
+		
+		
 	    global $text;
 	    $dayPost = Yii::$app->request->post('serverSelectedDateUnix'); //$_POST['serverSelectedDateUnix'] from ajax ->js/admin/datepicker_action.js;
 		$elevatorPost = Yii::$app->request->post('serverSelectedElevator'); 
@@ -191,70 +197,8 @@ class InvoiceLoadOutController extends Controller
 			      ->all(); 
 		
 		
-		
-		//$text = "<p>Elevator-> " . $elevatorPost ."</p>" . Yii::$app->formatter->format($dayPost, 'date') . "</br> JS-> " . $dayPost . " VS Php -> " . strtotime(date('1/10/2020 00:00:00')) . " - " . time() . " = " . strtotime("now") ;// . "</br>" . var_dump($result) ; 
-		//(date('m/d/Y h:i:s')
-		
-		//$text.= "<div class='col-sm-12 col-xs-12'>delete me</div>";
-		
-
-		
-    // **************************************************************************************
-    // **************************************************************************************
-    //                                                                                     **
-    function DisplayReserved($iterator,$nextIterator,$indexOf,$result,$minutesStart,$minutesEnd){ 
-	    global $text;
-        // 1)$iterator==$i (calculated in for(){} loop), 2)$nextIterator (hour+1)==$t==$i+1 (for those who has duplicate), if does not use NULL
-        //3)$indexOf==position 4)$result==Act record array result from Controller
-        //5))$minutesStart==30 OR 00  6)$minutesEnd== 30 OR 00
- 
-        //if $nextIterator/$t called as Null (we DON"T need $nextIterator/$t   for 1st Row calling(i.e 9.00-9.30)), we Do NEED it for the second row(9.30-10.00)
-        if (is_null($nextIterator) ) {
-		    $nextIterator = $iterator;
-	    } else {
-		    $nextIterator = $nextIterator;
-	    }
-	    $idX = $result[$indexOf]->id;
-        $text = $text . "<div class='col-sm-2 col-xs-3 taken shadowX'> Taken ".$iterator.  "."   .$minutesStart.  "-" .$nextIterator. "."   .$minutesEnd.   " </div>";
-   
-   }
-   // **                                                                                  **
-   // **************************************************************************************
-   // **************************************************************************************
 
 
-
-    //DisplayReserved($i,null,$indexOf,$result, '00',  '30');
-    //DisplayReserved($i,$t,$indexOf+1,$result, '30',  '00');
-    //Function which forms free cells and <a href> with data to book it
-    // **************************************************************************************
-    // **************************************************************************************
-    //                                                                                     **
-                                                                                  
-    function DisplayFree($iterator,$nextIterator,$minutesStart,$minutesEnd){ 
-	    global $text;
-        if (is_null($nextIterator)){
-	        $nextIterator = $iterator;
-        } else {
-	        $nextIterator = $nextIterator;
-        }
- 
-        $hour = $iterator; // used for <a href> link
-        //$dateNorm = $GLOBALS['timeX'];// we get $timeX from Controller render; This is {9-Feb-Fri-2018}, we add this to id, to make possible to redict to the same date after insert
-        //findin quarters (0||3)
-        if($minutesStart == "00"){
-            $quarter = 0;
-        } else {
-            $quarter = 3;
-        }
- 
-        $text = $text ."<div class='col-sm-2 col-xs-3 free shadowX' data-inter='" .$iterator . "' data-quarter='" . $quarter . "' > Free =>  ".$iterator.  "."   .$minutesStart . "-" . $nextIterator . "." . $minutesEnd . "</div>";
-        //$text = $text ."<p style='display:none;margin-top:0.7em;background-color:;' class='nnn'>  Your agenda</br> <textarea rows='2' cols='50' placeholder='...'></textarea> </br><button type='button' class='bookFinal' id='' > OK </button>  </p>";
-
-     }
-     // **                                                                                  **
-     // **************************************************************************************
-     // **************************************************************************************
 
 
     $bIntervals = array();// array for intervals available 
@@ -271,14 +215,14 @@ class InvoiceLoadOutController extends Controller
 	   //$text.= "</br>arr=> " . $y;
     }	
 		
-     //$text.= "<div class='col-sm-12 col-xs-12'> Count=> " . count($bIntervals) . "</div>";  //just test, EREASE IT!!!!!
+
 	 
 	 
 	 
 	 //fixing start hour, i.e if u selected today in calendar, it will build intervals from current hour only
 	 $that_date  = time(); //unixTime now
      $first_hour = $that_date - ($that_date % (60*60*24)); //unixTime of now at 00:00:00
-	 //$text.=  "<br>form: " . $dayPost . " first_hour: " . $first_hour ."<br>" ; //JUST TEST, ERASE
+
 	 
 	 if($dayPost == $first_hour && ( ((date("H") + 1) > 8) || ((date("H") + 1) < 20)) ){ //if current hour is between 8 -20
 	       $startHour = date("H") + 1; //start from current hour
@@ -305,10 +249,10 @@ class InvoiceLoadOutController extends Controller
 				 
 				 
 			   if($i == $bIntervals[$Next_i]){  //if have duplicate = Reserved/Reserved
-					DisplayReserved($i, null, $indexOf, $result, '00',  '30'); //1st Row  //DisplayReserved($iterator,$nextIterator,$indexOf,$result,$minutesStart,$minutesEnd)
+					$InvoiceLoadOutIntervals->DisplayReserved($i, null, $indexOf, $result, '00',  '30'); //1st Row  //DisplayReserved($iterator,$nextIterator,$indexOf,$result,$minutesStart,$minutesEnd)
 				    //second row
 					$Next_indexOf = $indexOf + 1; //Take next row from Active Record result
-					DisplayReserved($i, $t, $indexOf+1, $result, '30',  '00');  //2nd Row //Reserved second Row
+					$InvoiceLoadOutIntervals->DisplayReserved($i, $t, $indexOf+1, $result, '30',  '00');  //2nd Row //Reserved second Row
 				   }
 				   
 				   
@@ -316,19 +260,19 @@ class InvoiceLoadOutController extends Controller
                 if( $i!= $bIntervals[$Next_i] ){  //if DOES NOT have duplicate
 				                if($result[$indexOf]->b_quarters == 0){ // if it is for 9.00-9.30 = Reserved/Free
 								   
-								   DisplayReserved($i,null,$indexOf,$result, '00',  '30'); //Reserved 1st Row
+								   $InvoiceLoadOutIntervals->DisplayReserved($i,null,$indexOf,$result, '00',  '30'); //Reserved 1st Row
 								       
 									//second Free Row
-								    DisplayFree($i,$t,"30","00");
+								    $InvoiceLoadOutIntervals->DisplayFree($i,$t,"30","00");
 								
 								}// END if($result[$indexOf]->b_quarters==0)
 								
 								
 								if($result[$indexOf]->b_quarters == 3){ // if it is for 9.30-10.00 = Free/Reserved
-								    DisplayFree($i,null,"00","30");					
+								    $InvoiceLoadOutIntervals->DisplayFree($i,null,"00","30");					
 								       
 									   //second Reserved
-								   DisplayReserved($i,$t,$indexOf,$result, '30',  '00');  //2nd Row //Reserved second Row
+								   $InvoiceLoadOutIntervals->DisplayReserved($i,$t,$indexOf,$result, '30',  '00');  //2nd Row //Reserved second Row
 								       
 								}// END else if($result[$indexOf]->b_quarters==3){ // if it is for 9.30-10.00 = Free/Reserved
                  }	//end if( $bIntervals[$i]!=$bIntervals[$Next_i] ){  //if DOES NOT have duplicate
@@ -337,23 +281,18 @@ class InvoiceLoadOutController extends Controller
 			  
 			} else {  // End if(in_array($i, $bIntervals))  //if i does not exist in array (i.e it is FREE/FREE)
 			      $tt = $i + 1;	
-				//
 				
 				//1st FREE ROW
-                 DisplayFree($i, null, "00", "30");								   			
+                 $InvoiceLoadOutIntervals->DisplayFree($i, null, "00", "30");								   			
 				 //second Fee Row
-				 DisplayFree($i, $tt,"30","00");
+				 $InvoiceLoadOutIntervals->DisplayFree($i, $tt,"30","00");
 		      } //End Else
 			  
 			  
 			  
 			  
 			} //End for($i=9; $i<18; $i++)
-	  // End Inject
 
-	 
-	
-	 
 	 
 	 return $text;
 

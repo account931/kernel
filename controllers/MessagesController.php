@@ -98,7 +98,7 @@ class MessagesController extends Controller
 	
 	//====================================================
     /**
-     * Change clicked message m_status_read as read, i.e 1
+     * Ajax. Change clicked message m_status_read as read, i.e 1
      *
      * 
      */
