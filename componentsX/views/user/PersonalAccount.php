@@ -12,7 +12,7 @@ class PersonalAccount
 	
 	    //display user's balance
 		    if(!$balance){
-			    echo " <b>0</b> <i>(you seem to have nothing on your balance so far).</i>";
+			    echo " <b>0</b> <i>(seems to have nothing on the balance so far).</i>";
 				
 		    } else {
 		        

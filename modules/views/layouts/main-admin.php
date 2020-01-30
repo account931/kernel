@@ -49,7 +49,8 @@ AdminOnlyMainModuleAsset::register($this);
 			['label' => 'AdminPanel', 'url' => ['/admin/default/index'] ],
 			['label' => 'Запити на реєстрацію', 'url' => ['/admin/admin-x/users-registration-requests']],
 			['label' => 'Запит на вiдвантаження', 'url' => ['/admin/invoice-load-out/index'] ],  
-			['label' => 'Нова накладна', 'url' => ['/admin/invoice-load-in/create'] ],
+			['label' => 'Нова накладна', 'url' => ['/admin/invoice-load-in/create'] ], 
+			['label' => 'Всі користувачі', 'url' => ['/admin/view-all-users/index'] ],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

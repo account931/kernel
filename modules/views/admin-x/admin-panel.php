@@ -106,7 +106,7 @@ use yii\helpers\Json;
                 <?php		
                 $image = '<i class="fa fa-automobile" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Користувачі</p><br>" , ["/site/login"] , $options = ["title" => "View all users",]) . 
+			        Html::a( $image ."<p>Користувачі</p><br>" , ["/admin/view-all-users/index"] , $options = ["title" => "View all users",]) . 
 		            "</div>";
                  ?>
             </div>
