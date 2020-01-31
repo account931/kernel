@@ -81,22 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		}
 			
 		echo '<div class="col-sm-8 col-xs-12 text-success"> У Вас  <b class="text-danger">'  . count($query) . ' </b> транзакцій ' . $period  . '</div><hr>';
-	
-	
-	
-	//======================================
-	    foreach ($query as $b){
-			if($b instanceof InvoiceLoadOut) { 
-			    echo "<br>" . $b->user_date_unix . " Out";
-			}
-			if($b instanceof TransferRights) { 
-			    echo "<br>". $b->unix_time. " TransferRights";
-			}
-			if($b instanceof InvoiceLoadIn) { 
-			    echo "<br>". $b->unix. " In";
-			}
-		}
-	?>
+	 ?>
 	
 	    <div class="col-sm-12 col-xs-12"> 
 	    <?php 

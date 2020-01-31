@@ -137,7 +137,7 @@ class TransferRights extends \yii\db\ActiveRecord
 	}
 	 
 	 
-	 //update Sender column
+	 //saves final balance to db TransferRight
 	 public function updateColumnHistorySender($numb){
 		 //saves new Sender's balance to new column in TransferRights (for History transactions)
 		 $inv = self::find()->where(['invoice_id' => $this->invoice_id])->one();

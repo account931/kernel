@@ -101,12 +101,13 @@ class InvoiceLoadInController extends Controller
 			$res = $model->checkBalance();
 			
 			if($res){
-			  //adds and updates with new weigth		
+			  //adds and updates with new weigth if product was already on balance		
 			  $model->balanceAdd($res);
 		    } else {
-			  //saves new row with product and weigth	
+			  //saves new row with product and weigth if product was was not on balance	yet	
 			  $model->addNewProduct();
 		    }
+			
 			
 		    $model->sendMessage(); //notify the user
 			

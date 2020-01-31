@@ -120,6 +120,32 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 		 $inv->save(false);
 	 }
 	 
+	 //Aditional final check if DATE/TIME is still free (if someone has not taken this time while we were booking)
+	 public function checkIfFree_date($model){
+		 $checkIfFree_date = InvoiceLoadOut::find()
+	         ->where(['elevator_id' => $model->elevator_id])
+             ->andWhere(['date_to_load_out' => $model->date_to_load_out])
+             ->andWhere(['b_intervals' => $model->b_intervals])	
+             ->andWhere(['b_quarters' => $model->b_quarters])						   
+			 ->one(); 
+			 
+		 if($checkIfFree_date){
+			return true;
+		 }
+	 }
+	 
+	 
+	 
+	 //Aditional final check if someone has not edited/proceeded this invouce while we were booking)
+	 public function checkIfFreeInvoice($model){
+	     $checkIfFreeInvoice = InvoiceLoadOut::find()->where(['id' => $model->id ])->one(); 
+		 if( isset($checkIfFreeInvoice->confirmed_by_admin) && $checkIfFreeInvoice->confirmed_by_admin == '1'){
+			return true;
+	     }
+	 }
+	 
+	
+	//public function assignFields($thisInvoice){}
 	 
 	 
 	 

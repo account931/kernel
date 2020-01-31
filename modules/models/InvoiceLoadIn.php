@@ -102,11 +102,7 @@ class InvoiceLoadIn extends \yii\db\ActiveRecord
 		$res->balance_last_edit = date('Y-m-d H:i:s'); //update time
 		$res->save();
 		
-		//saves new balance to new column in InvoiceLoadIn
-		$inv = self::find()->where(['invoice_id' => $this->invoice_id])->one();
-		$inv->final_balance = $new;
-		$inv->save(false);
-		
+		$this->saveInvoiceLoadInBalance($new);
 	}		
 
 	//saves new row with product and weight	  
@@ -116,7 +112,21 @@ class InvoiceLoadIn extends \yii\db\ActiveRecord
 		$m->balance_user_id = $this->user_kontagent_id; //product id
 		$m->balance_amount_kg = $this->product_wight; //product weight
 		$m->save();
+		
+		$this->saveInvoiceLoadInBalance($this->product_wight);
 	}
+	
+	
+	
+	//saves final balance to InvoiceLoadIn
+	function saveInvoiceLoadInBalance($new){
+		//saves new balance to new column in InvoiceLoadIn
+		$inv = self::find()->where(['invoice_id' => $this->invoice_id])->one();
+		$inv->final_balance = $new;
+		$inv->save(false);
+	}
+	
+	
 	
 	//notify the user-> send the message of getting new product weight
 	public function  sendMessage(){
