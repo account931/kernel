@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\helpers\Json;
 
+use app\assets\admin\AdminLoadInAsset;   // use your custom asset
+AdminLoadInAsset::register($this); 
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\models\InvoiceLoadIn */

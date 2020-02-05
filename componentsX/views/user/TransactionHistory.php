@@ -34,8 +34,8 @@ class TransactionHistory
 						      <div class="col-sm-4 col-xs-9">' . $value['invoice_unique_id'] . '</div> 
 						  </div>
 						  <div class="row list-group-item">
-						      <div class="col-sm-1 col-xs-3">Дата:</div>
-						      <div class="col-sm-4 col-xs-9">' .Yii::$app->formatter->asDate($value->date_to_load_out, 'dd-MM-yyyy H:i') . '</div> 
+						      <div class="col-sm-1 col-xs-3">Дата:</div> 
+						      <div class="col-sm-4 col-xs-9">' . date("d-m-Y H:i:s", $value->date_to_load_out) . '</div> 
 						  </div>
 						   <div class="row list-group-item">
 						      <div class="col-sm-1 col-xs-3">Списано :</div>
@@ -128,8 +128,8 @@ class TransactionHistory
 						      <div class="col-sm-4 col-xs-9">' . $value['invoice_id'] . '</div> 
 						  </div>
                          <div class="row list-group-item">
-						      <div class="col-sm-1 col-xs-3">Дата:</div>
-						      <div class="col-sm-4 col-xs-9">' .Yii::$app->formatter->asDate($value->unix, 'dd-MM-yyyy H:i') . '</div> 
+						      <div class="col-sm-1 col-xs-3">Дата:</div>   
+						      <div class="col-sm-4 col-xs-9">' . date("d-m-Y H:i:s", $value->unix) . '</div> 
 						  </div>
                            <div class="row list-group-item">
 						      <div class="col-sm-1 col-xs-3">Додано :</div>

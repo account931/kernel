@@ -77,25 +77,29 @@ class InvoiceLoadIn extends \yii\db\ActiveRecord
     }
 	
 	  //hasOne relation
-	  public function getUsers(){
+	  public function getUsers()
+	  {
           return $this->hasOne(User::className(), ['id' => 'user_kontagent_id']); 
       }
 	  
 	   //hasOne relation
-	  public function getProducts(){
+	  public function getProducts()
+	  {
           return $this->hasOne(ProductName::className(), ['pr_name_id' => 'product_nomenklatura_id']); 
       }
 	  
 	  
 	  //Check User balance (if user has relvant product balance in DB Balance, i.e product !=0)
-	  public function checkBalance(){
+	  public function checkBalance()
+	  {
 		  $userBalance = Balance::find()->where(['balance_user_id' => $this->user_kontagent_id])->andWhere(['balance_productName_id' => $this->product_nomenklatura_id])->one();
 		  return $userBalance;
 			  
 	  }
 	 
     //adds and updates with new weight	 
-	public function balanceAdd($res){
+	public function balanceAdd($res)
+	{
 		$prev = $res->balance_amount_kg;
 		$new = $prev + $this->product_wight;
 		$res->balance_amount_kg = $new;
@@ -106,8 +110,9 @@ class InvoiceLoadIn extends \yii\db\ActiveRecord
 	}		
 
 	//saves new row with product and weight	  
-	public function addNewProduct(){
-		$m = new Balance();
+	public function addNewProduct()
+	{
+	    $m = new Balance();
 		$m->balance_productName_id = $this->product_nomenklatura_id; //user id
 		$m->balance_user_id = $this->user_kontagent_id; //product id
 		$m->balance_amount_kg = $this->product_wight; //product weight
@@ -119,7 +124,8 @@ class InvoiceLoadIn extends \yii\db\ActiveRecord
 	
 	
 	//saves final balance to InvoiceLoadIn
-	function saveInvoiceLoadInBalance($new){
+	function saveInvoiceLoadInBalance($new)
+	{
 		//saves new balance to new column in InvoiceLoadIn
 		$inv = self::find()->where(['invoice_id' => $this->invoice_id])->one();
 		$inv->final_balance = $new;
@@ -129,7 +135,8 @@ class InvoiceLoadIn extends \yii\db\ActiveRecord
 	
 	
 	//notify the user-> send the message of getting new product weight
-	public function  sendMessage(){
+	public function  sendMessage()
+	{
 		$model = new Messages();
 		$model->m_sender_id = 1; //Yii::$app->user->identity->id;
 		$model->m_receiver_id = $this->user_kontagent_id;

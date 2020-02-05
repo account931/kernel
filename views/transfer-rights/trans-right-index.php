@@ -6,6 +6,9 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 use Yii;
 
+use app\assets\user\TransferRightsAsset; // use your custom asset
+TransferRightsAsset::register($this); 
+
 $this->title = 'Переоформити';
 $this->params['breadcrumbs'][] = $this->title;
 ?>

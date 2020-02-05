@@ -1,3 +1,4 @@
+//used in /admin/admin-x/users-registration-requests
 (function(){ //START IIFE (Immediately Invoked Function Expression)
 $(document).ready(function(){
 	

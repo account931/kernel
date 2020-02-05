@@ -79,15 +79,6 @@ use yii\helpers\Json;
 		            "</div>";
                  ?>
             </div>
-			
-	        <div class="col-sm-2 col-xs-6 mobile-padding">
-                <?php		
-                $image = '<i class="fa fa-automobile" style="font-size:96px"></i>';	
-                echo "<div class='subfolder border shadowX lavender'>" .
-			        Html::a( $image ."<p>View my transport</p><br>" , ["/site/login",] , $options = ["title" => "more  info",]) . 
-		            "</div>";
-                 ?>
-            </div>
 	   
 	        
 			 <div class="col-sm-2 col-xs-6 mobile-padding">
@@ -103,7 +94,7 @@ use yii\helpers\Json;
                 <?php		
                 $image = '<i class="fa fa-comments-o" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Бот помiчник</p><br>" , ["#"] /* $url = null*/, $options = ["title" => "more  info",]) . 
+			        Html::a( $image ."<p>Довідка</p><br>" , ["#"] , $options = ["title" => "more  info",]) . 
 		            "</div>";
                  ?>
             </div>

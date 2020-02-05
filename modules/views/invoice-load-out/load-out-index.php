@@ -7,6 +7,10 @@ use yii\widgets\ActiveForm;
 use yii\widgets\LinkPager;
 use yii\helpers\Json;
 
+use app\assets\admin\AdminLoadOutAsset;// use your custom asset
+AdminLoadOutAsset::register($this); 
+ 
+ 
 $this->title = 'Запити на відвантаження';
 $this->params['breadcrumbs'][] = $this->title;
 ?>

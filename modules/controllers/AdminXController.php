@@ -69,7 +69,7 @@ class AdminXController extends Controller
      * any action in this controller is available with users with adminX RBAC
      */
 	public function beforeAction($action){
-	    if(Yii::$app->user->isGuest){
+	    if(!Yii::$app->user->can('adminX')){
 		    throw new \yii\web\NotFoundHttpException("You have no admin rights.");
 	    }
         return parent::beforeAction($action); 

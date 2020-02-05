@@ -36,11 +36,11 @@ class PersonalAccount
         echo Collapse::widget([
         'items' => [
             [
-            'label' => 'Ваш аккаунт',
+            'label' => 'Натисніть щоб переглянути деталі профілю',
             'content' => '   
                         <div class="col-lg-offset-1" style="color:;">
 						 <i class="fa fa-address-card-o" style="font-size:36px"></i></br>
-                         <p><b>Деталі Вашаго аккаунту</b>.</p>
+                         <p><b>Ваш аккаунт</b>.</p>
 						 <p>Username: '. Yii::$app->user->identity->username . '</p>
 						 <p>Email: '. Yii::$app->user->identity->email . '</p>
 						 <p>Name: '. Yii::$app->user->identity->first_name . '</p>

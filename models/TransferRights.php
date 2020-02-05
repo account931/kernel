@@ -65,23 +65,27 @@ class TransferRights extends \yii\db\ActiveRecord
 	
 	
 	  //hasOne relation
-	  public function getProducts(){
+	  public function getProducts()
+	  {
           return $this->hasOne(ProductName::className(), ['pr_name_id' => 'product_id']); 
       }
 	  
 	  
 	  //hasOne relation -> gets User2 (receiver))username by ID)
-	  public function getUsers(){
+	  public function getUsers()
+	  {
           return $this->hasOne(User::className(), ['id' => 'to_user_id']); 
       }
 	  
 	   //hasOne relation2-> gets this User(sender))username by ID)
-	  public function getUsers2(){
+	  public function getUsers2()
+	  {
           return $this->hasOne(User::className(), ['id' => 'from_user_id']); 
       }
 	
 	//my validation, checks if user is not taking more than he has
-	 public function validateWeight(){
+	 public function validateWeight()
+	 {
 		  $b = Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])->andWhere(['balance_productName_id' => $this->product_id]) -> one();
 		  if ($b->balance_amount_kg < $this->product_weight){
 			  $this->user2 = '';
@@ -90,7 +94,8 @@ class TransferRights extends \yii\db\ActiveRecord
      }
 	 
 	 //my validation, checks if user selects not himself to transfer product rights
-	 public function  validateNotSelfId(){
+	 public function  validateNotSelfId()
+	 {
 		  if ($this->to_user_id == Yii::$app->user->identity->id){
 			  $this->addError('user2','Ви не можете обрати сам себе');
 		  }
@@ -98,14 +103,16 @@ class TransferRights extends \yii\db\ActiveRecord
 	 
 	 
 	  //Check User balance (if user has relvant product balance in DB Balance, i.e product !=0)
-	  public function checkBalance($id){
+	  public function checkBalance($id)
+	  {
 		  $userBalance = Balance::find()->where(['balance_user_id' => $id])->andWhere(['balance_productName_id' => $this->product_id])->one();
 		  return $userBalance;	  
 	  }
 	  
 	  
 	 //update Reciever column
-	 public function updateColumnHistoryReciever($numb){
+	 public function updateColumnHistoryReciever($numb)
+	 {
 		 //saves new Recievers's balance to new column in TransferRights (for History transactions)
 		 $inv = self::find()->where(['invoice_id' => $this->invoice_id])->one();
 		 $inv->final_balance_receiver = (int)$numb;
@@ -115,7 +122,8 @@ class TransferRights extends \yii\db\ActiveRecord
 	  
 	  //
 	  //adds and updates with new weight	 
-	  public function balanceAdd($user2){
+	  public function balanceAdd($user2)
+	  {
 		$prev = $user2->balance_amount_kg;
 		$new = $prev + $this->product_weight;
 		$user2->balance_amount_kg = $new;
@@ -126,7 +134,8 @@ class TransferRights extends \yii\db\ActiveRecord
 	}		
 
 	//saves new row with product and weigth	  
-	public function addNewProduct($user2){
+	public function addNewProduct($user2)
+	{
 		$m = new Balance();
 		$m->balance_productName_id = $this->product_id; //product id
 		$m->balance_user_id = $this->to_user_id; //user id 
@@ -138,7 +147,8 @@ class TransferRights extends \yii\db\ActiveRecord
 	 
 	 
 	 //saves final balance to db TransferRight
-	 public function updateColumnHistorySender($numb){
+	 public function updateColumnHistorySender($numb)
+	 {
 		 //saves new Sender's balance to new column in TransferRights (for History transactions)
 		 $inv = self::find()->where(['invoice_id' => $this->invoice_id])->one();
 		 $inv->final_balance_sender = (int)$numb;
@@ -147,7 +157,8 @@ class TransferRights extends \yii\db\ActiveRecord
 	 
 	
 	// to minus -- product from user's balance 
-	 public function deductProduct($user1){
+	 public function deductProduct($user1)
+	 {
 		 //$b = Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])->andWhere(['balance_productName_id' => $this->product_id]) -> one();
 		 
 		 if($user1->balance_amount_kg == $this->product_weight){
@@ -169,7 +180,8 @@ class TransferRights extends \yii\db\ActiveRecord
 	 
 	 
 	//notify the user-> send the message to current user(sender)
-	public function  sendMessageUser1(){
+	public function  sendMessageUser1()
+	{
 		$model = new Messages();
 		$model->m_sender_id = 2; // Yii::$app->user->identity->id;
 		$model->m_receiver_id = Yii::$app->user->identity->id;;
@@ -184,7 +196,8 @@ class TransferRights extends \yii\db\ActiveRecord
 	}
 	
 	//notify the user-> send the message to User who obtained new product(reciever)
-	public function  sendMessageUser2(){
+	public function  sendMessageUser2()
+	{
 		$model = new Messages();
 		$model->m_sender_id = 2; // Yii::$app->user->identity->id;
 		$model->m_receiver_id = $this->to_user_id;

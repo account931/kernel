@@ -57,13 +57,15 @@ class Messages extends \yii\db\ActiveRecord
 	
 	
 	 //hasOne relation
-	  public function getUsers(){
+	  public function getUsers()
+	  {
           return $this->hasOne(User::className(), ['id' => 'm_sender_id']); 
       }
 	  
 	  
 	  //method to crop extra text
-	  public function crop($text, $tLenght=33){
+	  public function crop($text, $tLenght=33)
+	  {
 	      $length = $tLenght; //? $tLenght : 15; 
 	      $text1 = $text; 
 	      if(strlen($text1) > $length){

@@ -9,6 +9,9 @@ use app\modules\models\InvoiceLoadOut;
 use app\modules\models\InvoiceLoadIn;
 use app\models\TransferRights;
 
+use app\assets\user\TransactionHistoryAsset;   // use your custom asset
+TransactionHistoryAsset::register($this); 
+
 $this->title = 'Моя історія';
 $this->params['breadcrumbs'][] = $this->title;
 ?>

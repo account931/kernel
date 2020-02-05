@@ -22,7 +22,8 @@ class ViewAllUsers extends Model
     /**
      * @inheritdoc
      */
-   public function getAllHistoryData($id){
+   public function getAllHistoryData($id)
+   {
 	   $query1 = InvoiceLoadOut::find()->orderBy ('id ASC')->where(['user_id' => $id])->all(); 
 	   $query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => $id])->all(); 
 	   $query3 = TransferRights::find()->orderBy ('id ASC')->where(['from_user_id' => $id])->orWhere(['to_user_id' => $id])->all();    
@@ -37,7 +38,8 @@ class ViewAllUsers extends Model
    * sort 3 merged arrays by ascending UnixTime values
    *
    */
-    function sortArrayByUnix($queryTemp){
+    function sortArrayByUnix($queryTemp)
+	{
 		//sort merged array by unixTime from 3 arrays (InvoiceLoadOut::date_to_load_out/InvoiceLoadIn::unix, TransferRights::unix_time)
 		$query = array();
 		for($i = 0; $i < count($queryTemp); $i++){

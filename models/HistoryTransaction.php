@@ -16,7 +16,8 @@ class HistoryTransaction extends \yii\db\ActiveRecord
 {
 
     //find transaction for all period (if there is no $_GET['period'])
-    public function getAllMonthData(){
+    public function getAllMonthData()
+	{
         $query1 = InvoiceLoadOut::find()->orderBy ('id ASC')->where(['user_id' => Yii::$app->user->identity->id])->all(); 
 		$query2 = InvoiceLoadIn::find() ->orderBy ('id ASC')->where(['user_kontagent_id' => Yii::$app->user->identity->id])->all(); 
 	    $query3 = TransferRights::find()->orderBy ('id ASC')->where(['from_user_id' => Yii::$app->user->identity->id])->orWhere(['to_user_id' => Yii::$app->user->identity->id])->all();    
@@ -26,7 +27,8 @@ class HistoryTransaction extends \yii\db\ActiveRecord
 	
 	
 	//find transaction for current month only (if there is $_GET['currentMonth'])
-	public function getCurrentMonthData(){
+	public function getCurrentMonthData()
+	{
 		$query1 = InvoiceLoadOut::find()->orderBy ('id ASC')->where(['user_id' => Yii::$app->user->identity->id])
 			         ->andWhere(['between', 'user_date_unix', strtotime(date('Y-m-01 00:00:00')), time() ])  //time()->current Unix, strtotime(date('Y-m-01 00:00:00')) -> unix of first day of current month
 			         ->all(); 
@@ -44,7 +46,8 @@ class HistoryTransaction extends \yii\db\ActiveRecord
 	
 	
 	//find transaction for previous month only (if there is $_GET['lastMonth'])
-    public function getPreviousMonthData(){
+    public function getPreviousMonthData()
+	{
 		$startLastMonth = mktime(0, 0, 0, date("m") - 1, 1, date("Y")); //Unix of 1st day of last month
         $endLastMonth = mktime(0, 0, 0, date("m"), 0, date("Y"));       //Unix of 1ast day of last month
 
@@ -65,7 +68,8 @@ class HistoryTransaction extends \yii\db\ActiveRecord
 	
 	
 	//find transaction for last 6 month (if there is $_GET['last_6_Month'])
-    public function getLast_6MonthMonthData(){
+    public function getLast_6MonthMonthData()
+	{
 		$startLastMonth = mktime(0, 0, 0, date("m") - 6, 1, date("Y")); //Unix of 1st day of the  month -6
 
 			$query1 = InvoiceLoadOut::find()->orderBy ('id ASC')->where(['user_id' => Yii::$app->user->identity->id])
@@ -90,7 +94,8 @@ class HistoryTransaction extends \yii\db\ActiveRecord
    * sort 3 merged arrays by ascending UnixTime values
    *
    */
-    function sortArrayByUnix($queryTemp){
+    function sortArrayByUnix($queryTemp)
+	{
 		//sort merged array by unixTime from 3 arrays (InvoiceLoadOut::date_to_load_out/InvoiceLoadIn::unix, TransferRights::unix_time)
 		$query = array();
 		for($i = 0; $i < count($queryTemp); $i++){

@@ -77,23 +77,27 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 	
 	
 	  //hasOne relation
-	  public function getUsers(){
+	  public function getUsers()
+	  {
           return $this->hasOne(User::className(), ['id' => 'user_id']); 
       }
 	  
 	  //hasOne relation
-	  public function getProducts(){
+	  public function getProducts()
+	  {
           return $this->hasOne(ProductName::className(), ['pr_name_id' => 'product_id']); 
       }
 	  
 	  //hasMany
-	  public function getTabless(){
+	  public function getTabless()
+	  {
           return $this->hasOne(InvoiceLoadIn::className(),['user_kontagent_id' => 'user_id']);
       }
 
 	
 	 //my validation, checks if user is not taking more than he has
-	 public function validateWeight(){
+	 public function validateWeight()
+	 {
 		  $b = Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])->andWhere(['balance_productName_id' => $this->product_id]) -> one();
 		  if ($b->balance_amount_kg < $this->product_wieght){
 			  $this->addError('product_wieght','Недостатньо на Вашому балансi. Доступно лише ' . $b->balance_amount_kg . ' кг.');
@@ -102,7 +106,8 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 	 
 	 
 	 // to minus -- product from user's balance 
-	 public function deductProduct(){
+	 public function deductProduct()
+	 {
 		 $b = Balance::find()->where(['balance_user_id' => Yii::$app->user->identity->id])->andWhere(['balance_productName_id' => $this->product_id]) -> one();
 		 
 		 if($b->balance_amount_kg == $this->product_wieght){
@@ -121,7 +126,8 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 	 }
 	 
 	 //Aditional final check if DATE/TIME is still free (if someone has not taken this time while we were booking)
-	 public function checkIfFree_date($model){
+	 public function checkIfFree_date($model)
+	 {
 		 $checkIfFree_date = InvoiceLoadOut::find()
 	         ->where(['elevator_id' => $model->elevator_id])
              ->andWhere(['date_to_load_out' => $model->date_to_load_out])
@@ -137,7 +143,8 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 	 
 	 
 	 //Aditional final check if someone has not edited/proceeded this invouce while we were booking)
-	 public function checkIfFreeInvoice($model){
+	 public function checkIfFreeInvoice($model)
+	 {
 	     $checkIfFreeInvoice = InvoiceLoadOut::find()->where(['id' => $model->id ])->one(); 
 		 if( isset($checkIfFreeInvoice->confirmed_by_admin) && $checkIfFreeInvoice->confirmed_by_admin == '1'){
 			return true;
@@ -150,7 +157,8 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 	 
 	 
 	 //notify the user-> send the message, when a user successfuly submitted request to LoadOut
-	public function  sendMessage(){
+	public function  sendMessage()
+	{
 		$model = new Messages();
 		$model->m_sender_id = 1; //admin
 		$model->m_receiver_id = Yii::$app->user->identity->id; 
@@ -166,7 +174,8 @@ class InvoiceLoadOut extends \yii\db\ActiveRecord
 	
 	
     //notify the user-> send the message, when Admin confirmed the request
-	public function  sendMessage_LoadOut_Confirmed($i, $y){
+	public function  sendMessage_LoadOut_Confirmed($i, $y)
+	{
 		$model = new Messages();
 		$model->m_sender_id = 1; //admin
 		$model->m_receiver_id = $i->user_id; 

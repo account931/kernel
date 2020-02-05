@@ -4,6 +4,10 @@
 /* @var $model app\models\LoginForm */
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+
+use app\assets\admin\AdminConfirmRegistrationAsset;   // use your custom asset
+AdminConfirmRegistrationAsset::register($this); 
+ 
 $this->title = 'Запити на реєстрацію';
 $this->params['breadcrumbs'][] = $this->title;
 ?>

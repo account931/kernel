@@ -39,7 +39,7 @@ class InvoiceLoadInController extends Controller
      * any action in this controller is available with users with adminX RBAC
      */
 	public function beforeAction($action){
-	    if(Yii::$app->user->isGuest){
+	    if(!Yii::$app->user->can('adminX')){
 		    throw new \yii\web\NotFoundHttpException("You have no admin rights. Triggered in beforeAction()");
 	    }
         return parent::beforeAction($action); 

@@ -51,7 +51,8 @@ class Balance extends \yii\db\ActiveRecord
 	
 	
 	//hasOne relation
-	public function getProductname(){  
+	public function getProductname()
+	{  
        return $this->hasOne(ProductName::className(), ['pr_name_id' => 'balance_productName_id']); 
     }
 

@@ -124,7 +124,7 @@ use yii\helpers\Json;
                 <?php		
                 $image = '<i class="fa fa-gg" style="font-size:96px"></i>';	
                 echo "<div class='subfolder border shadowX'>" .
-			        Html::a( $image ."<p>Новий товар</p><br>" , ["/site/login",] , $options = ["title" => "Add new product",]) . 
+			        Html::a( $image ."<p>Новий товар</p><br>" , ["",] , $options = ["title" => "Add new product",]) . 
 		            "</div>";
                  ?>
             </div>
