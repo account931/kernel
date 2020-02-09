@@ -53,17 +53,17 @@ $this->params['breadcrumbs'][] = $this->title;
 	
         <?php
 		    echo "<div class='row'></div>";
-	        echo "<div class='col-sm-4 col-xs-6 list-group-item'>Name</div>" .
+	        echo "<div class='col-sm-4 col-xs-6 list-group-item'>Ім'я</div>" .
 			     "<div class='col-sm-4 col-xs-6 list-group-item'>" .  $oneUser->username . "</div>";
 			echo "</div>";
 			
 			echo "<div class='row'></div>";
-	        echo "<div class='col-sm-4 col-xs-6 list-group-item'>Name</div>" .
+	        echo "<div class='col-sm-4 col-xs-6 list-group-item'>Пошта</div>" .
 			      "<div class='col-sm-4 col-xs-6 list-group-item'>" .  $oneUser->email . "</div>";
 			echo "</div'>";
 			
 			echo "<div class='row'></div>";
-	        echo "<div class='col-sm-4 col-xs-6 list-group-item'>Company</div>" .
+	        echo "<div class='col-sm-4 col-xs-6 list-group-item'>Компанія</div>" .
 			      "<div class='col-sm-4 col-xs-6 list-group-item'>" .  $oneUser->company_name . "</div>";
 			echo "</div'>";
 	       
@@ -138,7 +138,7 @@ $this->params['breadcrumbs'][] = $this->title;
                          </div>
 					   
                         <div class="modal-body">
-                            <p><b>Message</b></p>
+                            <p><b>Інформація</b></p>
 						    <?=$text;?>    
                         </div>
 					  
