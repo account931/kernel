@@ -1,3 +1,31 @@
+ /*
+    |--------------------------------------------------------------------------
+    | Kernel ReadMe.
+    |--------------------------------------------------------------------------
+    |
+    | 
+    | #This is just a brief description. 
+	| See full functionality at => https://github.com/account931/kernel/blob/master/ReadMe_PDF_Web_application_.pptx
+    |
+    */
+
+
+ 
+========================
+#When user loads in product to elevator, admin creates a new invoice  (Controller). 
+Form includes hasOne relation and dropdowns. After form is saved to db {...
+a message is sent to user {db Messages} and user's balance is plus-ed++ {db Balance}.
+
+#When user loads out product, he goes to "Load out" section, select product from dropdown (which contains only products, the user has on a balance. 
+Weight to load out is validated by custom validation in order not to take more than on his balance. 
+
+
+
+
+
+
+========================================================================
+
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
